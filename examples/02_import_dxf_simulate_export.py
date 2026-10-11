@@ -3,18 +3,29 @@
 
     python examples/02_import_dxf_simulate_export.py path/to/pattern.dxf out/
 
-⚠️  NOT VERIFIED AGAINST A RUNNING CLO.
-    The function *names* come from a live probe and `require()` will tell you immediately if
-    your build spells one differently. The *argument order* does not - CLO's `dir()` cannot
-    report signatures. Check each call against your CLO's API documentation before relying on
-    the numbers that come out. Treat this file as a correct skeleton with unverified limbs.
+Signatures used here, read off CLO 2026.1.310 and listed in reference/API_MAP.md:
 
-What is worth copying regardless of the signatures:
+    ImportDXFW(arg0: str, arg1: Marvelous::ImportDxfOption) -> bool
+    Simulate(arg0: int) -> bool
+    ExportOBJW(arg0: str, arg1: Marvelous::ImportExportOption) -> List[str]
+
+Note what the signatures save you. `ImportDXFW` wants an options object as well as a path and
+`Simulate` wants an integer, so the obvious call fails on both - with an error that does not
+say why.
+
+The options object matters for a second reason, and it is the one that will cost you an
+afternoon. `export_api` also offers `ExportOBJ(path)`, which is shorter and looks equivalent.
+It is not: with no options to work from, CLO opens its Export OBJ dialog and waits for a
+person. The worker then sits inside the call for ever. **Prefer the overload that takes an
+options object.** Supplying one is how you answer the dialog in advance.
+
+What is worth copying besides the calls:
 
   * every call is name-checked up front, so a mismatch is reported before the document is
     touched rather than halfway through
-  * the pattern count is compared before and after the import, because "the import ran" and
-    "the import brought in pieces" are different claims
+  * the pattern count is read after the import, because "the import returned True" and "the
+    scene now holds pieces" are different claims. Note the check is not `after > before`:
+    importing a DXF REPLACES the pattern set rather than adding to it
   * the export path is returned to the host, so the caller never has to guess where the file
     went
 """
@@ -38,27 +49,34 @@ def main(payload):
     pattern = require("pattern_api", "GetPatternCount")
     exporter = require("export_api", "ExportOBJW")
     utility = require("utility_api", "Simulate")
+    types = require("ApiTypes", "ImportDxfOption", "ImportExportOption")
 
     before = pattern.GetPatternCount()
 
     beat("importing %s" % os.path.basename(dxf))
-    importer.ImportDXFW(dxf)
+    ok = importer.ImportDXFW(dxf, types.ImportDxfOption())
     after = pattern.GetPatternCount()
-    if after <= before:
+    # The import REPLACES the pattern set, it does not append to it. Measured: two files of
+    # three pieces each, imported one after the other, leave three pieces and not six. So the
+    # check is "there are pieces now", not "there are more than there were" - and a loop that
+    # imports several DXFs expecting to accumulate them keeps only the last one.
+    if not ok or after < 1:
         raise RuntimeError(
-            "ImportDXFW returned without adding patterns (%d before, %d after). The file may "
-            "be empty, in unexpected units, or on a layer CLO skips." % (before, after))
+            "ImportDXFW returned %r and the scene holds %d patterns (%d before). The file may "
+            "be empty, in unexpected units, or on a layer CLO skips." % (ok, after, before))
 
     beat("simulating")
-    utility.Simulate()
+    utility.Simulate(payload.get("steps", 30))
 
     obj = os.path.join(out_dir, os.path.splitext(os.path.basename(dxf))[0] + ".obj")
     beat("exporting")
-    exporter.ExportOBJW(obj)
+    # The options object is what keeps this headless. ExportOBJ(obj) would open a dialog.
+    written = exporter.ExportOBJW(obj, types.ImportExportOption())
     if not os.path.isfile(obj):
-        raise RuntimeError("ExportOBJW reported nothing and wrote no file at %s" % obj)
+        raise RuntimeError("ExportOBJW returned %r but wrote no file at %s" % (written, obj))
 
-    return {"patternsAdded": after - before, "obj": obj, "bytes": os.path.getsize(obj)}
+    return {"patterns": after, "obj": obj, "bytes": os.path.getsize(obj),
+            "wrote": list(written) if written else []}
 
 
 if "CLO_JOB_DIR" in globals():
@@ -71,5 +89,5 @@ elif __name__ == "__main__":
     with CloSession() as clo:
         result = clo.run(__file__, {"dxf": os.path.abspath(sys.argv[1]),
                                     "out_dir": os.path.abspath(sys.argv[2])})
-    print("%d patterns imported" % result["patternsAdded"])
+    print("%d patterns in the scene after the import" % result["patterns"])
     print("%s  (%d bytes)" % (result["obj"], result["bytes"]))

@@ -42,6 +42,36 @@ wrinkle: several CLO top-level windows carry an `Edit` menu and only one of them
 
 ---
 
+## The job never finishes, and CLO is sitting there with a dialog open
+
+**Symptom.** No result, no error, no heartbeat past one stage. Look at CLO and it is showing a
+modal — an Export options panel, or an informational notice — waiting for a person.
+
+**Cause.** Several API calls are not headless. Two kinds:
+
+* **Informational.** `ImportDXFW` on a file that carries seam allowances raises a notice
+  explaining Custom mode. The worker is stopped inside the import until someone clicks OK.
+  Tick *Don't Show Again* once and that particular one stops.
+* **Options panels, and these are the dangerous ones.** The convenient short overload prompts:
+
+  ```
+  ExportOBJ(arg0: str) -> List[str]                                  # opens the options dialog
+  ExportOBJW(arg0: str, arg1: Marvelous::ImportExportOption)         # does not
+  ```
+
+  The options object is not boilerplate — it is how you answer the dialog in advance. Given
+  one, CLO has nothing left to ask.
+
+**Rule.** Prefer the overload that takes an options object from `ApiTypes`, even when a shorter
+one exists and looks tempting. Construct it, leave the defaults, and set only what you need.
+The short form is for someone sitting at the machine.
+
+When a job does hang, `CloTimeout` names the dialog CLO is showing, so the message says "CLO is
+waiting for a person" rather than leaving you to guess. The bridge does not click it: that
+button might say OK, and it might say Replace.
+
+---
+
 ## Every write fails with a bare `COMError`
 
 **Symptom.** The editor is found, the dialog is open, and `set_edit_text` raises

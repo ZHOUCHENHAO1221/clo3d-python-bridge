@@ -23,10 +23,11 @@ from clo_bridge import protocol  # noqa: E402
 class FakeEditor(object):
     """A text box that runs what you type into it, like CLO's editor would."""
 
-    def __init__(self, text="", execute=True):
+    def __init__(self, text="", execute=True, play_note=None):
         self.text = text
         self.execute = execute
         self.plays = 0
+        self.play_note = play_note
 
     def read(self):
         return self.text
@@ -35,9 +36,11 @@ class FakeEditor(object):
         self.text = text
 
     def play(self):
+        """Returns a note instead of raising, like the real one."""
         self.plays += 1
         if self.execute:
             exec(compile(self.text, "<editor>", "exec"), {"__name__": "__editor__"})
+        return self.play_note
 
 
 def _worker(body):
@@ -88,6 +91,15 @@ def test_two_jobs_in_one_session_do_not_share_a_job_dir():
         first = clo.run(_worker(OK_WORKER), {"n": 1})
         second = clo.run(_worker(OK_WORKER), {"n": 100})
     assert (first, second) == ({"doubled": 2}, {"doubled": 200}), (first, second)
+
+
+def test_a_failing_play_does_not_end_a_job_that_succeeded():
+    """Regression, from a real run. UIA's Invoke is synchronous, so on a long job it is still
+    waiting when CLO stops answering and then it fails - for a job running perfectly well. An
+    earlier version let that exception out of run() and the poll never started."""
+    editor = FakeEditor(play_note="invoke: COMError / click_input: COMError")
+    with CloSession(editor=editor) as clo:
+        assert clo.run(_worker(OK_WORKER), {"n": 3}) == {"doubled": 6}
 
 
 def test_worker_exception_reaches_the_host():

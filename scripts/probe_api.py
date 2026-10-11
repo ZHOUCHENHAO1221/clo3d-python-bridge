@@ -23,14 +23,32 @@ MODULES = ["utility_api", "pattern_api", "fabric_api", "import_api", "export_api
 
 
 def probe(_payload):
-    """Runs inside CLO."""
+    """Runs inside CLO.
+
+    The API is a pybind11 binding, so every callable carries its full signature - overloads
+    included - in __doc__. That is the only place signatures exist: inspect.signature() raises
+    on these builtins and CLO publishes no machine-readable reference. Capturing the docstring
+    turns the map from a list of names into something you can call from.
+    """
     from clo_bridge.worker import beat
     out = {"modules": {}}
     for name in MODULES:
         beat("importing " + name)
         try:
             module = __import__(name)
-            out["modules"][name] = sorted(n for n in dir(module) if not n.startswith("_"))
+            entries = {}
+            for n in dir(module):
+                if n.startswith("_"):
+                    continue
+                doc = ""
+                try:
+                    attr = getattr(module, n)
+                    if callable(attr):
+                        doc = (getattr(attr, "__doc__", None) or "").strip()
+                except Exception:
+                    pass
+                entries[n] = doc
+            out["modules"][name] = entries
         except Exception as exc:
             out["modules"][name] = {"error": "%s: %s" % (type(exc).__name__, exc)}
     try:
@@ -67,9 +85,11 @@ elif __name__ == "__main__":
     with open(target, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(surface, fh, indent=2, ensure_ascii=False)
         fh.write("\n")
-    counts = {k: (len(v) if isinstance(v, list) else "ERROR")
-              for k, v in surface["modules"].items()}
     print("CLO %s  (reached a document with %s patterns)" % (surface.get("version"), scene))
-    for name, n in counts.items():
-        print("  %-14s %s" % (name, n))
+    for name, entries in surface["modules"].items():
+        if not isinstance(entries, dict) or "error" in entries:
+            print("  %-14s ERROR" % name)
+            continue
+        signed = sum(1 for d in entries.values() if d)
+        print("  %-14s %4d  (%d with a signature)" % (name, len(entries), signed))
     print("written: %s" % target)

@@ -17,7 +17,7 @@ import os
 import shutil
 
 from . import protocol
-from .editor import find_editor
+from .editor import blocking_dialog, find_editor
 from .errors import CloEditorBusy, CloNotFound, CloTimeout, CloWorkerError
 
 SRC_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -82,16 +82,27 @@ class CloSession(object):
         job_dir = protocol.new_job_dir(self._jobs_root)
         protocol.write_json(os.path.join(job_dir, protocol.REQUEST), payload or {})
         editor.write(protocol.build_loader(script, job_dir, SRC_ROOT))
-        editor.play()
+        # play() never raises. A failure here says the UI stopped answering, which is what a
+        # long job looks like from the outside - it says nothing about the job. Carry the note
+        # into the timeout message and otherwise ignore it.
+        note = editor.play()
 
         result, stage = protocol.wait_for_result(
             job_dir, timeout=self.timeout if timeout is None else timeout)
 
         if result is None:
+            detail = ""
+            dialog = blocking_dialog()
+            if dialog:
+                detail = ("\nCLO is showing a dialog and is waiting for a person: %r - %s\n"
+                          "Dismiss it in CLO. The worker is paused inside the call that raised "
+                          "it." % (dialog["title"], dialog["text"]))
+            elif note:
+                detail = "\nThe editor stopped answering while the job ran (%s)." % note
             raise CloTimeout(
                 "CLO did not write a result within %.0fs. The worker may still be running - "
-                "check CLO's Python editor before retrying." % (timeout or self.timeout),
-                stage=stage)
+                "check CLO's Python editor before retrying.%s"
+                % ((timeout or self.timeout), detail), stage=stage)
         if not result.get("ok"):
             raise CloWorkerError(result.get("error", "worker failed without a message"),
                                  traceback=result.get("traceback"))

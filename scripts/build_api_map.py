@@ -67,6 +67,34 @@ GROUPS = [
 ]
 
 
+def signatures(doc):
+    """Pull the callable signature(s) out of a pybind11 __doc__.
+
+    Two shapes exist. A plain function documents itself on the first line:
+
+        ImportDXFW(arg0: str, arg1: Marvelous::ImportDxfOption) -> bool
+
+    An overloaded one declares (*args, **kwargs) and then numbers its forms:
+
+        ExportOBJ(*args, **kwargs)
+        Overloaded function.
+
+        1. ExportOBJ() -> List[str]
+        2. ExportOBJ(arg0: str) -> List[str]
+
+    Returns the real forms in both cases, so the reader never sees (*args, **kwargs) - which
+    tells them nothing - when the actual arities are right there.
+    """
+    if not doc:
+        return []
+    lines = [l.strip() for l in doc.splitlines() if l.strip()]
+    numbered = [re.sub(r"^\d+\.\s*", "", l) for l in lines if re.match(r"^\d+\.\s", l)]
+    if numbered:
+        return numbered
+    first = lines[0] if lines else ""
+    return [first] if "(" in first else []
+
+
 def classify(names):
     buckets = {title: [] for title, _ in GROUPS}
     seen = set()
@@ -86,13 +114,16 @@ TYPES_MODULE = "ApiTypes"
 
 
 def render(surface):
-    all_modules = {k: v for k, v in surface["modules"].items() if isinstance(v, list)}
-    types = sorted(all_modules.pop(TYPES_MODULE, []))
+    all_modules = {k: v for k, v in surface["modules"].items()
+                   if isinstance(v, dict) and "error" not in v}
+    types = sorted(all_modules.pop(TYPES_MODULE, {}))
     modules = all_modules
-    everything = [(n, m) for m, names in modules.items() for n in names]
-    by_name = {}
-    for name, module in everything:
-        by_name.setdefault(name, []).append(module)
+    by_name, docs = {}, {}
+    for module, entries in modules.items():
+        for name, doc in entries.items():
+            by_name.setdefault(name, []).append(module)
+            if doc and name not in docs:
+                docs[name] = doc
 
     buckets, other = classify(sorted(by_name))
     version = surface.get("version") or "unverified - regenerate with scripts/probe_api.py"
@@ -104,14 +135,26 @@ def render(surface):
            % (len(by_name), len(modules),
               ", ".join("`%s` %d" % (m, len(v)) for m, v in sorted(modules.items()))),
            "",
-           "> This is the API *surface* - the names the interpreter exposes. It carries no",
-           "> signatures and no semantics, because `dir()` cannot see them. Treat it as an index",
-           "> for discovery, then confirm arguments against CLO's own documentation or by",
-           "> calling with a trivial input. Names differ between builds: regenerate rather than",
-           "> trusting the copy committed here.", "",
+           "> Signatures come from each function's `__doc__`: the API is a pybind11 binding, so",
+           "> every callable carries its own argument list, overloads included. That is the only",
+           "> machine-readable source for them - `inspect.signature()` raises on these builtins.",
+           "> Types such as `Marvelous::ImportDxfOption` are C++ names; the corresponding Python",
+           "> object is usually in `ApiTypes` at the end of this file. Names and arities differ",
+           "> between builds, so regenerate rather than trusting the copy committed here.", "",
            "A trailing `W` on a name is CLO's wide-string variant - use it for any path or label",
            "that may contain non-ASCII characters.", "",
            "---", ""]
+
+    def entry(name):
+        where = ", ".join(by_name[name])
+        forms = signatures(docs.get(name, ""))
+        if not forms:
+            return ["- `%s`  <sub>%s</sub>" % (name, where)]
+        if len(forms) == 1:
+            return ["- `%s`  <sub>%s</sub>" % (forms[0], where)]
+        lines = ["- `%s`  <sub>%s &middot; %d overloads</sub>" % (name, where, len(forms))]
+        lines += ["  - `%s`" % f for f in forms]
+        return lines
 
     for title, _ in GROUPS:
         names = buckets[title]
@@ -120,7 +163,7 @@ def render(surface):
         out.append("## %s  <sub>%d</sub>" % (title, len(names)))
         out.append("")
         for name in names:
-            out.append("- `%s`  <sub>%s</sub>" % (name, ", ".join(by_name[name])))
+            out.extend(entry(name))
         out.append("")
 
     out.append("## Other  <sub>%d</sub>" % len(other))
@@ -129,7 +172,7 @@ def render(surface):
     out.append("in a way the heuristic recognises.")
     out.append("")
     for name in other:
-        out.append("- `%s`  <sub>%s</sub>" % (name, ", ".join(by_name[name])))
+        out.extend(entry(name))
     out.append("")
 
     if types:

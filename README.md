@@ -166,9 +166,25 @@ DXF, simulates it, exports an OBJ and returns the path and file size:
 python examples/02_import_dxf_simulate_export.py front.dxf out/
 ```
 
-Worth copying even if you change every call: it compares the pattern count before and after the
-import, so an import that quietly brought in nothing is reported as an error rather than
-flowing on into a simulation of an empty scene.
+```
+3 patterns in the scene after the import
+out/front.obj  (3829894 bytes)
+```
+
+The byte count moves between runs: the simulation is not deterministic, so do not assert on it.
+
+Two things in it are worth copying even if you change every call.
+
+It reads the pattern count after the import, so a file that returned `True` and brought in
+nothing is reported as an error instead of flowing on into a simulation of an empty scene. Note
+that the check is *not* `after > before`: **importing a DXF replaces the pattern set rather than
+adding to it.** Two files of three pieces each, imported one after the other, leave three
+pieces, not six — so a loop that imports several DXFs expecting to accumulate them keeps only
+the last.
+
+And it exports through `ExportOBJW(path, ImportExportOption())` rather than the shorter
+`ExportOBJ(path)`. That is the difference between a job that finishes and a job that hangs for
+ever — see the examples section below and `reference/PITFALLS.md`.
 
 **[`03_fixed_camera_fabric_sweep.py`](examples/03_fixed_camera_fabric_sweep.py)** renders the
 same garment under several fabrics and returns one image per fabric:
@@ -188,11 +204,10 @@ setters for weight, thickness, bending or stretch.** Physical properties go in a
 fabric definition through `ChangeFabricWithJsonW`. Looking for a `SetBendingStiffness` will
 cost you an afternoon; there isn't one.
 
-> ⚠️ Examples 02 and 03 are **not verified against a running CLO**. Their function *names* come
-> from a live probe and `require()` will tell you at once if your build differs. Their
-> *argument order* does not — `dir()` cannot report signatures. Check each call against CLO's
-> own documentation before you trust the numbers that come out. Example 01 has no arguments to
-> get wrong.
+> Examples 01 and 02 have been **run end to end against CLO 2026.1.310**. Example 03 has not:
+> its calls carry the signatures the probe reports, but nothing has exercised them, so treat it
+> as a correct skeleton rather than a tested one. A signature gives the argument count and
+> types; it does not say what an argument means.
 
 ## Finding the function you need
 
@@ -246,7 +261,9 @@ of an instance a person has already signed in to.
 - **One job at a time.** CLO's editor is a single slot and the GUI blocks while a script runs.
   Serialise your own queue; do not try to open a second editor.
 - **Windows only**, because the UI automation is `pywinauto`.
-- **The API map has names, not signatures.** See the warning on the examples above.
+- **The API map's signatures are what CLO reports, not documentation.** They give argument
+  count and types; they do not say what an argument means. `Simulate(arg0: int)` is an
+  integer, and the map cannot tell you it is a step count.
 - **The UI automation cannot be covered by CI**, because CI has no CLO. The contract —
   loader, worker, results, heartbeats, timeouts, refusals — is fully covered and runs anywhere.
 

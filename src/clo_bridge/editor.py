@@ -69,13 +69,26 @@ class UiaEditor(Editor):
         self._edit.set_edit_text(text)
 
     def play(self):
-        # Invoke the accessible action rather than moving the mouse: a physical click lands at
-        # a screen coordinate, and that coordinate goes stale when the window moves or the DPI
-        # changes. click_input is kept as a fallback for builds that expose no Invoke pattern.
-        try:
-            self._play.invoke()
-        except Exception:
-            self._play.click_input()
+        """Start the script. Returns None on a clean start, or a note describing what went wrong.
+
+        It never raises. UIA's Invoke is synchronous: it does not return until the action it
+        started has finished, so for a long job it is still waiting when CLO stops answering -
+        and then it fails, for a job that is running perfectly well. The fallback click lands on
+        an element that has since gone stale and fails too.
+
+        Neither failure says anything about the job, so neither is allowed to end it. The caller
+        carries the note into its timeout message and otherwise ignores it: result.json decides.
+        """
+        notes = []
+        # Invoke first: a physical click goes to a screen coordinate worked out before the
+        # window moved, which is its own source of silent misses.
+        for attempt in (self._play.invoke, self._play.click_input):
+            try:
+                attempt()
+                return None
+            except Exception as exc:
+                notes.append("%s: %s" % (attempt.__name__, type(exc).__name__))
+        return " / ".join(notes)
 
     def output(self):
         if self._out is None:
@@ -99,18 +112,23 @@ def _editor_in(window):
     The control type is part of the match. Without it a container that happens to carry the
     same automation_id tail is indistinguishable from the control itself.
     """
-    edit = play = out = None
-    for child in window.descendants():
-        try:
-            kind = child.element_info.control_type
-        except Exception:
-            continue
-        if edit is None and kind == "Edit" and _endswith(child, EDIT_SUFFIX):
-            edit = child
-        elif out is None and kind == "Edit" and _endswith(child, OUTPUT_SUFFIX):
-            out = child
-        elif play is None and kind == "Button" and _endswith(child, PLAY_SUFFIX):
-            play = child
+    # Ask for the control type in the search rather than enumerating everything and filtering
+    # in Python. A bare descendants() walks the whole tree one COM call at a time; on a loaded
+    # document, or while a modal is up, that has been measured at tens of seconds per window.
+    edit = out = play = None
+    try:
+        for child in window.descendants(control_type="Edit"):
+            if edit is None and _endswith(child, EDIT_SUFFIX):
+                edit = child
+            elif out is None and _endswith(child, OUTPUT_SUFFIX):
+                out = child
+        if edit is not None:
+            for child in window.descendants(control_type="Button"):
+                if _endswith(child, PLAY_SUFFIX):
+                    play = child
+                    break
+    except Exception:
+        return None
     if edit is not None and play is not None:
         return edit, play, out
     return None
@@ -127,6 +145,37 @@ def _clo_windows():
             yield uia.window(handle=window.handle)
         except Exception:
             continue
+
+
+def blocking_dialog():
+    """The title and text of a modal CLO has put up, or None.
+
+    CLO raises informational dialogs from inside API calls - importing a DXF with seam
+    allowances is one - and the worker sits inside that call until a person clicks OK. From the
+    host all you see is a job that never finishes, so the timeout says so instead of guessing.
+
+    This only looks. Clicking an unknown dialog on someone's behalf is not a bridge's business:
+    the button might say OK, and it might say Replace.
+    """
+    try:
+        from pywinauto import Desktop
+        for window in Desktop(backend="uia").windows():
+            try:
+                title = window.window_text()
+                if not title or title.startswith(WINDOW_PREFIX):
+                    continue
+                if window.element_info.control_type != "Window":
+                    continue
+                texts = [c.window_text() for c in window.descendants()
+                         if c.element_info.control_type == "Text"]
+                body = " ".join(t for t in texts if t)[:300]
+                if body and window.is_visible():
+                    return {"title": title, "text": body}
+            except Exception:
+                continue
+    except Exception:
+        pass
+    return None
 
 
 def find_editor(open_if_closed=True, settle=0.5):
