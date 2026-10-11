@@ -5,17 +5,21 @@
 
 Verified against CLO 2026.1.310.
 
-Why this example exists, rather than one that sets weight and thickness directly: across all
-849 functions the API exposes, **nothing sets a fabric's mechanical properties**. You can set a
-zipper's weight (`SetZipperStyleWeight`) and a pattern's collision thickness, but there is no
-`SetFabricWeight`, no bending, no stretch, no shear. `ChangeFabricWithJson` sounds like the way
-in and is not: the JSON it round-trips has 31 keys and every one of them is appearance -
-baseColor, roughness, metalness, opacity, reflection, thumbnail, roll width.
+Why this example loads a file rather than setting numbers: across the fifty-nine writers in
+`fabric_api`, none sets bending, stretch or shear. They set colour, roughness, metalness,
+opacity, texture maps, the name, the item number, the roll width and metadata.
+`ChangeFabricWithJson` looks like the way in and is not - the JSON it round-trips has 31 keys
+and every one is appearance.
 
-So a `.zfab` file is not one way to deliver measured mechanics. It is the only way. Whatever
-produced the file - CLO's own property editor, a calibration run, a vendor - the file is the
-interface, and this script shows that loading one from a script works and that the values come
-with it:
+There is one route that has NOT been tested here and that you should know about before quoting
+the paragraph above: `GetFabricInformationW` returns a dict containing `Weight` and
+`Thickness`, and `SetFabricInformationW(index, dict)` is its exact write counterpart. Whether
+writing through it reaches the solver, updates only the displayed metadata, or is ignored
+outright is unknown - and it returns None, so the call tells you nothing either way. See
+reference/PITFALLS.md.
+
+What this script does is the route that is known to work. Loading a `.zfab` from a script
+delivers the values:
 
     CLO's default fabric   0.5 mm    300 g/m2
     a measured .zfab       0.22 mm   135.3 g/m2

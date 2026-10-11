@@ -199,21 +199,28 @@ loaded 'PG1_measured' at index 3
   Thickness  0.5 mm       -> 0.22 mm
 ```
 
-It is this example rather than one that sets weight and thickness directly, because **no
-function in the API sets a fabric's mechanical properties.** Searched across all 849 names on
-CLO 2026.1.310, the only mechanical setters are `SetZipperStyleWeight`,
-`SetZipperStyleTapeThickness`, `SetTrimWeight` and `SetAddlThicknessCollision` — a zipper, a
-trim, and a solver collision tolerance. You can set a zipper's weight from the API and not a
-fabric's.
+It loads a file rather than setting numbers because **across the fifty-nine writers in
+`fabric_api`, none sets bending, stretch or shear.** They set colour, roughness, metalness,
+opacity, texture maps, the name, the item number, the roll width and metadata. Across the whole
+API the only mechanical setters are `SetZipperStyleWeight`, `SetZipperStyleTapeThickness`,
+`SetTrimWeight` and `SetAddlThicknessCollision` — a zipper, a trim, and a solver collision
+tolerance.
 
 `ChangeFabricWithJson` sounds like the way in and is not: round-trip its JSON and you get 31
 keys, every one of them appearance — `baseColor`, `roughness`, `metalness`, `opacity`,
 `reflectionIntensity`, `thumbnail`, `rollWidth`.
 
-So a `.zfab` file is not one way to deliver measured mechanics. It is the only way, and the
-example shows that loading one from a script works. It reads the values back and compares,
-because "AddFabricW returned an index" and "the document now holds the fabric I measured" are
-different claims.
+> **One route is untested, and it matters.** `GetFabricInformationW` returns a dict containing
+> `Weight` and `Thickness`, and `SetFabricInformationW(index, dict)` is its exact write
+> counterpart. Whether writing through it reaches the solver, changes only the metadata the
+> panel displays, or is ignored has **not been tested here** — and it returns `None`, so the
+> call reports nothing. An earlier version of this README claimed no function sets a fabric's
+> weight at all. That claim came from a keyword search, `SetFabricInformation` contains no
+> mechanical word, and **a keyword search cannot establish an absence.**
+
+Loading a `.zfab` is the route that is known to work, and the example reads the values back and
+compares, because "AddFabricW returned an index" and "the document now holds the fabric I
+measured" are different claims.
 
 > All three examples have been **run end to end against CLO 2026.1.310**. That verifies the
 > calls, not your results: a signature gives the argument count and types, and does not say

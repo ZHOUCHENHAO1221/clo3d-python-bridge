@@ -71,29 +71,49 @@ you have just added. Pass `False`.
 
 ---
 
-## You are looking for the function that sets a fabric's weight, and there isn't one
+## Looking for the function that sets a fabric's mechanics
 
-**Symptom.** You want to drive the simulation from measured material data, and nothing in
-`fabric_api` seems to set weight, thickness, bending, stretch or shear.
+**Symptom.** You want to drive the simulation from measured material data and cannot find where
+to put the numbers.
 
-**Cause.** Nothing does. Searched across all 849 names the API exposes on CLO 2026.1.310, the
-only mechanical setters are `SetZipperStyleWeight`, `SetZipperStyleTapeThickness`,
-`SetTrimWeight` and `SetAddlThicknessCollision` — a zipper, a trim, and a solver collision
-tolerance. **You can set a zipper's weight from the API and not a fabric's.**
+**What is established.** Reading every writer in `fabric_api` — all fifty-nine of them, with no
+keyword filtering — **none sets bending, stretch or shear.** They set colour, roughness,
+metalness, opacity, texture maps, Substance presets, the fabric's name, item number, roll width
+and metadata. `ChangeFabricWithJson` looks like the way in and is not: round-trip its JSON
+through `GetFabricInfoW` and it has 31 keys, every one of them appearance.
 
-`ChangeFabricWithJson` sounds like the way in and is not. Round-trip the JSON through
-`GetFabricInfoW` and it has 31 keys, every one of them appearance: `baseColor`, `roughness`,
-`metalness`, `opacity`, `reflectionIntensity`, `thumbnail`, `rollWidth`. The mechanics are not
-in it.
+Across the whole API the only functions that set anything mechanical are
+`SetZipperStyleWeight`, `SetZipperStyleTapeThickness`, `SetTrimWeight` and
+`SetAddlThicknessCollision` — a zipper, a trim, and a solver collision tolerance.
 
-**Rule.** A `.zfab` file is not one way to deliver measured mechanics; it is the only way.
-`AddFabricW(path)` loads one from a script and the values arrive with it — a measured file
-reading back 0.22 mm and 135.3 g/m² where CLO's default fabric reads 0.5 mm and 300 g/m².
-Whatever authored the file, the file is the interface. See
+**What is open, and read this before you quote the paragraph above.** `GetFabricInformationW`
+returns a `Dict[str, str]` that contains `Weight` and `Thickness`, and there is an exact write
+counterpart:
+
+```
+GetFabricInformationW(arg0: int)                     -> Dict[str, str]
+SetFabricInformationW(arg0: int, arg1: Dict[str,str]) -> None
+```
+
+**Whether writing `Weight` and `Thickness` through it reaches the solver has not been tested
+here.** It might set them properly, it might update only the metadata the panel displays, or it
+might be ignored — and it returns `None`, so the call itself tells you nothing. Three different
+conclusions, and no evidence yet for any of them.
+
+The name carries no mechanical word, which is exactly why a keyword search for
+`weight|thick|bend|stretch|shear` walks straight past it. That search is how the earlier version
+of this entry came to claim, wrongly, that no function sets a fabric's weight at all. **A
+keyword search cannot establish an absence.** If you want to assert that something is missing,
+enumerate the module's writers and read them.
+
+**Rule, as far as it goes.** A `.zfab` file is a route that is known to work: `AddFabricW(path)`
+loads one from a script and the values arrive with it — a measured file reading back 0.22 mm
+and 135.3 g/m² where CLO's default fabric reads 0.5 mm and 300 g/m². See
 `examples/03_load_measured_fabric.py`.
 
-Read the values back and compare. "AddFabricW returned an index" and "the document now holds
-the fabric I measured" are different claims.
+Read the values back and compare, whichever route you take. "The setter returned" and "the
+document now holds the fabric I measured" are different claims, and for a function that returns
+`None` the first one is not even available.
 
 ---
 
