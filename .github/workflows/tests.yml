@@ -1,0 +1,39 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # The protocol half - loader, worker, results, heartbeats, timeouts, refusals - is the half
+  # that can be tested anywhere. Running it on Linux as well as Windows is the point: if these
+  # tests ever need a CLO, or a Windows API, they have stopped testing the contract and started
+  # testing the UI.
+  offline:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.8", "3.12"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Run the offline suite
+        run: python tests/test_offline.py
+
+  # The API map is generated, so a hand-edited one would drift from its source silently.
+  map-is-current:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/build_api_map.py
+      - name: reference/API_MAP.md must match its generator
+        run: git diff --exit-code -- reference/API_MAP.md
