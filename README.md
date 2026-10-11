@@ -261,6 +261,19 @@ One trap this sweep walks past: the function that assigns a fabric to a piece is
 `pattern_api.SetPatternPieceFabricIndex`, not `fabric_api.AssignFabricToPattern`. See
 `reference/PITFALLS.md`.
 
+### Where that data went
+
+The seven fabrics in the sweep were measured to ISO methods and turned into `.zfab` files, and
+those files and their before/after comparisons are published at
+**[drape-delta.netlify.app](https://drape-delta.netlify.app)** — a library of measured fabric
+data for CLO3D, with the gap between a generic library preset and the real cloth shown for each
+one. This package is the automation underneath it: every run in the contact sheet above went
+through the bridge.
+
+That is also the honest answer to "why would I want to script CLO at all". Twenty-seven
+simulations is a long afternoon by hand and nobody checks a long afternoon's work for the
+mistake where the fabric silently failed to apply.
+
 ## Finding the function you need
 
 ![The CLO Python API grouped by task](docs/api_surface.svg)
