@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+*.tmp
+# local probe output; the committed snapshot lives in scripts/api_surface.json
+scripts/api_surface.local.json
