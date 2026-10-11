@@ -42,6 +42,32 @@ wrinkle: several CLO top-level windows carry an `Edit` menu and only one of them
 
 ---
 
+## You are looking for the function that sets a fabric's weight, and there isn't one
+
+**Symptom.** You want to drive the simulation from measured material data, and nothing in
+`fabric_api` seems to set weight, thickness, bending, stretch or shear.
+
+**Cause.** Nothing does. Searched across all 849 names the API exposes on CLO 2026.1.310, the
+only mechanical setters are `SetZipperStyleWeight`, `SetZipperStyleTapeThickness`,
+`SetTrimWeight` and `SetAddlThicknessCollision` — a zipper, a trim, and a solver collision
+tolerance. **You can set a zipper's weight from the API and not a fabric's.**
+
+`ChangeFabricWithJson` sounds like the way in and is not. Round-trip the JSON through
+`GetFabricInfoW` and it has 31 keys, every one of them appearance: `baseColor`, `roughness`,
+`metalness`, `opacity`, `reflectionIntensity`, `thumbnail`, `rollWidth`. The mechanics are not
+in it.
+
+**Rule.** A `.zfab` file is not one way to deliver measured mechanics; it is the only way.
+`AddFabricW(path)` loads one from a script and the values arrive with it — a measured file
+reading back 0.22 mm and 135.3 g/m² where CLO's default fabric reads 0.5 mm and 300 g/m².
+Whatever authored the file, the file is the interface. See
+`examples/03_load_measured_fabric.py`.
+
+Read the values back and compare. "AddFabricW returned an index" and "the document now holds
+the fabric I measured" are different claims.
+
+---
+
 ## The job never finishes, and CLO is sitting there with a dialog open
 
 **Symptom.** No result, no error, no heartbeat past one stage. Look at CLO and it is showing a

@@ -186,28 +186,38 @@ And it exports through `ExportOBJW(path, ImportExportOption())` rather than the 
 `ExportOBJ(path)`. That is the difference between a job that finishes and a job that hangs for
 ever — see the examples section below and `reference/PITFALLS.md`.
 
-**[`03_fixed_camera_fabric_sweep.py`](examples/03_fixed_camera_fabric_sweep.py)** renders the
-same garment under several fabrics and returns one image per fabric:
+**[`03_load_measured_fabric.py`](examples/03_load_measured_fabric.py)** loads a `.zfab` and
+checks that its numbers arrived:
 
 ```bash
-python examples/03_fixed_camera_fabric_sweep.py fabrics.json out/
+python examples/03_load_measured_fabric.py path/to/fabric.zfab
 ```
 
-The camera is captured once at the start and restored before every shot, including the first.
-A fabric comparison is only readable if the camera does not move — otherwise every difference
-you see is part lens and part cloth and you cannot separate them afterwards. At the end it
-hashes the images and fails if the whole sweep produced one identical picture, which means the
-fabric never reached the garment.
+```
+loaded 'PG1_measured' at index 3
+  Weight     300 g/m2     -> 135.3 g/m2
+  Thickness  0.5 mm       -> 0.22 mm
+```
 
-It also shows something the API map will not tell you on its own: **CLO has no individual
-setters for weight, thickness, bending or stretch.** Physical properties go in as a whole
-fabric definition through `ChangeFabricWithJsonW`. Looking for a `SetBendingStiffness` will
-cost you an afternoon; there isn't one.
+It is this example rather than one that sets weight and thickness directly, because **no
+function in the API sets a fabric's mechanical properties.** Searched across all 849 names on
+CLO 2026.1.310, the only mechanical setters are `SetZipperStyleWeight`,
+`SetZipperStyleTapeThickness`, `SetTrimWeight` and `SetAddlThicknessCollision` — a zipper, a
+trim, and a solver collision tolerance. You can set a zipper's weight from the API and not a
+fabric's.
 
-> Examples 01 and 02 have been **run end to end against CLO 2026.1.310**. Example 03 has not:
-> its calls carry the signatures the probe reports, but nothing has exercised them, so treat it
-> as a correct skeleton rather than a tested one. A signature gives the argument count and
-> types; it does not say what an argument means.
+`ChangeFabricWithJson` sounds like the way in and is not: round-trip its JSON and you get 31
+keys, every one of them appearance — `baseColor`, `roughness`, `metalness`, `opacity`,
+`reflectionIntensity`, `thumbnail`, `rollWidth`.
+
+So a `.zfab` file is not one way to deliver measured mechanics. It is the only way, and the
+example shows that loading one from a script works. It reads the values back and compares,
+because "AddFabricW returned an index" and "the document now holds the fabric I measured" are
+different claims.
+
+> All three examples have been **run end to end against CLO 2026.1.310**. That verifies the
+> calls, not your results: a signature gives the argument count and types, and does not say
+> what an argument means.
 
 ## Finding the function you need
 
