@@ -34,7 +34,7 @@ Everything in this package follows from that.
 ## Install
 
 ```bash
-git clone https://github.com/<you>/clo3d-python-bridge
+git clone https://github.com/ZHOUCHENHAO1221/clo3d-python-bridge
 cd clo3d-python-bridge
 pip install -e .
 ```

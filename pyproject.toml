@@ -23,8 +23,8 @@ classifiers = [
 dependencies = ["pywinauto>=0.6.8"]
 
 [project.urls]
-Homepage = "https://github.com/yourname/clo3d-python-bridge"
-Issues = "https://github.com/yourname/clo3d-python-bridge/issues"
+Homepage = "https://github.com/ZHOUCHENHAO1221/clo3d-python-bridge"
+Issues = "https://github.com/ZHOUCHENHAO1221/clo3d-python-bridge/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
