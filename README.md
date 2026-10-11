@@ -212,6 +212,23 @@ python scripts/probe_api.py        # read-only; writes scripts/api_surface.json
 python scripts/build_api_map.py    # -> reference/API_MAP.md
 ```
 
+The probe is the committed map's own source, and this is what it printed on the build above:
+
+```
+CLO 2026.1.310  (reached a document with 5 patterns)
+  utility_api    366
+  pattern_api    217
+  fabric_api     135
+  import_api     39
+  export_api     92
+  ApiTypes       159
+written: .../scripts/api_surface.json
+```
+
+It imports each module, calls `dir()`, and asks for the version and the pattern count. It opens
+nothing, changes nothing and saves nothing. The pattern count is only there to show it reached a
+real document; it is not written to the file.
+
 ## Safety
 
 The bridge refuses to overwrite a script in the editor that it did not put there. Overwriting
