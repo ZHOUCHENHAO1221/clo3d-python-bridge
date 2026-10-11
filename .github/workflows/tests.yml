@@ -1,8 +1,10 @@
 name: tests
 
 on:
+  # Deliberately not filtered by branch name. This repository's default is `master`, a
+  # `branches: [main]` filter meant the workflow never ran once, and a test suite that does not
+  # run is worse than none - it reads as a green promise nobody is keeping.
   push:
-    branches: [main]
   pull_request:
   workflow_dispatch:
 

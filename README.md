@@ -1,5 +1,7 @@
 # clo3d-python-bridge
 
+[![tests](https://github.com/ZHOUCHENHAO1221/clo3d-python-bridge/actions/workflows/tests.yml/badge.svg)](https://github.com/ZHOUCHENHAO1221/clo3d-python-bridge/actions/workflows/tests.yml)
+
 Drive **CLO Standalone's Python API from an ordinary Python process** — import patterns, apply
 fabrics, simulate, render, export — on a machine where CLO is running.
 
