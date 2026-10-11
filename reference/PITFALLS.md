@@ -115,12 +115,11 @@ That silence is this repository's own trap in its purest form. A script that wri
 weight here and carries on would produce a whole study at CLO's default 300 g/m², with every
 call having "succeeded".
 
-**On how this entry got here.** An earlier version claimed outright that no function sets a
-fabric's weight. That came from the keyword search, which could not have found
-`SetFabricInformation` and therefore could not support the claim. **A keyword search cannot
-establish an absence.** The conclusion happens to have survived, but only after enumerating all
-fifty-nine writers in the module and testing the one candidate against a control. If you want
-to assert something is missing, that is the work.
+**How to check this yourself, and why a grep will not do it.** `SetFabricInformation` carries
+no mechanical word, so no search for `weight|thick|bend|stretch|shear` can reach it. **A keyword
+search cannot establish an absence.** The claim above rests on two things instead: enumerating
+every writer in the module and reading them, and testing the one candidate against a control
+key that does change. If you want to assert that something is missing, that is the work.
 
 **Rule, as far as it goes.** A `.zfab` file is a route that is known to work: `AddFabricW(path)`
 loads one from a script and the values arrive with it — a measured file reading back 0.22 mm

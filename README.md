@@ -227,11 +227,10 @@ change, and it returns `None`, so nothing in the call tells you it declined. A s
 writes a measured weight there and carries on produces a whole study at CLO's default
 300 g/m² with every call having "succeeded".
 
-> An earlier version of this README claimed outright that no function sets a fabric's weight.
-> That came from a keyword search, which could not have found `SetFabricInformation` and so
-> could not support the claim. The conclusion survived, but only after enumerating all
-> fifty-nine writers in the module and testing the candidate against a control. **A keyword
-> search cannot establish an absence.**
+> **A keyword search cannot establish an absence.** `SetFabricInformation` carries no
+> mechanical word, so no grep for `weight|thick|bend|stretch` can find it. The claim above
+> rests on enumerating all fifty-nine writers in the module and testing the one candidate
+> against a control, which is what it takes.
 
 Loading a `.zfab` is the route that is known to work, and the example reads the values back and
 compares, because "AddFabricW returned an index" and "the document now holds the fabric I
