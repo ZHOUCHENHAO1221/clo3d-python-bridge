@@ -19,7 +19,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, os.path.join(ROOT, "src"))
 
-MODULES = ["utility_api", "pattern_api", "fabric_api", "import_api", "export_api", "ApiTypes"]
+MODULES = ["utility_api", "pattern_api", "fabric_api", "import_api", "export_api",
+           "rest_api", "ApiTypes"]
+# rest_api was missed on the first pass, and the map then reported its eight functions as
+# "documented but absent from your build" - a wrong answer produced by not looking.
 
 
 def probe(_payload):
@@ -38,7 +41,8 @@ def probe(_payload):
             module = __import__(name)
             entries = {}
             for n in dir(module):
-                if n.startswith("_"):
+                # "~Name" entries are C++ destructors that leak through the binding.
+                if n.startswith("_") or n.startswith("~"):
                     continue
                 doc = ""
                 try:

@@ -721,8 +721,7 @@
       "SetTextureMapping": "SetTextureMapping(*args, **kwargs)\nOverloaded function.\n\n1. SetTextureMapping(arg0: int, arg1: int) -> None\n\n2. SetTextureMapping(arg0: int, arg1: int, arg2: int) -> None",
       "SetUseSameColorAsFront": "SetUseSameColorAsFront(*args, **kwargs)\nOverloaded function.\n\n1. SetUseSameColorAsFront(arg0: int, arg1: int, arg2: bool) -> None\n\n2. SetUseSameColorAsFront(arg0: int, arg1: int, arg2: int, arg3: bool) -> None",
       "SetUseSameMaterialAsFront": "SetUseSameMaterialAsFront(*args, **kwargs)\nOverloaded function.\n\n1. SetUseSameMaterialAsFront(arg0: int, arg1: int, arg2: bool) -> None\n\n2. SetUseSameMaterialAsFront(arg0: int, arg1: int, arg2: int, arg3: bool) -> None",
-      "TransformAOPOnFabric": "TransformAOPOnFabric(_aopMode: int, _colorwayIndex: int, _fabricIndex: int, _styleChipIndex: int, _transformOptions: Marvelous::TransformOptions, _materialSide: int = 0) -> str",
-      "~FabricAPIInterface": "~FabricAPIInterface() -> None"
+      "TransformAOPOnFabric": "TransformAOPOnFabric(_aopMode: int, _colorwayIndex: int, _fabricIndex: int, _styleChipIndex: int, _transformOptions: Marvelous::TransformOptions, _materialSide: int = 0) -> str"
     },
     "import_api": {
       "ImportAVAC": "ImportAVAC(*args, **kwargs)\nOverloaded function.\n\n1. ImportAVAC(arg0: str, arg1: str) -> bool\n\n2. ImportAVAC(arg0: str, arg1: str) -> bool",
@@ -762,8 +761,7 @@
       "ImportVRPW": "ImportVRPW(arg0: str) -> bool",
       "ImportZpac": "ImportZpac(arg0: str, arg1: Marvelous::ImportExportOption) -> bool",
       "ImportZprj": "ImportZprj(arg0: str, arg1: Marvelous::ImportZPRJOption) -> bool",
-      "ImportZprjW": "ImportZprjW(arg0: str, arg1: Marvelous::ImportZPRJOption) -> bool",
-      "~ImportAPIInterface": "~ImportAPIInterface() -> None"
+      "ImportZprjW": "ImportZprjW(arg0: str, arg1: Marvelous::ImportZPRJOption) -> bool"
     },
     "export_api": {
       "ConvertZblcToZmod": "ConvertZblcToZmod(_zblcFilePathList: List[str], _saveDirPath: str, _categoryName: str, _styleName: str, _lineName: str = '') -> List[str]",
@@ -856,8 +854,16 @@
       "GetFileNameOnRenderingProperty": "GetFileNameOnRenderingProperty() -> str",
       "GetFileNameOnRenderingPropertyW": "GetFileNameOnRenderingPropertyW() -> str",
       "GetTotalRenderImagePaths": "GetTotalRenderImagePaths() -> List[str]",
-      "GetTotalRenderImagePathsW": "GetTotalRenderImagePathsW() -> List[str]",
-      "~ExportAPIInterface": "~ExportAPIInterface() -> None"
+      "GetTotalRenderImagePathsW": "GetTotalRenderImagePathsW() -> List[str]"
+    },
+    "rest_api": {
+      "CallRESTGet": "CallRESTGet(arg0: str, arg1: List[Tuple[str, str]], arg2: str) -> str",
+      "CallRESTPost": "CallRESTPost(arg0: str, arg1: str, arg2: List[Tuple[str, str]], arg3: str) -> str",
+      "CallRESTPost2": "CallRESTPost2(arg0: str, arg1: int, arg2: int, arg3: List[Tuple[str, str]], arg4: str) -> str",
+      "CallRESTPostWithMultipartFormData": "CallRESTPostWithMultipartFormData(*args, **kwargs)\nOverloaded function.\n\n1. CallRESTPostWithMultipartFormData(arg0: str, arg1: str, arg2: List[Tuple[str, str]], arg3: str) -> str\n\n2. CallRESTPostWithMultipartFormData(arg0: str, arg1: List[str], arg2: List[Tuple[str, str]], arg3: str) -> str",
+      "CallRESTPut": "CallRESTPut(arg0: ApiTypes.CloApiRestRequest, arg1: str) -> str",
+      "CallbackRestMultiRequest": "CallbackRestMultiRequest(arg0: List[ApiTypes.CloApiRestRequest], arg1: Callable[[ApiTypes.CloApiRestResponse], None], arg2: Callable[[], None]) -> None",
+      "CallbackRestRequest": "CallbackRestRequest(arg0: ApiTypes.CloApiRestRequest, arg1: Callable[[ApiTypes.CloApiRestResponse], None]) -> None"
     },
     "ApiTypes": {
       "AlembicUnit": "",

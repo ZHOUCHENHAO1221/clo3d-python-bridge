@@ -18,7 +18,7 @@ print(info["version"], info["patternCount"])
 
 ## Why this exists
 
-CLO exposes **842 Python functions** across five modules (measured on CLO 2026.1.310),
+CLO exposes **846 Python functions** across six modules (measured on CLO 2026.1.310),
 and gives you **no way to call them except by hand**: open `Edit > Python Script`, paste, press Play. There is no headless
 flag, no `clo --script`, no socket and no RPC. If you have searched for how to automate CLO,
 you have already found that there is no answer.
@@ -102,10 +102,11 @@ developing a worker and the files stay put so you can read them.
 | `src/clo_bridge/mesh.py` | your process | Measures an exported mesh: boundary loops, the lowest closed one, non-manifold edges. No CLO, so the tests cover it |
 | `src/clo_bridge/protocol.py` | both | The loader text, the file names, the polling. No GUI, so this is the part the tests cover |
 | `scripts/probe_api.py` | both | Reads the API surface out of your own CLO build |
-| `scripts/build_api_map.py` | your process | Turns that into `reference/API_MAP.md` |
+| `scripts/fetch_official_signatures.py` | your process | Reads CLO's published parameter names, which the binding does not keep |
+| `scripts/build_api_map.py` | your process | Merges both into `reference/API_MAP.md` and reports where they disagree |
 | `scripts/build_diagrams.py` | your process | Generates the figures in this README |
 | `reference/PITFALLS.md` | — | **Read this first.** Every trap, with the symptom stated first, because the symptom is what you will have |
-| `reference/API_MAP.md` | — | 842 functions grouped by task, plus the 159 `ApiTypes` enums and constants |
+| `reference/API_MAP.md` | — | 846 functions grouped by task with CLO's published parameter names, plus the 159 `ApiTypes` enums and constants |
 | `tests/test_offline.py` | anywhere | The whole contract against a fake editor. No CLO, no Windows, no pytest |
 
 ## Writing a worker
@@ -307,18 +308,21 @@ mistake where the fabric silently failed to apply.
 
 ![The CLO Python API grouped by task](docs/api_surface.svg)
 
-[`reference/API_MAP.md`](reference/API_MAP.md) lists all 842 names under the task you would
+[`reference/API_MAP.md`](reference/API_MAP.md) lists all 846 names under the task you would
 have been thinking of — importing, fabric, simulation, camera, export, grading and so on — and
 a name that fits two tasks is listed under both. Names ending in `W` are the wide-string
 variants; use those for any path or label that may contain non-ASCII characters.
 
-The committed map was probed from CLO 2026.1.310. Builds differ — between that one and an
-earlier 2026.1 probe, `pattern_api` gained 14 names and `utility_api` gained 7. Regenerate it
-against your own:
+The map has two sources. **Existence** comes from probing the interpreter you are actually
+running; **parameter names** come from CLO's published API list, which documents one SDK
+release and need not match your build. The map ends with a section naming every function the
+two disagree about — 25 present on the probed build and undocumented, one documented and
+gone. Regenerate both against your own install:
 
 ```bash
-python scripts/probe_api.py        # read-only; writes scripts/api_surface.json
-python scripts/build_api_map.py    # -> reference/API_MAP.md
+python scripts/probe_api.py                 # read-only; what your build exposes
+python scripts/fetch_official_signatures.py # CLO's published parameter names
+python scripts/build_api_map.py             # -> reference/API_MAP.md
 ```
 
 The probe is the committed map's own source, and this is what it printed on the build above:
@@ -355,9 +359,10 @@ of an instance a person has already signed in to.
 - **One job at a time.** CLO's editor is a single slot and the GUI blocks while a script runs.
   Serialise your own queue; do not try to open a second editor.
 - **Windows only**, because the UI automation is `pywinauto`.
-- **The API map's signatures are what CLO reports, not documentation.** They give argument
-  count and types; they do not say what an argument means. `Simulate(arg0: int)` is an
-  integer, and the map cannot tell you it is a step count.
+- **The map gives you the interface, not the semantics.** Parameter names and types are
+  CLO's own, so `Simulate(_steps: int)` does tell you what the integer is — but nothing
+  in it says that importing a DXF replaces the pattern set, or that `ExportOBJ(path)` opens
+  a dialog. Those are in `reference/PITFALLS.md`, and they were found by running it.
 - **The UI automation cannot be covered by CI**, because CI has no CLO. The contract —
   loader, worker, results, heartbeats, timeouts, refusals — is fully covered and runs anywhere.
 

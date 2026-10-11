@@ -1,0 +1,4085 @@
+{
+ "_note": "Parameter names and types from CLO's published API list. CLO's descriptions are not reproduced; see the source page for those.",
+ "_source": "C:\\Users\\ZHOUCH~1\\AppData\\Local\\Temp\\clolist.html",
+ "functions": {
+  "ABPNetworkAuth": {
+   "ingroup": "UTILITY_API",
+   "signature": "ABPNetworkAuth(id : str, pw : str, _APFpath : str) -> None"
+  },
+  "ActivateAllPatterns": {
+   "ingroup": "PATTERN_API",
+   "signature": "ActivateAllPatterns(_bActivate : bool, _bIncludeSewing : bool) -> bool"
+  },
+  "AddBlockTypeToStyle": {
+   "ingroup": "UTILITY_API",
+   "signature": "AddBlockTypeToStyle(_blockName : str, _blockType : int, _styleName : str, _categoryPath : str, _lineName : str) -> bool"
+  },
+  "AddButtonHoleToPattern": {
+   "ingroup": "PATTERN_API",
+   "signature": "AddButtonHoleToPattern(_patternIndex : int, _x : float, _y : float, _angleDegree : float) -> bool"
+  },
+  "AddButtonToPattern": {
+   "ingroup": "PATTERN_API",
+   "signature": "AddButtonToPattern(_patternIndex : int, _x : float, _y : float, _angleDegree : float) -> bool"
+  },
+  "AddColorSwatch": {
+   "ingroup": "UTILITY_API",
+   "signature": "AddColorSwatch(plmIDtoNameList : map[str, str], plmIDtoColorList : map[str, CloApiRgb], plmIDtoApiMetaDataList : map[str, str], swatchName : str) -> str"
+  },
+  "AddColorSwatchW": {
+   "ingroup": "UTILITY_API",
+   "signature": "AddColorSwatchW(plmIDtoNameList : map[str, str], plmIDtoColorList : map[str, CloApiRgb], plmIDtoApiMetaDataList : map[str, str], swatchName : str) -> str"
+  },
+  "AddFabric": {
+   "ingroup": "FABRIC_API",
+   "signature": "AddFabric(inputFilePath : str) -> int"
+  },
+  "AddFabricW": {
+   "ingroup": "FABRIC_API",
+   "signature": "AddFabricW(inputFilePath : str) -> int"
+  },
+  "AddGradingSize": {
+   "ingroup": "PATTERN_API",
+   "signature": "AddGradingSize(_gradingSizeGroupIndex : int, _newSizeName : str) -> bool"
+  },
+  "AddGradingSizeGroup": {
+   "ingroup": "PATTERN_API",
+   "signature": "AddGradingSizeGroup(_bAssignToAllPatterns : bool) -> int"
+  },
+  "AddGraphicStyleFromImageFile": {
+   "ingroup": "UTILITY_API",
+   "signature": "AddGraphicStyleFromImageFile(_filePath : str, _index : int) -> bool"
+  },
+  "AddGraphicStyleToPattern": {
+   "ingroup": "PATTERN_API",
+   "overloads": [
+    "AddGraphicStyleToPattern(_patternIndex : int, _graphicStyleIndex : int, _positionRefFromBoundingBox : list[float], _positionRefTypeCenter : bool, _face : int, _zOffset : float, _fAngle : float) -> bool",
+    "AddGraphicStyleToPattern(_patternIndex : int, _graphicStyleIndex : int, _x : float, _y : float, _width : float, _height : float, _face : int, _zOffset : float, _fAngle : float) -> bool"
+   ],
+   "signature": "AddGraphicStyleToPattern(_patternIndex : int, _graphicStyleIndex : int, _positionRefFromBoundingBox : list[float], _positionRefTypeCenter : bool, _face : int, _zOffset : float, _fAngle : float) -> bool"
+  },
+  "AddGraphicStyleToPatternV2": {
+   "ingroup": "UTILITY_API",
+   "signature": "AddGraphicStyleToPatternV2(_patternIndex : int, _graphicStyleIndex : int, _x : float, _y : float, _width : float, _height : float, _face : int, _zOffset : float, _fAngle : float) -> str"
+  },
+  "AddLibraryColorSwatchList": {
+   "ingroup": "UTILITY_API",
+   "signature": "AddLibraryColorSwatchList(library : list[str], tabName : str) -> bool"
+  },
+  "AddLineToCategory": {
+   "ingroup": "UTILITY_API",
+   "signature": "AddLineToCategory(_lineName : str, _lineThumbnailPath : str, _categoryPath : str) -> bool"
+  },
+  "AddPatternAnnotation": {
+   "ingroup": "PATTERN_API",
+   "signature": "AddPatternAnnotation(patternIndex : int, posX : float, posY : float, annotation : str) -> None"
+  },
+  "AddPinsForFabricValidation": {
+   "ingroup": "UTILITY_API",
+   "signature": "AddPinsForFabricValidation(size1 : float, size2 : float, size3 : float, size4 : float) -> bool"
+  },
+  "AddPlugInFromFile": {
+   "ingroup": "UTILITY_API",
+   "signature": "AddPlugInFromFile(_filePath : str) -> None"
+  },
+  "AddSeamlinePairGroup": {
+   "ingroup": "PATTERN_API",
+   "overloads": [
+    "AddSeamlinePairGroup(_patternAIndex : int, _lineAIndex : int, _patternBIndex : int, _lineBIndex : int, _directionA : bool, _directionB : bool) -> bool",
+    "AddSeamlinePairGroup(_patternAIndex : int, _lineAIndex : int, _patternBIndex : int, _childIndex : int, _lineBIndex : int, _directionA : bool, _directionB : bool) -> bool",
+    "AddSeamlinePairGroup(_patternAIndex : int, _childAIndex : int, _lineAIndex : int, _patternBIndex : int, _childBIndex : int, _lineBIndex : int, _directionA : bool, _directionB : bool) -> bool"
+   ],
+   "signature": "AddSeamlinePairGroup(_patternAIndex : int, _lineAIndex : int, _patternBIndex : int, _lineBIndex : int, _directionA : bool, _directionB : bool) -> bool"
+  },
+  "AddSeamlineTopstitch": {
+   "ingroup": "PATTERN_API",
+   "signature": "AddSeamlineTopstitch(_seamlinePairGroupIndex : int, _startRatio : float, _endRatio : float, _topStichStyleIndex : int) -> bool"
+  },
+  "AddSegmentTopstitch": {
+   "ingroup": "PATTERN_API",
+   "signature": "AddSegmentTopstitch(_patternIndex : int, _lineIndex : int, _topStitchStyleIndex : int) -> bool"
+  },
+  "AddStyleToCategory": {
+   "ingroup": "UTILITY_API",
+   "signature": "AddStyleToCategory(_styleName : str, _styleThumbnailPath : str, _categoryPath : str, _lineName : str) -> bool"
+  },
+  "AddTextureToPatterns": {
+   "ingroup": null,
+   "signature": "AddTextureToPatterns(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int, _styleChipIndex : int, _aopMode : int, _materialSide : int) -> str"
+  },
+  "AddUserCustomLibraryFolder": {
+   "ingroup": "UTILITY_API",
+   "signature": "AddUserCustomLibraryFolder(libraryIndex : int, folderPath : str) -> bool"
+  },
+  "AddUserCustomLibraryFolderW": {
+   "ingroup": "UTILITY_API",
+   "signature": "AddUserCustomLibraryFolderW(libraryIndex : int, folderPath : str) -> bool"
+  },
+  "AlignAvatarsAndGarmentToCenter": {
+   "ingroup": "UTILITY_API",
+   "signature": "AlignAvatarsAndGarmentToCenter() -> None"
+  },
+  "ApplyXtexFile": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ApplyXtexFile(fabricIndex : int, xTexFilePath : str) -> bool",
+    "ApplyXtexFile(_colorwayIndex : int, _fabricIndex : int, _xTexFilePath : str) -> bool"
+   ],
+   "signature": "ApplyXtexFile(fabricIndex : int, xTexFilePath : str) -> bool"
+  },
+  "ApplyXtexFileW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ApplyXtexFileW(fabricIndex : int, xTexFilePath : str) -> bool",
+    "ApplyXtexFileW(_colorwayIndex : int, _fabricIndex : int, _xTexFilePath : str) -> bool"
+   ],
+   "signature": "ApplyXtexFileW(fabricIndex : int, xTexFilePath : str) -> bool"
+  },
+  "AssignFabricToPattern": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "AssignFabricToPattern(_fabricIndex : int, _patternIndex : int, _assignOption : int) -> bool",
+    "AssignFabricToPattern(_colorwayIndex : int, _fabricIndex : int, _patternIndex : int, _assignOption : int) -> bool"
+   ],
+   "signature": "AssignFabricToPattern(_fabricIndex : int, _patternIndex : int, _assignOption : int) -> bool"
+  },
+  "AttachPatternToAvatarMeasure": {
+   "ingroup": "PATTERN_API",
+   "signature": "AttachPatternToAvatarMeasure(_patternIndex : int, _lineIndex : int, _avatarMeasureName : str) -> str"
+  },
+  "AutoGenerateFabricDisplacementMap": {
+   "ingroup": "FABRIC_API",
+   "signature": "AutoGenerateFabricDisplacementMap(_fabricIndex : int, _colorwayIndex : int) -> None"
+  },
+  "AutoGenerateFabricNormalMap": {
+   "ingroup": "FABRIC_API",
+   "signature": "AutoGenerateFabricNormalMap(_fabricIndex : int, _colorwayIndex : int) -> None"
+  },
+  "AutoGenerateFabricOpacityMap": {
+   "ingroup": "FABRIC_API",
+   "signature": "AutoGenerateFabricOpacityMap(_fabricIndex : int, _colorwayIndex : int) -> None"
+  },
+  "AutoGenerateFabricRoughnessMap": {
+   "ingroup": "FABRIC_API",
+   "signature": "AutoGenerateFabricRoughnessMap(_fabricIndex : int, _colorwayIndex : int) -> None"
+  },
+  "AutoGenerateGraphicDisplacementMap": {
+   "ingroup": "UTILITY_API",
+   "signature": "AutoGenerateGraphicDisplacementMap(_graphicIndex : int, _colorwayIndex : int) -> None"
+  },
+  "AutoGenerateGraphicNormalMap": {
+   "ingroup": "UTILITY_API",
+   "signature": "AutoGenerateGraphicNormalMap(_graphicIndex : int, _colorwayIndex : int) -> None"
+  },
+  "AutoGenerateGraphicOpacityMap": {
+   "ingroup": "UTILITY_API",
+   "signature": "AutoGenerateGraphicOpacityMap(_graphicIndex : int, _colorwayIndex : int) -> None"
+  },
+  "AutoGenerateGraphicRoughnessMap": {
+   "ingroup": "UTILITY_API",
+   "signature": "AutoGenerateGraphicRoughnessMap(_graphicIndex : int, _colorwayIndex : int) -> None"
+  },
+  "AutoHang": {
+   "ingroup": "UTILITY_API",
+   "signature": "AutoHang(_garmentPath : str, _hangerPath : str, _hangerType : int, _hangerImportOption : ImportExportOption) -> bool"
+  },
+  "BakeUVTexture": {
+   "ingroup": "UTILITY_API",
+   "signature": "BakeUVTexture(_filePath : str, _options : ImportExportOption, _bAll : bool) -> list[str]"
+  },
+  "BakeUVTextureW": {
+   "ingroup": "UTILITY_API",
+   "signature": "BakeUVTextureW(_filePath : str, _options : ImportExportOption, _bAll : bool) -> list[str]"
+  },
+  "CallRESTGet": {
+   "ingroup": null,
+   "signature": "CallRESTGet(url : str, headerNameAndValueList : list[std::pair[str, str]], progressBarText : str) -> str"
+  },
+  "CallRESTPost": {
+   "ingroup": "REST_API",
+   "signature": "CallRESTPost(url : str, postField : str, headerNameAndValueList : list[std::pair[str, str]], progressBarText : str) -> str"
+  },
+  "CallRESTPost2": {
+   "ingroup": "REST_API",
+   "signature": "CallRESTPost2(url : str, postField : char, sizeInByte : int, headerNameAndValueList : list[std::pair[str, str]], progressBarText : str) -> str"
+  },
+  "CallRESTPostWithMultipartFormData": {
+   "ingroup": "REST_API",
+   "overloads": [
+    "CallRESTPostWithMultipartFormData(url : str, filePath : str, headerNameAndValueList : list[std::pair[str, str]], progressBarText : str) -> str",
+    "CallRESTPostWithMultipartFormData(url : str, filePathList : list[str], headerNameAndValueList : list[std::pair[str, str]], progressBarText : str) -> str"
+   ],
+   "signature": "CallRESTPostWithMultipartFormData(url : str, filePath : str, headerNameAndValueList : list[std::pair[str, str]], progressBarText : str) -> str"
+  },
+  "CallRESTPut": {
+   "ingroup": "REST_API",
+   "signature": "CallRESTPut(restReq : CloApiRestRequest, progressBarText : str) -> str"
+  },
+  "CallbackRestMultiRequest": {
+   "ingroup": "REST_API",
+   "signature": "CallbackRestMultiRequest(restRequests : list[CloApiRestRequest], callbackFunc : std::function[None (CloApiRestResponse)], callbackFinished : std::function[None()]) -> None"
+  },
+  "CallbackRestRequest": {
+   "ingroup": "REST_API",
+   "signature": "CallbackRestRequest(restRequest : CloApiRestRequest, callbackFunc : std::function[None (CloApiRestResponse)]) -> None"
+  },
+  "ChangeFabricWithJson": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ChangeFabricWithJson(fabricIndex : int, inputJsonFilePath : str) -> bool",
+    "ChangeFabricWithJson(_colorwayIndex : int, _fabricIndex : int, _inputJsonFilePath : str) -> bool"
+   ],
+   "signature": "ChangeFabricWithJson(fabricIndex : int, inputJsonFilePath : str) -> bool"
+  },
+  "ChangeFabricWithJsonW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ChangeFabricWithJsonW(fabricIndex : int, inputJsonFilePath : str) -> bool",
+    "ChangeFabricWithJsonW(_colorwayIndex : int, _fabricIndex : int, _inputJsonFilePath : str) -> bool"
+   ],
+   "signature": "ChangeFabricWithJsonW(fabricIndex : int, inputJsonFilePath : str) -> bool"
+  },
+  "ChangeGradingSizeInformation": {
+   "ingroup": "PATTERN_API",
+   "overloads": [
+    "ChangeGradingSizeInformation(_gradingSizeGroupName : str, _gradingSizeName : str) -> bool",
+    "ChangeGradingSizeInformation(_gradingSizeGroupIndex : int, _gradingSizeIndex : int) -> bool"
+   ],
+   "signature": "ChangeGradingSizeInformation(_gradingSizeGroupName : str, _gradingSizeName : str) -> bool"
+  },
+  "ChangeMetaDataValueForCurrentGarment": {
+   "ingroup": "UTILITY_API",
+   "signature": "ChangeMetaDataValueForCurrentGarment(metaDataKey : str, metaDataValue : str) -> None"
+  },
+  "ChangeMetaDataValueForFabric": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ChangeMetaDataValueForFabric(fabricIndex : int, metaDataKey : str, metaDataValue : str) -> None",
+    "ChangeMetaDataValueForFabric(_colorwayIndex : int, _fabricIndex : int, _metaDataKey : str, _metaDataValue : str) -> None"
+   ],
+   "signature": "ChangeMetaDataValueForFabric(fabricIndex : int, metaDataKey : str, metaDataValue : str) -> None"
+  },
+  "ChangeMetaDataValueForFabricW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ChangeMetaDataValueForFabricW(fabricIndex : int, metaDataKey : str, metaDataValue : str) -> None",
+    "ChangeMetaDataValueForFabricW(_colorwayIndex : int, _fabricIndex : int, _metaDataKey : str, _metaDataValue : str) -> None"
+   ],
+   "signature": "ChangeMetaDataValueForFabricW(fabricIndex : int, metaDataKey : str, metaDataValue : str) -> None"
+  },
+  "CheckZPRJForUnsavedChanges": {
+   "ingroup": null,
+   "signature": "CheckZPRJForUnsavedChanges() -> bool"
+  },
+  "CleanFilePath": {
+   "ingroup": "UTILITY_API",
+   "signature": "CleanFilePath(_filePath : str) -> CleanedPathResult"
+  },
+  "CombineZfab": {
+   "ingroup": "FABRIC_API",
+   "signature": "CombineZfab(_filePath : str, _baseZfabPath : str, _targetZfabPath : str) -> None"
+  },
+  "ConvertPatternJSONToCPX": {
+   "ingroup": "PATTERN_API",
+   "signature": "ConvertPatternJSONToCPX(_jsonPath : str, _cpxPath : str) -> bool"
+  },
+  "ConvertToBaseLine": {
+   "ingroup": "PATTERN_API",
+   "signature": "ConvertToBaseLine(_patternIndex : int, _childrenIndex : int) -> None"
+  },
+  "ConvertToInternalLine": {
+   "ingroup": "PATTERN_API",
+   "signature": "ConvertToInternalLine(_patternIndex : int, _childrenIndex : int) -> None"
+  },
+  "ConvertZblcToZmod": {
+   "ingroup": "EXPORT_API",
+   "signature": "ConvertZblcToZmod(_zblcFilePathList : list[str], _saveDirPath : str, _categoryName : str, _styleName : str, _lineName : str) -> list[str]"
+  },
+  "CopyColorway": {
+   "ingroup": "UTILITY_API",
+   "signature": "CopyColorway(index : int, _colorwayCopyOption : int) -> int"
+  },
+  "CopyFromFirstClothCache": {
+   "ingroup": "UTILITY_API",
+   "signature": "CopyFromFirstClothCache() -> None"
+  },
+  "CopyGraphicStyle": {
+   "ingroup": "UTILITY_API",
+   "signature": "CopyGraphicStyle(_graphicStyleIndex : int) -> int"
+  },
+  "CopyPatternPieceMove": {
+   "ingroup": "PATTERN_API",
+   "signature": "CopyPatternPieceMove(_patternPieceIndex : int, _offsetX : float, _offsetY : float) -> int"
+  },
+  "CopyPatternPiecePos": {
+   "ingroup": "PATTERN_API",
+   "signature": "CopyPatternPiecePos(_patternPieceIndex : int, _x : float, _y : float) -> int"
+  },
+  "CreateBaseShapeWithPoints": {
+   "ingroup": null,
+   "signature": "CreateBaseShapeWithPoints(_patternIndex : int, _points : list[tuple[float, float, int]], _isClosed : bool) -> int"
+  },
+  "CreateInternalShapeWithPoints": {
+   "ingroup": null,
+   "signature": "CreateInternalShapeWithPoints(_patternIndex : int, _points : list[tuple[float, float, int]], _isClosed : bool) -> int"
+  },
+  "CreateModularCategory": {
+   "ingroup": "UTILITY_API",
+   "signature": "CreateModularCategory(_title : str, _folderPath : str) -> None"
+  },
+  "CreatePatternWithPoints": {
+   "ingroup": null,
+   "signature": "CreatePatternWithPoints(_points : list[tuple[float, float, int]]) -> int"
+  },
+  "CreateProgressBar": {
+   "ingroup": "UTILITY_API",
+   "signature": "CreateProgressBar() -> None"
+  },
+  "CreateUserCustomLibrary": {
+   "ingroup": "UTILITY_API",
+   "signature": "CreateUserCustomLibrary() -> int"
+  },
+  "CreateZfabFromTextures": {
+   "ingroup": "FABRIC_API",
+   "signature": "CreateZfabFromTextures(_filePath : str, _baseTexturePath : str, _normalTexturePath : str, _disPlacementTexturePath : str, _opacityTexturePath : str, _roughnessTexturePath : str, _metalnessTexturePath : str) -> bool"
+  },
+  "CurrentlyThemeInCLO": {
+   "ingroup": "UTILITY_API",
+   "signature": "CurrentlyThemeInCLO() -> CloTheme"
+  },
+  "CutPatternAlongInternalShapes": {
+   "ingroup": "PATTERN_API",
+   "signature": "CutPatternAlongInternalShapes(_patternIndex : int, _internalShapeIndex : int, _bCutAndSew : bool) -> bool"
+  },
+  "DeleteAvatar": {
+   "ingroup": "UTILITY_API",
+   "signature": "DeleteAvatar(_avatarIndexList : list[int]) -> bool"
+  },
+  "DeleteColorSwatchLibraryTabByName": {
+   "ingroup": "UTILITY_API",
+   "signature": "DeleteColorSwatchLibraryTabByName(tabName : str, bCaseInsensitive : bool) -> bool"
+  },
+  "DeleteColorSwatchListItem": {
+   "ingroup": "UTILITY_API",
+   "signature": "DeleteColorSwatchListItem(tabName : str, index : int) -> bool"
+  },
+  "DeleteColorwayItem": {
+   "ingroup": "UTILITY_API",
+   "signature": "DeleteColorwayItem(_index : int) -> None"
+  },
+  "DeleteFabric": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "DeleteFabric(fabricIndex : int) -> bool",
+    "DeleteFabric(_colorwayIndex : int, _fabricIndex : int) -> bool"
+   ],
+   "signature": "DeleteFabric(fabricIndex : int) -> bool"
+  },
+  "DeleteFabricDisplacementMap": {
+   "ingroup": "FABRIC_API",
+   "signature": "DeleteFabricDisplacementMap(_fabricIndex : int, _colorwayIndex : int) -> None"
+  },
+  "DeleteFabricNormalMap": {
+   "ingroup": "FABRIC_API",
+   "signature": "DeleteFabricNormalMap(_fabricIndex : int, _colorwayIndex : int) -> None"
+  },
+  "DeleteFabricOpacityMap": {
+   "ingroup": "FABRIC_API",
+   "signature": "DeleteFabricOpacityMap(_fabricIndex : int, _colorwayIndex : int) -> None"
+  },
+  "DeleteFabricRoughnessMap": {
+   "ingroup": "FABRIC_API",
+   "signature": "DeleteFabricRoughnessMap(_fabricIndex : int, _colorwayIndex : int) -> None"
+  },
+  "DeleteGraphicDisplacementMap": {
+   "ingroup": "UTILITY_API",
+   "signature": "DeleteGraphicDisplacementMap(_graphicIndex : int, _colorwayIndex : int) -> None"
+  },
+  "DeleteGraphicNormalMap": {
+   "ingroup": "UTILITY_API",
+   "signature": "DeleteGraphicNormalMap(_graphicIndex : int, _colorwayIndex : int) -> None"
+  },
+  "DeleteGraphicOpacityMap": {
+   "ingroup": "UTILITY_API",
+   "signature": "DeleteGraphicOpacityMap(_graphicIndex : int, _colorwayIndex : int) -> None"
+  },
+  "DeleteGraphicRoughnessMap": {
+   "ingroup": "UTILITY_API",
+   "signature": "DeleteGraphicRoughnessMap(_graphicIndex : int, _colorwayIndex : int) -> None"
+  },
+  "DeleteLine": {
+   "ingroup": "PATTERN_API",
+   "signature": "DeleteLine(_patternIndex : int, _lineIndex : int) -> None"
+  },
+  "DeleteModularCategory": {
+   "ingroup": "UTILITY_API",
+   "signature": "DeleteModularCategory(_categoryPath : str) -> None"
+  },
+  "DeletePatternPiece": {
+   "ingroup": "PATTERN_API",
+   "signature": "DeletePatternPiece(_patternIndex : int) -> None"
+  },
+  "DeletePoint": {
+   "ingroup": "PATTERN_API",
+   "signature": "DeletePoint(_patternIndex : int, _pointIndex : int) -> None"
+  },
+  "DeleteProgressBar": {
+   "ingroup": "UTILITY_API",
+   "signature": "DeleteProgressBar(bForce : bool) -> None"
+  },
+  "DeleteUserCustomLibrary": {
+   "ingroup": "UTILITY_API",
+   "signature": "DeleteUserCustomLibrary(index : int) -> bool"
+  },
+  "DeleteUserCustomLibraryFolder": {
+   "ingroup": "UTILITY_API",
+   "signature": "DeleteUserCustomLibraryFolder(libraryIndex : int, index : int) -> bool"
+  },
+  "DeleteWidgets": {
+   "ingroup": null,
+   "signature": "DeleteWidgets() -> None"
+  },
+  "DisplayMessageBox": {
+   "ingroup": "UTILITY_API",
+   "signature": "DisplayMessageBox(str : str) -> None"
+  },
+  "DisplayMessageBoxW": {
+   "ingroup": "UTILITY_API",
+   "signature": "DisplayMessageBoxW(str : str) -> None"
+  },
+  "DistribueInternalLinesbetweenSegments": {
+   "ingroup": "PATTERN_API",
+   "signature": "DistribueInternalLinesbetweenSegments(_patternIndex : int, _lineIndexs : list[int], _number : int, _bStraightLine : bool, _bPerpendicularDirection : bool, _bGraduateSegmentLengths : bool) -> None"
+  },
+  "DrawInternalLinesAroundGraphic": {
+   "ingroup": "UTILITY_API",
+   "signature": "DrawInternalLinesAroundGraphic(_patternIndex : int, _placementPoints : CloApiGraphicPlacementPoints) -> CloApiInternalShape"
+  },
+  "EditPatternAnnotation": {
+   "ingroup": "PATTERN_API",
+   "signature": "EditPatternAnnotation(patternIndex : int, posX : float, posY : float, annotationIndex : int, annotation : str) -> None"
+  },
+  "ExportAVT": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportAVT(_filePath : str) -> str"
+  },
+  "ExportAVTW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportAVTW(_filePath : str) -> str"
+  },
+  "ExportAlembic": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportAlembic(_filePath : str, _options : ImportExportOption) -> list[str]"
+  },
+  "ExportAlembicW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportAlembicW(_filePath : str, _options : ImportExportOption) -> list[str]"
+  },
+  "ExportAnimationVideo": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportAnimationVideo() -> str",
+    "ExportAnimationVideo(_filePath : str) -> str",
+    "ExportAnimationVideo(_options : VideoExportOption) -> str",
+    "ExportAnimationVideo(_filePath : str, _options : VideoExportOption) -> str"
+   ],
+   "signature": "ExportAnimationVideo() -> str"
+  },
+  "ExportAnimationVideoW": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportAnimationVideoW(_filePath : str) -> str",
+    "ExportAnimationVideoW(_filePath : str, _options : VideoExportOption) -> str"
+   ],
+   "signature": "ExportAnimationVideoW(_filePath : str) -> str"
+  },
+  "ExportBOM": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportBOM(_filePath : str) -> bool"
+  },
+  "ExportBOMW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportBOMW(_filePath : str) -> bool"
+  },
+  "ExportColorwayEditorImage": {
+   "ingroup": "UTILITY_API",
+   "signature": "ExportColorwayEditorImage(_filePath : str, _scale : int) -> bool"
+  },
+  "ExportCustomViewImage": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportCustomViewImage(_zcmrFileUrl : str, _outputFolderPath : str, _colorwayIndex : int, _width : int, _height : int) -> str"
+  },
+  "ExportCustomViewImageForAllColorways": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportCustomViewImageForAllColorways(_zcmrFileUrl : str, _outputFolderPath : str, _width : int, _height : int) -> str"
+  },
+  "ExportCustomViewSnapshot": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportCustomViewSnapshot(_targetFolderPath : str, _width : int, _height : int, _outputPrefix : str) -> list [ str ]"
+  },
+  "ExportCustomViewSnapshotW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportCustomViewSnapshotW(_targetFolderPath : str, _width : int, _height : int, _outputPrefix : str) -> list [ str ]"
+  },
+  "ExportDXF": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportDXF() -> str",
+    "ExportDXF(_filePath : str) -> str",
+    "ExportDXF(_filePath : str, _exportOption : ExportDxfOption) -> str"
+   ],
+   "signature": "ExportDXF() -> str"
+  },
+  "ExportDXFW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportDXFW(_filePath : str, _exportOption : ExportDxfOption) -> str"
+  },
+  "ExportFBX": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportFBX(_options : ImportExportOption) -> list[str]",
+    "ExportFBX(_filePath : str, _options : ImportExportOption) -> list[str]"
+   ],
+   "signature": "ExportFBX(_options : ImportExportOption) -> list[str]"
+  },
+  "ExportFBXW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportFBXW(_filePath : str, _options : ImportExportOption) -> list[str]"
+  },
+  "ExportFabric": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ExportFabric(filePath : str) -> str",
+    "ExportFabric(filePath : str, index : int) -> str",
+    "ExportFabric(_filePath : str, _colorwayIndex : int, _fabricIndex : int) -> str"
+   ],
+   "signature": "ExportFabric(filePath : str) -> str"
+  },
+  "ExportFabricW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ExportFabricW(filePath : str, index : int) -> str",
+    "ExportFabricW(_filePath : str, _colorwayIndex : int, _fabricIndex : int) -> str"
+   ],
+   "signature": "ExportFabricW(filePath : str, index : int) -> str"
+  },
+  "ExportGLB": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportGLB(_filePath : str, _options : ImportExportOption) -> list[str]"
+  },
+  "ExportGLBW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportGLBW(_filePath : str, _options : ImportExportOption) -> list[str]"
+  },
+  "ExportGLBWithDialog": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportGLBWithDialog(_filePath : str) -> list[str]"
+  },
+  "ExportGLTF": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportGLTF(_filePath : str, _options : ImportExportOption, _bGLBinary : bool) -> list[str]"
+  },
+  "ExportGLTFAsFabric": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ExportGLTFAsFabric() -> list[str]",
+    "ExportGLTFAsFabric(_filePath : str) -> list[str]",
+    "ExportGLTFAsFabric(_filePath : str, index : int) -> list[str]"
+   ],
+   "signature": "ExportGLTFAsFabric() -> list[str]"
+  },
+  "ExportGLTFAsFabricW": {
+   "ingroup": "FABRIC_API",
+   "signature": "ExportGLTFAsFabricW(_filePath : str, index : int) -> list[str]"
+  },
+  "ExportGLTFW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportGLTFW(_filePath : str, _options : ImportExportOption, _bGLBinary : bool) -> list[str]"
+  },
+  "ExportGLTFWithDialog": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportGLTFWithDialog(_filePath : str, _bGLBinary : bool) -> list[str]"
+  },
+  "ExportGarmentInformation": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportGarmentInformation() -> str",
+    "ExportGarmentInformation(_filePath : str) -> str"
+   ],
+   "signature": "ExportGarmentInformation() -> str"
+  },
+  "ExportGarmentInformationConfigData": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportGarmentInformationConfigData() -> str",
+    "ExportGarmentInformationConfigData(_filePath : str) -> str"
+   ],
+   "signature": "ExportGarmentInformationConfigData() -> str"
+  },
+  "ExportGarmentInformationConfigDataToStream": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportGarmentInformationConfigDataToStream() -> str"
+  },
+  "ExportGarmentInformationConfigDataToStreamW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportGarmentInformationConfigDataToStreamW() -> str"
+  },
+  "ExportGarmentInformationConfigDataW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportGarmentInformationConfigDataW(_filePath : str) -> str"
+  },
+  "ExportGarmentInformationToStream": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportGarmentInformationToStream() -> str"
+  },
+  "ExportGarmentInformationToStreamW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportGarmentInformationToStreamW() -> str"
+  },
+  "ExportGarmentInformationW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportGarmentInformationW(_filePath : str) -> str"
+  },
+  "ExportMVSData": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportMVSData(_mvsFilePath : str) -> str"
+  },
+  "ExportMaskSnapshot3D": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportMaskSnapshot3D(_filePath : str, _exportOption : ExportTechpackOption) -> list[ list [ str] ]"
+  },
+  "ExportMultiViewImages": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportMultiViewImages(_mvsFilePath : str, _outputFilePath : str, _colorwayIndex : int, _width : int, _height : int) -> str"
+  },
+  "ExportMultiViewImagesForAllColorways": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportMultiViewImagesForAllColorways(_mvsFilePath : str, _outputFilePath : str, _width : int, _height : int) -> str"
+  },
+  "ExportOBJ": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportOBJ() -> list[str]",
+    "ExportOBJ(_filePath : str) -> list[str]",
+    "ExportOBJ(_options : ImportExportOption) -> list[str]",
+    "ExportOBJ(_filePath : str, _options : ImportExportOption) -> list[str]"
+   ],
+   "signature": "ExportOBJ() -> list[str]"
+  },
+  "ExportOBJW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportOBJW(_filePath : str, _options : ImportExportOption) -> list[str]"
+  },
+  "ExportObjectBrowserMaterialsList": {
+   "ingroup": "PATTERN_API",
+   "signature": "ExportObjectBrowserMaterialsList() -> str"
+  },
+  "ExportPOM": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportPOM() -> str",
+    "ExportPOM(_filePath : str) -> str",
+    "ExportPOM(_bInclude3DLength : bool) -> str",
+    "ExportPOM(_bInclude3DLength : bool, _filePath : str) -> str"
+   ],
+   "signature": "ExportPOM() -> str"
+  },
+  "ExportPOMW": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportPOMW(_filePath : str) -> str",
+    "ExportPOMW(_bInclude3DLength : bool, _filePath : str) -> str"
+   ],
+   "signature": "ExportPOMW(_filePath : str) -> str"
+  },
+  "ExportPatternCPX": {
+   "ingroup": "PATTERN_API",
+   "signature": "ExportPatternCPX(_path : str) -> bool"
+  },
+  "ExportPatternJSON": {
+   "ingroup": "PATTERN_API",
+   "signature": "ExportPatternJSON(_path : str) -> bool"
+  },
+  "ExportPose": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportPose() -> str",
+    "ExportPose(_filePath : str) -> str"
+   ],
+   "signature": "ExportPose() -> str"
+  },
+  "ExportPoseW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportPoseW(_filePath : str) -> str"
+  },
+  "ExportRenderingImage": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportRenderingImage(_filePath : str, _bRenderAllColorways : bool, _startIndex : int) -> list[ list [ str ] ]",
+    "ExportRenderingImage(_filePath : str, _startIndex : int) -> list[ list [ str ] ]",
+    "ExportRenderingImage(_bRenderAllColorways : bool, _startIndex : int) -> list[ list [ str ] ]"
+   ],
+   "signature": "ExportRenderingImage(_filePath : str, _bRenderAllColorways : bool, _startIndex : int) -> list[ list [ str ] ]"
+  },
+  "ExportRenderingImageW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportRenderingImageW(_filePath : str, _bRenderAllColorways : bool, _startIndex : int) -> list[ list [ str ] ]"
+  },
+  "ExportSingleColorwayRenderingImage": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportSingleColorwayRenderingImage(_filePath : str, _colorwayIndex : int, _startIndex : int) -> list [ str ]",
+    "ExportSingleColorwayRenderingImage(_colorwayIndex : int, _startIndex : int) -> list [ str ]"
+   ],
+   "signature": "ExportSingleColorwayRenderingImage(_filePath : str, _colorwayIndex : int, _startIndex : int) -> list [ str ]"
+  },
+  "ExportSingleColorwayRenderingImageW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportSingleColorwayRenderingImageW(_filePath : str, _colorwayIndex : int, _startIndex : int) -> list [ str ]"
+  },
+  "ExportSnapshot2D": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportSnapshot2D(_filePath : str, SnapShotMode : int) -> list[str]"
+  },
+  "ExportSnapshot3D": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportSnapshot3D(_filePath : str) -> list[ list [ str ] ]",
+    "ExportSnapshot3D() -> list[ list [ str ] ]"
+   ],
+   "signature": "ExportSnapshot3D(_filePath : str) -> list[ list [ str ] ]"
+  },
+  "ExportSnapshot3DW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportSnapshot3DW(_filePath : str) -> list[ list [ str ] ]"
+  },
+  "ExportStdViewImage": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportStdViewImage(_viewIndex : int, _outputFolderPath : str, _colorwayIndex : int, _width : int, _height : int) -> str"
+  },
+  "ExportStdViewImageForAllColorways": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportStdViewImageForAllColorways(_viewIndex : int, _outputFolderPath : str, _width : int, _height : int) -> str"
+  },
+  "ExportTechPack": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportTechPack(_filePath : str, _exportOption : ExportTechpackOption) -> None"
+  },
+  "ExportTechPackToStream": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportTechPackToStream(_outputImageFolderPath : str) -> str"
+  },
+  "ExportTechPackToStreamW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportTechPackToStreamW(_outputImageFolderPath : str) -> str"
+  },
+  "ExportTechPackW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportTechPackW(_filepath : str, _exportOption : ExportTechpackOption) -> None"
+  },
+  "ExportThumbnail3D": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportThumbnail3D() -> str",
+    "ExportThumbnail3D(_filePath : str) -> str"
+   ],
+   "signature": "ExportThumbnail3D() -> str"
+  },
+  "ExportThumbnail3DByColorwayIndex": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportThumbnail3DByColorwayIndex(_colorwayIndex : int) -> str",
+    "ExportThumbnail3DByColorwayIndex(_filePath : str, _colorwayIndex : int) -> str"
+   ],
+   "signature": "ExportThumbnail3DByColorwayIndex(_colorwayIndex : int) -> str"
+  },
+  "ExportThumbnail3DW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportThumbnail3DW(_filePath : str) -> str"
+  },
+  "ExportThumbnail3DWByColorwayIndexW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportThumbnail3DWByColorwayIndexW(_filePath : str, _colorwayIndex : int) -> str"
+  },
+  "ExportTopStitchStyle": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportTopStitchStyle(_filePath : str, _topStitchIndex : int) -> str"
+  },
+  "ExportTrim": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportTrim(_filePath : str, _trimStyleIndex : int) -> str"
+  },
+  "ExportTurntableImages": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportTurntableImages(_numberOfImages : int) -> list[str]",
+    "ExportTurntableImages(_filePath : str, _numberOfImages : int, _width : int, _height : int, _startIndex : int) -> list[str]"
+   ],
+   "signature": "ExportTurntableImages(_numberOfImages : int) -> list[str]"
+  },
+  "ExportTurntableImagesByColorwayIndex": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportTurntableImagesByColorwayIndex(_numberOfImages : int, _colorwayIndex : int) -> list[str]",
+    "ExportTurntableImagesByColorwayIndex(_filePath : str, _numberOfImages : int, _colorwayIndex : int, _width : int, _height : int) -> list[str]"
+   ],
+   "signature": "ExportTurntableImagesByColorwayIndex(_numberOfImages : int, _colorwayIndex : int) -> list[str]"
+  },
+  "ExportTurntableImagesByColorwayIndexW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportTurntableImagesByColorwayIndexW(_filePath : str, _numberOfImages : int, _colorwayIndex : int, _width : int, _height : int) -> list[str]"
+  },
+  "ExportTurntableImagesW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportTurntableImagesW(_filePath : str, _numberOfImages : int, _width : int, _height : int, _startIndex : int) -> list[str]"
+  },
+  "ExportTurntableVideo": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportTurntableVideo() -> str",
+    "ExportTurntableVideo(_filePath : str) -> str"
+   ],
+   "signature": "ExportTurntableVideo() -> str"
+  },
+  "ExportTurntableVideoW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportTurntableVideoW(_filePath : str) -> str"
+  },
+  "ExportUSD": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportUSD(_options : ImportExportOption, _usdOptions : ExportUSDOption) -> list[str]",
+    "ExportUSD(_filePath : str, _options : ImportExportOption, _usdOptions : ExportUSDOption) -> list[str]"
+   ],
+   "signature": "ExportUSD(_options : ImportExportOption, _usdOptions : ExportUSDOption) -> list[str]"
+  },
+  "ExportUSDW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportUSDW(_filePath : str, _options : ImportExportOption, _usdOptions : ExportUSDOption) -> list[str]"
+  },
+  "ExportZCMR": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportZCMR(_folderPath : str) -> list[str]"
+  },
+  "ExportZFab": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ExportZFab() -> str",
+    "ExportZFab(filePath : str) -> str",
+    "ExportZFab(filePath : str, index : int) -> str",
+    "ExportZFab(_filePath : str, _colorwayIndex : int, _fabricIndex : int) -> str"
+   ],
+   "signature": "ExportZFab() -> str"
+  },
+  "ExportZFabW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ExportZFabW(filePath : str, index : int) -> str",
+    "ExportZFabW(_filePath : str, _colorwayIndex : int, _fabricIndex : int) -> str"
+   ],
+   "signature": "ExportZFabW(filePath : str, index : int) -> str"
+  },
+  "ExportZPac": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportZPac() -> str",
+    "ExportZPac(_filePath : str) -> str"
+   ],
+   "signature": "ExportZPac() -> str"
+  },
+  "ExportZPacW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportZPacW(_filePath : str) -> str"
+  },
+  "ExportZPrj": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "ExportZPrj() -> str",
+    "ExportZPrj(_filePath : str) -> str",
+    "ExportZPrj(_filePath : str, _bCreateThumbnail : bool) -> str"
+   ],
+   "signature": "ExportZPrj() -> str"
+  },
+  "ExportZPrjW": {
+   "ingroup": "EXPORT_API",
+   "signature": "ExportZPrjW(_filePath : str, _bCreateThumbnail : bool) -> str"
+  },
+  "ExtractSBSARInputToJson": {
+   "ingroup": "FABRIC_API",
+   "signature": "ExtractSBSARInputToJson(_fabricIndex : int, _colorwayIndex : int, materialFace : int, _savePath : str) -> str"
+  },
+  "FitAllUV": {
+   "ingroup": "UTILITY_API",
+   "signature": "FitAllUV(x_coordinate : int, y_coordinate : int, _bIsRelative : bool, _marginValue : float) -> None"
+  },
+  "FitPatternUVToUDIM": {
+   "ingroup": "PATTERN_API",
+   "signature": "FitPatternUVToUDIM(_patternIndex : int, _udim : int, _fillRatio : float) -> bool"
+  },
+  "FlipPatternPiece": {
+   "ingroup": "PATTERN_API",
+   "signature": "FlipPatternPiece(_patternIndex : int, _bHorizontally : bool, _bEach : bool) -> None"
+  },
+  "GenerateZcmrFrom3DWindow": {
+   "ingroup": "EXPORT_API",
+   "signature": "GenerateZcmrFrom3DWindow(_filePath : str, _addToList : bool) -> list[str]"
+  },
+  "GenerateZippersFromObj": {
+   "ingroup": "UTILITY_API",
+   "signature": "GenerateZippersFromObj(_outputFilePathWithExt : str, _options : ObjRegisterOptions, _zipperIndex : int) -> bool"
+  },
+  "Get3DGarmentRenderingStyle": {
+   "ingroup": "UTILITY_API",
+   "signature": "Get3DGarmentRenderingStyle() -> int"
+  },
+  "GetAPIMetaData": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetAPIMetaData(fabricIndex : int) -> str",
+    "GetAPIMetaData(_colorwayIndex : int, _fabricIndex : int) -> str",
+    "GetAPIMetaData(filePath : str) -> str"
+   ],
+   "signature": "GetAPIMetaData(fabricIndex : int) -> str"
+  },
+  "GetAPIMetaDataFromFile": {
+   "ingroup": "FABRIC_API",
+   "signature": "GetAPIMetaDataFromFile(filePath : str) -> str"
+  },
+  "GetAPIMetaDataFromFileW": {
+   "ingroup": "FABRIC_API",
+   "signature": "GetAPIMetaDataFromFileW(filePath : str) -> str"
+  },
+  "GetAPIMetaDataW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetAPIMetaDataW(fabricIndex : int) -> str",
+    "GetAPIMetaDataW(_colorwayIndex : int, _fabricIndex : int) -> str",
+    "GetAPIMetaDataW(filePath : str) -> str"
+   ],
+   "signature": "GetAPIMetaDataW(fabricIndex : int) -> str"
+  },
+  "GetAddlThicknessCollisionValue": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetAddlThicknessCollisionValue(_patternIndex : int) -> float"
+  },
+  "GetAllStitchProperty": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetAllStitchProperty() -> str"
+  },
+  "GetAnimationLayerFrameRange": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetAnimationLayerFrameRange(_layerIndex : int) -> std::pair[double, double]"
+  },
+  "GetArrangementList": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetArrangementList() -> list[map[str, str]]"
+  },
+  "GetArrangementOfPattern": {
+   "ingroup": "PATTERN_API",
+   "overloads": [
+    "GetArrangementOfPattern() -> list[map[str, str]]",
+    "GetArrangementOfPattern(_patternIndex : int) -> map[str, str]",
+    "GetArrangementOfPattern(_patternName : str) -> map[str, str]"
+   ],
+   "signature": "GetArrangementOfPattern() -> list[map[str, str]]"
+  },
+  "GetArrangementOfPatternW": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetArrangementOfPatternW(_patternName : str) -> map[str, str]"
+  },
+  "GetAssetIconInCLOFile": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetAssetIconInCLOFile(filePath : str, fileSize : int) -> char*"
+  },
+  "GetAssetShareRoot": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetAssetShareRoot() -> str"
+  },
+  "GetAvatarCount": {
+   "ingroup": "EXPORT_API",
+   "signature": "GetAvatarCount() -> int"
+  },
+  "GetAvatarGenderList": {
+   "ingroup": "EXPORT_API",
+   "signature": "GetAvatarGenderList() -> list[int]"
+  },
+  "GetAvatarMeasurements": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetAvatarMeasurements(_avatarIndex : int) -> list[CloApiAvatarMeasurement]"
+  },
+  "GetAvatarNameList": {
+   "ingroup": "EXPORT_API",
+   "signature": "GetAvatarNameList() -> list[str]"
+  },
+  "GetAvatarNameListW": {
+   "ingroup": "EXPORT_API",
+   "signature": "GetAvatarNameListW() -> list[str]"
+  },
+  "GetAvatarOpacityMaps": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetAvatarOpacityMaps() -> list[str]"
+  },
+  "GetAvatarProperties": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetAvatarProperties(_avatarIndex : int) -> map[str, str]"
+  },
+  "GetAvatarSoftBodyStiffness": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetAvatarSoftBodyStiffness(_avatarIndex : int) -> float"
+  },
+  "GetAvatarSubdivisionLevel": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetAvatarSubdivisionLevel(_avatarIndex : int) -> int"
+  },
+  "GetAvatarTexureMap": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetAvatarTexureMap(_textureType : int) -> list[str]"
+  },
+  "GetBackUVExpansion": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetBackUVExpansion(_patternIndex : int) -> bool"
+  },
+  "GetBasePath": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetBasePath() -> str"
+  },
+  "GetBaseTextureMapImageFilePath": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetBaseTextureMapImageFilePath() -> str",
+    "GetBaseTextureMapImageFilePath(_fabricIndex : int) -> str",
+    "GetBaseTextureMapImageFilePath(_colorwayIndex : int, _fabricIndex : int) -> str",
+    "GetBaseTextureMapImageFilePath(_colorwayIndex : int, _fabricIndex : int, _styleChipIndex : int, _materialFace : int) -> str"
+   ],
+   "signature": "GetBaseTextureMapImageFilePath() -> str"
+  },
+  "GetBaseTextureMapImageFilePathW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetBaseTextureMapImageFilePathW() -> str",
+    "GetBaseTextureMapImageFilePathW(_fabricIndex : int) -> str",
+    "GetBaseTextureMapImageFilePathW(_colorwayIndex : int, _fabricIndex : int) -> str"
+   ],
+   "signature": "GetBaseTextureMapImageFilePathW() -> str"
+  },
+  "GetBoundingBoxOfPattern": {
+   "ingroup": "PATTERN_API",
+   "overloads": [
+    "GetBoundingBoxOfPattern() -> list[map[str, str]]",
+    "GetBoundingBoxOfPattern(_patternIndex : int) -> map[str, str]",
+    "GetBoundingBoxOfPattern(_patternName : str) -> map[str, str]"
+   ],
+   "signature": "GetBoundingBoxOfPattern() -> list[map[str, str]]"
+  },
+  "GetBoundingBoxOfPatternW": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetBoundingBoxOfPatternW(_patternName : str) -> map[str, str]"
+  },
+  "GetButtonGradingPositionOffsets": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetButtonGradingPositionOffsets(_buttonIndex : int) -> list[list[float]]"
+  },
+  "GetButtonHeadStyleColor": {
+   "ingroup": null,
+   "overloads": [
+    "GetButtonHeadStyleColor(_styleIndex : int, _meshIndex : int) -> CloApiRgba",
+    "GetButtonHeadStyleColor(_styleIndex : int, _colorwayIndex : int, _meshIndex : int) -> CloApiRgba"
+   ],
+   "signature": "GetButtonHeadStyleColor(_styleIndex : int, _meshIndex : int) -> CloApiRgba"
+  },
+  "GetButtonHeadStyleListWithIndex": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetButtonHeadStyleListWithIndex() -> str"
+  },
+  "GetButtonHoleGradingPositionOffsets": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetButtonHoleGradingPositionOffsets(_buttonHoleIndex : int) -> list[list[float]]"
+  },
+  "GetButtonHoleStyleColor": {
+   "ingroup": null,
+   "overloads": [
+    "GetButtonHoleStyleColor(_styleIndex : int) -> CloApiRgba",
+    "GetButtonHoleStyleColor(_styleIndex : int, _colorwayIndex : int) -> CloApiRgba"
+   ],
+   "signature": "GetButtonHoleStyleColor(_styleIndex : int) -> CloApiRgba"
+  },
+  "GetCLOAssetFolderPath": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetCLOAssetFolderPath(bLinuxTypePathDelimeter : bool) -> str"
+  },
+  "GetCLOAssetFolderPathW": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetCLOAssetFolderPathW(bLinuxTypePathDelimeter : bool) -> str"
+  },
+  "GetCLOExecutableFolderPath": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetCLOExecutableFolderPath(bLinuxTypePathDelimeter : bool) -> str"
+  },
+  "GetCLOExecutableFolderPathW": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetCLOExecutableFolderPathW(bLinuxTypePathDelimeter : bool) -> str"
+  },
+  "GetCLOTemporaryFolderPath": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetCLOTemporaryFolderPath() -> str"
+  },
+  "GetCLOTemporaryFolderPathW": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetCLOTemporaryFolderPathW() -> str"
+  },
+  "GetClothPositions": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetClothPositions(positions : list[float]) -> None"
+  },
+  "GetColorListForColorWay": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetColorListForColorWay(_colorWayIndex : int) -> list[CloApiRgba]"
+  },
+  "GetColorSwatchLibraryTabList": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetColorSwatchLibraryTabList() -> list[str]"
+  },
+  "GetColorSwatchLibraryTabListW": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetColorSwatchLibraryTabListW() -> list[str]"
+  },
+  "GetColorwayColorItemName": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetColorwayColorItemName(_colorwayIndex : int, _colorItemIndex : int) -> str"
+  },
+  "GetColorwayColorItemPlmId": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetColorwayColorItemPlmId(_colorwayIndex : int, _colorItemIndex : int) -> str"
+  },
+  "GetColorwayColorItemRGB": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetColorwayColorItemRGB(_colorwayIndex : int, _colorItemIndex : int) -> CloApiRgb"
+  },
+  "GetColorwayCount": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "GetColorwayCount() -> int"
+   ],
+   "signature": "GetColorwayCount() -> int"
+  },
+  "GetColorwayFabricInfo": {
+   "ingroup": "FABRIC_API",
+   "signature": "GetColorwayFabricInfo(_colorwayIndex : int, _fabricIndex : int) -> str"
+  },
+  "GetColorwayFabricInfoW": {
+   "ingroup": "FABRIC_API",
+   "signature": "GetColorwayFabricInfoW(_colorwayIndex : int, _fabricIndex : int) -> str"
+  },
+  "GetColorwayName": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetColorwayName(index : int) -> str"
+  },
+  "GetColorwayNameList": {
+   "ingroup": "EXPORT_API",
+   "signature": "GetColorwayNameList() -> list[str]"
+  },
+  "GetColorwayNameListW": {
+   "ingroup": "EXPORT_API",
+   "signature": "GetColorwayNameListW() -> list[str]"
+  },
+  "GetColorwayNameW": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetColorwayNameW(index : int) -> str"
+  },
+  "GetCurrentAnimationFrame": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetCurrentAnimationFrame() -> double"
+  },
+  "GetCurrentColorwayIndex": {
+   "ingroup": "EXPORT_API",
+   "overloads": [
+    "GetCurrentColorwayIndex() -> int"
+   ],
+   "signature": "GetCurrentColorwayIndex() -> int"
+  },
+  "GetCurrentFabricIndex": {
+   "ingroup": "FABRIC_API",
+   "signature": "GetCurrentFabricIndex() -> int"
+  },
+  "GetCurrentGradingSizeIndex": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetCurrentGradingSizeIndex() -> int"
+  },
+  "GetCurrentRenderImagePaths": {
+   "ingroup": "EXPORT_API",
+   "signature": "GetCurrentRenderImagePaths() -> list [ str ]"
+  },
+  "GetCurrentRenderImagePathsW": {
+   "ingroup": "EXPORT_API",
+   "signature": "GetCurrentRenderImagePathsW() -> list [ str ]"
+  },
+  "GetCustomViewInformation": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetCustomViewInformation() -> str"
+  },
+  "GetCustomViewInformationW": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetCustomViewInformationW() -> str"
+  },
+  "GetDisplacementMapImageFilePath": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetDisplacementMapImageFilePath() -> str",
+    "GetDisplacementMapImageFilePath(_fabricIndex : int) -> str",
+    "GetDisplacementMapImageFilePath(_colorwayIndex : int, _fabricIndex : int) -> str",
+    "GetDisplacementMapImageFilePath(_colorwayIndex : int, _fabricIndex : int, _styleChipIndex : int, _materialFace : int) -> str"
+   ],
+   "signature": "GetDisplacementMapImageFilePath() -> str"
+  },
+  "GetDisplacementMapImageFilePathW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetDisplacementMapImageFilePathW() -> str",
+    "GetDisplacementMapImageFilePathW(_fabricIndex : int) -> str",
+    "GetDisplacementMapImageFilePathW(_colorwayIndex : int, _fabricIndex : int) -> str"
+   ],
+   "signature": "GetDisplacementMapImageFilePathW() -> str"
+  },
+  "GetEndAnimationFrame": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetEndAnimationFrame() -> double"
+  },
+  "GetFabricCount": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetFabricCount(_bCurrentColorway : bool) -> int",
+    "GetFabricCount(_colorwayIndex : int) -> int"
+   ],
+   "signature": "GetFabricCount(_bCurrentColorway : bool) -> int"
+  },
+  "GetFabricIndex": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetFabricIndex(fabricName : str) -> int",
+    "GetFabricIndex(_colorwayIndex : int, _fabricName : str) -> int"
+   ],
+   "signature": "GetFabricIndex(fabricName : str) -> int"
+  },
+  "GetFabricIndexForPattern": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetFabricIndexForPattern(patternIndex : int) -> int",
+    "GetFabricIndexForPattern(_patternIndex : int, _colorwayIndex : int) -> int"
+   ],
+   "signature": "GetFabricIndexForPattern(patternIndex : int) -> int"
+  },
+  "GetFabricIndexW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetFabricIndexW(fabricName : str) -> int",
+    "GetFabricIndexW(_colorwayIndex : int, _fabricName : str) -> int"
+   ],
+   "signature": "GetFabricIndexW(fabricName : str) -> int"
+  },
+  "GetFabricInfo": {
+   "ingroup": "FABRIC_API",
+   "signature": "GetFabricInfo(fabricIndex : int) -> str"
+  },
+  "GetFabricInfoW": {
+   "ingroup": "FABRIC_API",
+   "signature": "GetFabricInfoW(fabricIndex : int) -> str"
+  },
+  "GetFabricInformation": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetFabricInformation(_fabricIndex : int) -> map[str, str]",
+    "GetFabricInformation(_colorwayIndex : int, _fabricIndex : int) -> map[str, str]"
+   ],
+   "signature": "GetFabricInformation(_fabricIndex : int) -> map[str, str]"
+  },
+  "GetFabricInformationW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetFabricInformationW(_fabricIndex : int) -> map[str, str]",
+    "GetFabricInformationW(_colorwayIndex : int, _fabricIndex : int) -> map[str, str]"
+   ],
+   "signature": "GetFabricInformationW(_fabricIndex : int) -> map[str, str]"
+  },
+  "GetFabricItemNo": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetFabricItemNo(_fabricIndex : int) -> str",
+    "GetFabricItemNo(_colorwayIndexForFabric : int, _fabricIndex : int) -> str"
+   ],
+   "signature": "GetFabricItemNo(_fabricIndex : int) -> str"
+  },
+  "GetFabricItemNoW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetFabricItemNoW(_fabricIndex : int) -> str",
+    "GetFabricItemNoW(_colorwayIndexForFabric : int, _fabricIndex : int) -> str"
+   ],
+   "signature": "GetFabricItemNoW(_fabricIndex : int) -> str"
+  },
+  "GetFabricLength": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetFabricLength(fabricIndex : int) -> float",
+    "GetFabricLength(_colorwayIndex : int, _fabricIndex : int) -> float"
+   ],
+   "signature": "GetFabricLength(fabricIndex : int) -> float"
+  },
+  "GetFabricName": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetFabricName(fabricIndex : int) -> str",
+    "GetFabricName(_colorwayIndex : int, _fabricIndex : int) -> str"
+   ],
+   "signature": "GetFabricName(fabricIndex : int) -> str"
+  },
+  "GetFabricNameW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetFabricNameW(fabricIndex : int) -> str",
+    "GetFabricNameW(_colorwayIndex : int, _fabricIndex : int) -> str"
+   ],
+   "signature": "GetFabricNameW(fabricIndex : int) -> str"
+  },
+  "GetFabricPBRMaterialBaseColor": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetFabricPBRMaterialBaseColor(fabricIndex : int, materialFace : int) -> tuple[float, float, float, float]",
+    "GetFabricPBRMaterialBaseColor(_colorwayIndex : int, _fabricIndex : int, _materialFace : int) -> tuple[float, float, float, float]"
+   ],
+   "signature": "GetFabricPBRMaterialBaseColor(fabricIndex : int, materialFace : int) -> tuple[float, float, float, float]"
+  },
+  "GetFabricStyleNameList": {
+   "ingroup": "FABRIC_API",
+   "signature": "GetFabricStyleNameList() -> list[str]"
+  },
+  "GetFabricTextureMappingType": {
+   "ingroup": "FABRIC_API",
+   "signature": "GetFabricTextureMappingType(_fabricIndex : int) -> int"
+  },
+  "GetFabricWidth": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetFabricWidth(fabricIndex : int) -> float",
+    "GetFabricWidth(_colorwayIndex : int, _fabricIndex : int) -> float"
+   ],
+   "signature": "GetFabricWidth(fabricIndex : int) -> float"
+  },
+  "GetFileNameOnRenderingProperty": {
+   "ingroup": "EXPORT_API",
+   "signature": "GetFileNameOnRenderingProperty() -> str"
+  },
+  "GetFileNameOnRenderingPropertyW": {
+   "ingroup": "EXPORT_API",
+   "signature": "GetFileNameOnRenderingPropertyW() -> str"
+  },
+  "GetFirstFabricTextureName": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetFirstFabricTextureName() -> str",
+    "GetFirstFabricTextureName(_colorwayIndex : int) -> str"
+   ],
+   "signature": "GetFirstFabricTextureName() -> str"
+  },
+  "GetFirstFabricTextureNameW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetFirstFabricTextureNameW() -> str",
+    "GetFirstFabricTextureNameW(_colorwayIndex : int) -> str"
+   ],
+   "signature": "GetFirstFabricTextureNameW() -> str"
+  },
+  "GetGradingPairedAvatar": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetGradingPairedAvatar(_gradingIndex : int) -> str"
+  },
+  "GetGradingSizeGroupCount": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetGradingSizeGroupCount() -> int"
+  },
+  "GetGradingSizeGroupInformation": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetGradingSizeGroupInformation() -> list[str]"
+  },
+  "GetGradingSizeListFromRuleTable": {
+   "ingroup": "PATTERN_API",
+   "overloads": [
+    "GetGradingSizeListFromRuleTable(_gradingSizeGroupName : str) -> list[str]",
+    "GetGradingSizeListFromRuleTable(_gradingSizeGroupIndex : int) -> list[str]"
+   ],
+   "signature": "GetGradingSizeListFromRuleTable(_gradingSizeGroupName : str) -> list[str]"
+  },
+  "GetGradingSizeNameList": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetGradingSizeNameList() -> list[str]"
+  },
+  "GetGradingSizeNameListW": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetGradingSizeNameListW() -> list[str]"
+  },
+  "GetGradingSizeQuantityMix": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetGradingSizeQuantityMix(_groupIndex : int) -> map[str, int]"
+  },
+  "GetGradingSizeTotalCount": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetGradingSizeTotalCount() -> int"
+  },
+  "GetGradingSizeTotalQuantity": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetGradingSizeTotalQuantity(_groupIndex : int) -> int"
+  },
+  "GetGraphicDisplacementMapTexture": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "GetGraphicDisplacementMapTexture() -> str",
+    "GetGraphicDisplacementMapTexture(_GraphicIndex : int) -> str"
+   ],
+   "signature": "GetGraphicDisplacementMapTexture() -> str"
+  },
+  "GetGraphicGradingPositionOffsets": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetGraphicGradingPositionOffsets(_graphicStyleIndex : int, _patternIndex : int) -> list[list[float]]"
+  },
+  "GetGraphicGradingScaleRatios": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetGraphicGradingScaleRatios(_graphicStyleIndex : int, _patternIndex : int) -> list[list[float]]"
+  },
+  "GetGraphicMetalnessMapTexture": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "GetGraphicMetalnessMapTexture() -> str",
+    "GetGraphicMetalnessMapTexture(_GraphicIndex : int) -> str"
+   ],
+   "signature": "GetGraphicMetalnessMapTexture() -> str"
+  },
+  "GetGraphicNormalMapTexture": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "GetGraphicNormalMapTexture() -> str",
+    "GetGraphicNormalMapTexture(_GraphicIndex : int) -> str"
+   ],
+   "signature": "GetGraphicNormalMapTexture() -> str"
+  },
+  "GetGraphicOpacityMapTexture": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "GetGraphicOpacityMapTexture() -> str",
+    "GetGraphicOpacityMapTexture(_GraphicIndex : int) -> str"
+   ],
+   "signature": "GetGraphicOpacityMapTexture() -> str"
+  },
+  "GetGraphicRoughnessMapTexture": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "GetGraphicRoughnessMapTexture() -> str",
+    "GetGraphicRoughnessMapTexture(_GraphicIndex : int) -> str"
+   ],
+   "signature": "GetGraphicRoughnessMapTexture() -> str"
+  },
+  "GetGraphicStyleColor": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "GetGraphicStyleColor() -> tuple[float, float, float, float]",
+    "GetGraphicStyleColor(_styleIndex : int) -> CloApiRgba",
+    "GetGraphicStyleColor(_styleIndex : int, _colorwayIndex : int) -> CloApiRgba"
+   ],
+   "signature": "GetGraphicStyleColor() -> tuple[float, float, float, float]"
+  },
+  "GetGraphicStyleCount": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetGraphicStyleCount() -> int"
+  },
+  "GetGraphicStyleDimensions": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetGraphicStyleDimensions(_index : int) -> CloApiGraphicDimensions"
+  },
+  "GetGraphicStyleDimensionsOnPattern": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetGraphicStyleDimensionsOnPattern(_colorwayIndex : int, _graphicIndex : int, _patternIndex : int) -> CloApiGraphicDimensions"
+  },
+  "GetGraphicStyleListWithIndex": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetGraphicStyleListWithIndex() -> str"
+  },
+  "GetGraphicStyleName": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetGraphicStyleName(_index : int) -> str"
+  },
+  "GetGraphicStylePatternPieceIndices": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "GetGraphicStylePatternPieceIndices(_graphicIndex : int) -> list[int]",
+    "GetGraphicStylePatternPieceIndices(_colorwayIndex : int, _graphicIndex : int) -> list[int]"
+   ],
+   "signature": "GetGraphicStylePatternPieceIndices(_graphicIndex : int) -> list[int]"
+  },
+  "GetGraphicStylePlacementPoints": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetGraphicStylePlacementPoints(_colorwayIndex : int, _graphicIndex : int, _patternIndex : int, _is2D : bool) -> CloApiGraphicPlacementPoints"
+  },
+  "GetGraphicStylePosition": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "GetGraphicStylePosition(_graphicIndex : int, _is2D : bool) -> map[int, list[list[float]]]",
+    "GetGraphicStylePosition(_graphicIndex : int, _colorwayIndex : int, _is2D : bool) -> map[int, list[list[float]]]"
+   ],
+   "signature": "GetGraphicStylePosition(_graphicIndex : int, _is2D : bool) -> map[int, list[list[float]]]"
+  },
+  "GetInternalShapeInformation": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetInternalShapeInformation(_patternIndex : int) -> list[CloApiInternalShape]"
+  },
+  "GetIntersectionPoints": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetIntersectionPoints(_lines : list[CloApiLine]) -> CloApiInternalShape"
+  },
+  "GetItemsCountsinColorway": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetItemsCountsinColorway(_colorwayIndex : int) -> int"
+  },
+  "GetLightPresetForExportRenderingImage": {
+   "ingroup": null,
+   "signature": "GetLightPresetForExportRenderingImage() -> map[str, int]"
+  },
+  "GetLineLength": {
+   "ingroup": "PATTERN_API",
+   "overloads": [
+    "GetLineLength(_patternIndex : int, _lineIndex : int) -> float",
+    "GetLineLength(_patternIndex : int, _childrenIndex : int, _lineIndex : int) -> float"
+   ],
+   "signature": "GetLineLength(_patternIndex : int, _lineIndex : int) -> float"
+  },
+  "GetLinkedPatternIndex": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetLinkedPatternIndex(patternIndex : int) -> list[int]"
+  },
+  "GetLinkedPatternLists": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetLinkedPatternLists() -> str"
+  },
+  "GetMajorVersion": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetMajorVersion() -> int"
+  },
+  "GetMaterialProperties": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetMaterialProperties(colorwayIndex : int, objectIndex : int, browserContextOptions : ObjectBrowserContextOptions, materialContextProperties : MaterialPropertyOptions) -> MaterialPropertyOptions"
+  },
+  "GetMaterialPropertiesAsJson": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetMaterialPropertiesAsJson(colorwayIndex : int, objectIndex : int, browserContextOptions : ObjectBrowserContextOptions, materialContextProperties : MaterialPropertyOptions) -> str"
+  },
+  "GetMaterialTextureTransformations": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetMaterialTextureTransformations(colorwayIndex : int, objectIndex : int, browserContextOptions : ObjectBrowserContextOptions, propertyEditorContextOptions : PropertyEditorContextOptions) -> TransformOptions"
+  },
+  "GetMaterialType": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetMaterialType(_fabricIndex : int, _materialFace : int) -> int",
+    "GetMaterialType(_colorwayIndex : int, _fabricIndex : int, _materialFace : int) -> int"
+   ],
+   "signature": "GetMaterialType(_fabricIndex : int, _materialFace : int) -> int"
+  },
+  "GetMeshCountByType": {
+   "ingroup": "PATTERN_API",
+   "overloads": [
+    "GetMeshCountByType(_patternIndex : int) -> map[str, str]",
+    "GetMeshCountByType(_patternName : str) -> map[str, str]"
+   ],
+   "signature": "GetMeshCountByType(_patternIndex : int) -> map[str, str]"
+  },
+  "GetMeshCountByTypeW": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetMeshCountByTypeW(_patternName : str) -> map[str, str]"
+  },
+  "GetMetaDataForCurrentGarment": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetMetaDataForCurrentGarment() -> str"
+  },
+  "GetMetaDataForCurrentGarmentW": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetMetaDataForCurrentGarmentW() -> str"
+  },
+  "GetMetalness": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetMetalness(_fabricIndex : int, _materialFace : int) -> float",
+    "GetMetalness(_colorwayIndex : int, fabricIndex : int, _materialFace : int) -> float"
+   ],
+   "signature": "GetMetalness(_fabricIndex : int, _materialFace : int) -> float"
+  },
+  "GetMetalnessMapImageFilePath": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetMetalnessMapImageFilePath() -> str",
+    "GetMetalnessMapImageFilePath(_fabricIndex : int) -> str",
+    "GetMetalnessMapImageFilePath(_colorwayIndex : int, _fabricIndex : int) -> str",
+    "GetMetalnessMapImageFilePath(_colorwayIndex : int, _fabricIndex : int, _styleChipIndex : int, _materialFace : int) -> str"
+   ],
+   "signature": "GetMetalnessMapImageFilePath() -> str"
+  },
+  "GetMetalnessMapImageFilePathW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetMetalnessMapImageFilePathW() -> str",
+    "GetMetalnessMapImageFilePathW(_fabricIndex : int) -> str",
+    "GetMetalnessMapImageFilePathW(_colorwayIndex : int, _fabricIndex : int) -> str"
+   ],
+   "signature": "GetMetalnessMapImageFilePathW() -> str"
+  },
+  "GetMinorVersion": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetMinorVersion() -> int"
+  },
+  "GetNestingFabricBufferSpacing": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetNestingFabricBufferSpacing() -> std::array[float, 4]"
+  },
+  "GetNestingFixedPatternPiecePos": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetNestingFixedPatternPiecePos(patternPieceIndex : int) -> std::pair[int, int]"
+  },
+  "GetNestingPatternBufferSpacing": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetNestingPatternBufferSpacing() -> std::array[float, 4]"
+  },
+  "GetNestingPatternPieceGrainDirection": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetNestingPatternPieceGrainDirection(patternPieceIndex : int) -> int"
+  },
+  "GetNestingTargetColorway": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetNestingTargetColorway() -> list[int]"
+  },
+  "GetNestingTime": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetNestingTime() -> int"
+  },
+  "GetNormalBlendingMethod": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetNormalBlendingMethod() -> int"
+  },
+  "GetNormalMapImageFilePath": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetNormalMapImageFilePath() -> str",
+    "GetNormalMapImageFilePath(_fabricIndex : int) -> str",
+    "GetNormalMapImageFilePath(_colorwayIndex : int, _fabricIndex : int) -> str",
+    "GetNormalMapImageFilePath(_colorwayIndex : int, _fabricIndex : int, _styleChipIndex : int, _materialFace : int) -> str"
+   ],
+   "signature": "GetNormalMapImageFilePath() -> str"
+  },
+  "GetNormalMapImageFilePathW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetNormalMapImageFilePathW() -> str",
+    "GetNormalMapImageFilePathW(_fabricIndex : int) -> str",
+    "GetNormalMapImageFilePathW(_colorwayIndex : int, _fabricIndex : int) -> str"
+   ],
+   "signature": "GetNormalMapImageFilePathW() -> str"
+  },
+  "GetNormalMapIntensity": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetNormalMapIntensity(_fabricIndex : int, _materialFace : int) -> float",
+    "GetNormalMapIntensity(_colorwayIndex : int, fabricIndex : int, _materialFace : int) -> float"
+   ],
+   "signature": "GetNormalMapIntensity(_fabricIndex : int, _materialFace : int) -> float"
+  },
+  "GetObjectBrowserContext": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetObjectBrowserContext() -> ObjectBrowserContextOptions"
+  },
+  "GetObjectBrowserItems": {
+   "ingroup": null,
+   "signature": "GetObjectBrowserItems(objectBrowserContextOptions : ObjectBrowserContextOptions) -> str"
+  },
+  "GetOpacityIntensity": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetOpacityIntensity(_fabricIndex : int, _materialFace : int) -> float",
+    "GetOpacityIntensity(_colorwayIndex : int, _fabricIndex : int, _materialFace : int) -> float"
+   ],
+   "signature": "GetOpacityIntensity(_fabricIndex : int, _materialFace : int) -> float"
+  },
+  "GetOpacityMapImageFilePath": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetOpacityMapImageFilePath() -> str",
+    "GetOpacityMapImageFilePath(_fabricIndex : int) -> str",
+    "GetOpacityMapImageFilePath(_colorwayIndex : int, _fabricIndex : int) -> str",
+    "GetOpacityMapImageFilePath(_colorwayIndex : int, _fabricIndex : int, _styleChipIndex : int, _materialFace : int) -> str"
+   ],
+   "signature": "GetOpacityMapImageFilePath() -> str"
+  },
+  "GetOpacityMapImageFilePathW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetOpacityMapImageFilePathW() -> str",
+    "GetOpacityMapImageFilePathW(_fabricIndex : int) -> str",
+    "GetOpacityMapImageFilePathW(_colorwayIndex : int, _fabricIndex : int) -> str"
+   ],
+   "signature": "GetOpacityMapImageFilePathW() -> str"
+  },
+  "GetPBRMaterialDisplacementMapValue": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetPBRMaterialDisplacementMapValue(_fabricIndex : int) -> tuple[float, float, float, float, bool]",
+    "GetPBRMaterialDisplacementMapValue(_colorwayIndex : int, _fabricIndex : int) -> tuple[float, float, float, float, bool]"
+   ],
+   "signature": "GetPBRMaterialDisplacementMapValue(_fabricIndex : int) -> tuple[float, float, float, float, bool]"
+  },
+  "GetParticleDistanceOfPattern": {
+   "ingroup": "PATTERN_API",
+   "overloads": [
+    "GetParticleDistanceOfPattern(_patternIndex : int) -> float",
+    "GetParticleDistanceOfPattern(_patternName : str) -> float"
+   ],
+   "signature": "GetParticleDistanceOfPattern(_patternIndex : int) -> float"
+  },
+  "GetParticleDistanceOfPatternW": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetParticleDistanceOfPatternW(_patternName : str) -> float"
+  },
+  "GetPatchVersion": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetPatchVersion() -> int"
+  },
+  "GetPatternAnnotation": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternAnnotation(patternIndex : int) -> list[tuple[str, float, float]]"
+  },
+  "GetPatternArchiveState": {
+   "ingroup": null,
+   "signature": "GetPatternArchiveState(_patternIndex : int) -> bool"
+  },
+  "GetPatternAssignedTopstitch": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternAssignedTopstitch(_patternIndex : int) -> list[map[str, str]]"
+  },
+  "GetPatternAssignedTopstitchCount": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternAssignedTopstitchCount(_patternIndex : int) -> int"
+  },
+  "GetPatternAssignedTopstitchCurvedLength": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternAssignedTopstitchCurvedLength(_patternIndex : int, _segmentStitchIndex : int) -> int"
+  },
+  "GetPatternAssignedTopstitchStyle": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternAssignedTopstitchStyle(_patternIndex : int) -> list[map[str, str]]"
+  },
+  "GetPatternAssignedTopstitchStyleIndex": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternAssignedTopstitchStyleIndex(_patternIndex : int, _segmentStitchIndex : int) -> int"
+  },
+  "GetPatternAssignedTopstitchZOffset": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternAssignedTopstitchZOffset(_patternIndex : int, _segmentStitchIndex : int) -> float"
+  },
+  "GetPatternBaselinePoints": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternBaselinePoints(_patternIndex : int, _baselineIndex : int) -> list[list[float]]"
+  },
+  "GetPatternCount": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternCount() -> int"
+  },
+  "GetPatternIndex": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternIndex(patternName : str) -> int"
+  },
+  "GetPatternIndexFrom2DView": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternIndexFrom2DView(_scenePosX : float, _scenePosY : float) -> int"
+  },
+  "GetPatternIndexFrom3DView": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternIndexFrom3DView(_scenePosX : float, _scenePosY : float) -> int"
+  },
+  "GetPatternIndexW": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternIndexW(patternName : str) -> int"
+  },
+  "GetPatternInformation": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternInformation(patternIndex : int) -> str"
+  },
+  "GetPatternInformationW": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternInformationW(patternIndex : int) -> str"
+  },
+  "GetPatternInputInformation": {
+   "ingroup": "PATTERN_API",
+   "overloads": [
+    "GetPatternInputInformation(_patternIndex : int) -> str",
+    "GetPatternInputInformation() -> str"
+   ],
+   "signature": "GetPatternInputInformation(_patternIndex : int) -> str"
+  },
+  "GetPatternInputInformationW": {
+   "ingroup": "PATTERN_API",
+   "overloads": [
+    "GetPatternInputInformationW(_patternIndex : int) -> str",
+    "GetPatternInputInformationW() -> str"
+   ],
+   "signature": "GetPatternInputInformationW(_patternIndex : int) -> str"
+  },
+  "GetPatternInternalShapePoints": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternInternalShapePoints(_patternIndex : int, _internalShapeIndex : int) -> list[list[float]]"
+  },
+  "GetPatternLayer": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternLayer(_patternIndex : int) -> int"
+  },
+  "GetPatternLineInfo": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternLineInfo(_patternIndex : int) -> str"
+  },
+  "GetPatternOnBodyDetails": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternOnBodyDetails() -> str"
+  },
+  "GetPatternOutlinePoints": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternOutlinePoints(_patternIndex : int) -> list[list[float]]"
+  },
+  "GetPatternPieceArea": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternPieceArea(_patternIndex : int) -> float"
+  },
+  "GetPatternPieceCategory": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternPieceCategory(_patternPieceIndex : int) -> int"
+  },
+  "GetPatternPieceClassification": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternPieceClassification(_patternPieceIndex : int) -> str"
+  },
+  "GetPatternPieceFabricIndex": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternPieceFabricIndex(_patternPieceIndex : int) -> int"
+  },
+  "GetPatternPieceGrainDirection": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternPieceGrainDirection(_patternPieceIndex : int) -> float"
+  },
+  "GetPatternPieceName": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternPieceName(_patternIndex : int) -> str"
+  },
+  "GetPatternPiecePos": {
+   "ingroup": null,
+   "signature": "GetPatternPiecePos(_patternIndex : int) -> list[float]"
+  },
+  "GetPatternPieceSolidifyStrengthen": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternPieceSolidifyStrengthen(_patternPieceIndex : int) -> float"
+  },
+  "GetPatternPointGradingPositionOffsets": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternPointGradingPositionOffsets(_patternIndex : int, _pointIndex : int) -> list[list[float]]"
+  },
+  "GetPatternSize": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternSize() -> int"
+  },
+  "GetPatternSnapShotColorwayOption": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetPatternSnapShotColorwayOption(_mode : int) -> PatternSnapShotColorwayOption"
+  },
+  "GetPatternSnapShotImageOption": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetPatternSnapShotImageOption(_mode : int) -> PatternSnapShotImageOption"
+  },
+  "GetPatternSnapShotInformationOption": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetPatternSnapShotInformationOption(_mode : int) -> PatternSnapShotInformationOption"
+  },
+  "GetPatternSnapShotLineOption": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetPatternSnapShotLineOption(_mode : int) -> PatternSnapShotLineOption"
+  },
+  "GetPatternSnapShotSizeOption": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetPatternSnapShotSizeOption(_mode : int) -> PatternSnapShotSizeOption"
+  },
+  "GetPatternUVSpace": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternUVSpace(_patternIndex : int) -> str"
+  },
+  "GetPatternsAttachedToAvatarMeasures": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPatternsAttachedToAvatarMeasures() -> list[map[str, str]]"
+  },
+  "GetPinListSize": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetPinListSize() -> int"
+  },
+  "GetPrimaryFabric": {
+   "ingroup": "FABRIC_API",
+   "signature": "GetPrimaryFabric() -> int"
+  },
+  "GetProjectFilePath": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetProjectFilePath() -> str"
+  },
+  "GetProjectFilePathW": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetProjectFilePathW() -> str"
+  },
+  "GetProjectName": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetProjectName() -> str"
+  },
+  "GetProjectNameW": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetProjectNameW() -> str"
+  },
+  "GetQualityRenderStatus": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetQualityRenderStatus() -> bool"
+  },
+  "GetReflectionIntensity": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetReflectionIntensity(_fabricIndex : int, _materialFace : int) -> float",
+    "GetReflectionIntensity(_colorwayIndex : int, fabricIndex : int, _materialFace : int) -> float"
+   ],
+   "signature": "GetReflectionIntensity(_fabricIndex : int, _materialFace : int) -> float"
+  },
+  "GetReflectionRoughness": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetReflectionRoughness(_fabricIndex : int, _materialFace : int) -> float",
+    "GetReflectionRoughness(_colorwayIndex : int, fabricIndex : int, _materialFace : int) -> float"
+   ],
+   "signature": "GetReflectionRoughness(_fabricIndex : int, _materialFace : int) -> float"
+  },
+  "GetRenderImageVideoProperties": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetRenderImageVideoProperties() -> str"
+  },
+  "GetRenderingProperties": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetRenderingProperties() -> str"
+  },
+  "GetRoughnessMapImageFilePath": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetRoughnessMapImageFilePath() -> str",
+    "GetRoughnessMapImageFilePath(_fabricIndex : int) -> str",
+    "GetRoughnessMapImageFilePath(_colorwayIndex : int, _fabricIndex : int) -> str",
+    "GetRoughnessMapImageFilePath(_colorwayIndex : int, _fabricIndex : int, _styleChipIndex : int, _materialFace : int) -> str"
+   ],
+   "signature": "GetRoughnessMapImageFilePath() -> str"
+  },
+  "GetRoughnessMapImageFilePathW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetRoughnessMapImageFilePathW() -> str",
+    "GetRoughnessMapImageFilePathW(_fabricIndex : int) -> str",
+    "GetRoughnessMapImageFilePathW(_colorwayIndex : int, _fabricIndex : int) -> str"
+   ],
+   "signature": "GetRoughnessMapImageFilePathW() -> str"
+  },
+  "GetRoughnessType": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetRoughnessType(_index : int, _materialFace : int) -> int",
+    "GetRoughnessType(_colorwayIndex : int, _index : int, _materialFace : int) -> int"
+   ],
+   "signature": "GetRoughnessType(_index : int, _materialFace : int) -> int"
+  },
+  "GetRoughnessValueIntensity": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetRoughnessValueIntensity(_index : int, _face : int) -> int",
+    "GetRoughnessValueIntensity(_colorwayIndex : int, _index : int, _face : int) -> int"
+   ],
+   "signature": "GetRoughnessValueIntensity(_index : int, _face : int) -> int"
+  },
+  "GetRoughnessValueMapIntensity": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetRoughnessValueMapIntensity(_index : int, _face : int) -> int",
+    "GetRoughnessValueMapIntensity(_colorwayIndex : int, _index : int, _face : int) -> int"
+   ],
+   "signature": "GetRoughnessValueMapIntensity(_index : int, _face : int) -> int"
+  },
+  "GetSchematicRender": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetSchematicRender() -> bool"
+  },
+  "GetSeamlinePairGroupCount": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetSeamlinePairGroupCount() -> int"
+  },
+  "GetSeamlinePairGroupIndexFromName": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetSeamlinePairGroupIndexFromName(_seamlinePairGroupName : str) -> int"
+  },
+  "GetSeamlinePairGroupIndexFromNameW": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetSeamlinePairGroupIndexFromNameW(_seamlinePairGroupNameW : str) -> int"
+  },
+  "GetSeamlinePairGroupListInPattern": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetSeamlinePairGroupListInPattern(_patternIndex : int) -> list[ int]"
+  },
+  "GetSeamlinePairGroupName": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetSeamlinePairGroupName(_seamlinePiarGroupIndex : int) -> str"
+  },
+  "GetSeamlinePairGroupNameW": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetSeamlinePairGroupNameW(_seamlinePiarGroupIndex : int) -> str"
+  },
+  "GetSelectedPattern": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetSelectedPattern() -> list[str]"
+  },
+  "GetSelectedPatternViaIndex": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetSelectedPatternViaIndex(patternIndex : int) -> bool"
+  },
+  "GetShrinkagePercentage": {
+   "ingroup": "PATTERN_API",
+   "overloads": [
+    "GetShrinkagePercentage(_patternIndex : int) -> map[str, str]",
+    "GetShrinkagePercentage(_patternName : str) -> map[str, str]"
+   ],
+   "signature": "GetShrinkagePercentage(_patternIndex : int) -> map[str, str]"
+  },
+  "GetShrinkagePercentageW": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetShrinkagePercentageW(_patternName : str) -> map[str, str]"
+  },
+  "GetSideUVExpansion": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetSideUVExpansion(_patternIndex : int) -> bool"
+  },
+  "GetSimulationQuality": {
+   "ingroup": null,
+   "signature": "GetSimulationQuality() -> std::pair[int, int]"
+  },
+  "GetSpecificColorwayFabricInfo": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetSpecificColorwayFabricInfo(_fabricIndex : int, _colorwayIndexForStyleChip : int) -> str",
+    "GetSpecificColorwayFabricInfo(_colorwayIndexForFabric : int, _fabricIndex : int, _colorwayIndexForStyleChip : int) -> str"
+   ],
+   "signature": "GetSpecificColorwayFabricInfo(_fabricIndex : int, _colorwayIndexForStyleChip : int) -> str"
+  },
+  "GetSpecificColorwayFabricInfoW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetSpecificColorwayFabricInfoW(_fabricIndex : int, _colorwayIndexForStyleChip : int) -> str",
+    "GetSpecificColorwayFabricInfoW(_colorwayIndexForFabric : int, _fabricIndex : int, _colorwayIndexForStyleChip : int) -> str"
+   ],
+   "signature": "GetSpecificColorwayFabricInfoW(_fabricIndex : int, _colorwayIndexForStyleChip : int) -> str"
+  },
+  "GetStartAnimationFrame": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetStartAnimationFrame() -> double"
+  },
+  "GetStrainMapStatus": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetStrainMapStatus() -> bool"
+  },
+  "GetStressMapStatus": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetStressMapStatus() -> bool"
+  },
+  "GetStyleSheetCodeForWidget": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetStyleSheetCodeForWidget(_type : CloWidgetType) -> str"
+  },
+  "GetStyleSheetCodeForWidgetW": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetStyleSheetCodeForWidgetW(_type : CloWidgetType) -> str"
+  },
+  "GetThumbnailInCLOFile": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetThumbnailInCLOFile(filePath : str, thumbnailIndex : int, fileSize : int) -> char*"
+  },
+  "GetTopStitchColor": {
+   "ingroup": null,
+   "overloads": [
+    "GetTopStitchColor(_styleIndex : int, _lineIndex : int) -> CloApiRgba",
+    "GetTopStitchColor(_styleIndex : int, _colorwayIndex : int, _lineIndex : int) -> CloApiRgba"
+   ],
+   "signature": "GetTopStitchColor(_styleIndex : int, _lineIndex : int) -> CloApiRgba"
+  },
+  "GetTopStitchCount": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetTopStitchCount(_usedOnly : bool) -> int"
+  },
+  "GetTopStitchDistanceValue": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetTopStitchDistanceValue(_topStitchIndex : int, _stitchCountIndex : int) -> float"
+  },
+  "GetTopStitchIndex": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetTopStitchIndex(_stitchName : str) -> int"
+  },
+  "GetTopStitchName": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetTopStitchName(_stitchIndex : int) -> str"
+  },
+  "GetTopStitchNumberOfLines": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetTopStitchNumberOfLines(_topStitchIndex : int, _stitchCountIndex : int) -> int"
+  },
+  "GetTopStitchOffsetIndex": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetTopStitchOffsetIndex(_topStitchIndex : int) -> int"
+  },
+  "GetTopStitchOffsetValue": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetTopStitchOffsetValue(_topStitchIndex : int) -> float"
+  },
+  "GetTopStitchOpacity": {
+   "ingroup": null,
+   "overloads": [
+    "GetTopStitchOpacity(_styleIndex : int, _lineIndex : int) -> int",
+    "GetTopStitchOpacity(_styleIndex : int, _colorwayIndex : int, _lineIndex : int) -> int"
+   ],
+   "signature": "GetTopStitchOpacity(_styleIndex : int, _lineIndex : int) -> int"
+  },
+  "GetTopStitchWidthValue": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetTopStitchWidthValue(_topStitchIndex : int, _stitchCountIndex : int) -> float"
+  },
+  "GetTopstitchStyleList": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetTopstitchStyleList() -> list[map[str, str]]"
+  },
+  "GetTopstitchStyleModelType": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetTopstitchStyleModelType(_topStitchStyleIndex : int) -> int"
+  },
+  "GetTotalEndAnimationFrame": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetTotalEndAnimationFrame() -> double"
+  },
+  "GetTotalGraphicItemQuantity": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetTotalGraphicItemQuantity() -> int"
+  },
+  "GetTotalRenderImagePaths": {
+   "ingroup": "EXPORT_API",
+   "signature": "GetTotalRenderImagePaths() -> list [ str ]"
+  },
+  "GetTotalRenderImagePathsW": {
+   "ingroup": "EXPORT_API",
+   "signature": "GetTotalRenderImagePathsW() -> list [ str ]"
+  },
+  "GetTrimMaterialProperties": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetTrimMaterialProperties(_trimStyleIndex : int, _meshIndex : int) -> map[str, str]"
+  },
+  "GetTrimStyleColor": {
+   "ingroup": null,
+   "overloads": [
+    "GetTrimStyleColor(_styleIndex : int, _meshIndex : int) -> CloApiRgba",
+    "GetTrimStyleColor(_styleIndex : int, _colorwayIndex : int, _meshIndex : int) -> CloApiRgba"
+   ],
+   "signature": "GetTrimStyleColor(_styleIndex : int, _meshIndex : int) -> CloApiRgba"
+  },
+  "GetTrimStyleCount": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetTrimStyleCount(_usedOnly : bool) -> int"
+  },
+  "GetTrimStyleIndex": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetTrimStyleIndex(_trimStyleName : str) -> int"
+  },
+  "GetTrimStyleListWithIndex": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetTrimStyleListWithIndex() -> str"
+  },
+  "GetTrimStyleName": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetTrimStyleName(_trimStyleIndex : int) -> str"
+  },
+  "GetUnusedSinglePatterns": {
+   "ingroup": null,
+   "signature": "GetUnusedSinglePatterns() -> str"
+  },
+  "GetUseSameColorAsFront": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetUseSameColorAsFront(fabricIndex : int, materialFace : int) -> bool",
+    "GetUseSameColorAsFront(colorwayIndex : int, fabricIndex : int, materialFace : int) -> bool"
+   ],
+   "signature": "GetUseSameColorAsFront(fabricIndex : int, materialFace : int) -> bool"
+  },
+  "GetUseSameMapAsFabricForGraphicOpacity": {
+   "ingroup": null,
+   "signature": "GetUseSameMapAsFabricForGraphicOpacity(_colorwayIndex : int, _graphicItemIndex : int, _materialFace : int) -> bool"
+  },
+  "GetUseSameMaterialAsFront": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "GetUseSameMaterialAsFront(fabricIndex : int, materialFace : int) -> bool",
+    "GetUseSameMaterialAsFront(colorwayIndex : int, fabricIndex : int, materialFace : int) -> bool"
+   ],
+   "signature": "GetUseSameMaterialAsFront(fabricIndex : int, materialFace : int) -> bool"
+  },
+  "GetUserHeadQuarterId": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetUserHeadQuarterId() -> str"
+  },
+  "GetUserHeadQuarterIdW": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetUserHeadQuarterIdW() -> str"
+  },
+  "GetValidGradingSizeGroupCount": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetValidGradingSizeGroupCount() -> int"
+  },
+  "GetValidGradingSizeGroupInformation": {
+   "ingroup": "PATTERN_API",
+   "signature": "GetValidGradingSizeGroupInformation() -> list[str]"
+  },
+  "GetViewPoint": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetViewPoint() -> int"
+  },
+  "GetWindActive": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetWindActive() -> bool"
+  },
+  "GetWindControllerSettings": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetWindControllerSettings(_index : int) -> WindControllerOptions"
+  },
+  "GetWindPosition": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetWindPosition() -> list[float]"
+  },
+  "GetWindRotation": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetWindRotation() -> list[float]"
+  },
+  "GetZipperStyleAssetType": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetZipperStyleAssetType(_zipperStyleIndex : int) -> int"
+  },
+  "GetZipperStyleFunctionType": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetZipperStyleFunctionType(_zipperStyleIndex : int) -> int"
+  },
+  "GetZipperStyleName": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetZipperStyleName(_zipperStyleIndex : int) -> str"
+  },
+  "GetZipperStyleTapeThickness": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetZipperStyleTapeThickness(_zipperStyleIndex : int) -> float"
+  },
+  "GetZipperStyleTeethType": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetZipperStyleTeethType(_zipperStyleIndex : int) -> int"
+  },
+  "GetZipperStyleTeethWidth": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetZipperStyleTeethWidth(_zipperStyleIndex : int) -> float"
+  },
+  "GetZipperStyleWeight": {
+   "ingroup": "UTILITY_API",
+   "signature": "GetZipperStyleWeight(_zipperStyleIndex : int) -> float"
+  },
+  "ImportAVAC": {
+   "ingroup": "IMPORT_API",
+   "overloads": [
+    "ImportAVAC(_filePath : str, _apfFilePath : str) -> bool"
+   ],
+   "signature": "ImportAVAC(_filePath : str, _apfFilePath : str) -> bool"
+  },
+  "ImportAlembic": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportAlembic(filePath : str, option : ImportAlembicOption) -> bool"
+  },
+  "ImportAsGraphic": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportAsGraphic(_filePath : str) -> None"
+  },
+  "ImportAsGraphicW": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportAsGraphicW(_filePath : str) -> None"
+  },
+  "ImportAvatar": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportAvatar(_avtPath : str, _opt : ImportExportOption) -> bool"
+  },
+  "ImportAvatarMeasurement": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportAvatarMeasurement(_csvPath : str, _avtPath : str, _opt : ImportExportOption) -> bool"
+  },
+  "ImportCPT": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportCPT(_filePath : str) -> bool"
+  },
+  "ImportCPTW": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportCPTW(_filePath : str) -> bool"
+  },
+  "ImportDXF": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportDXF(_filePath : str, loadOption : ImportDxfOption) -> bool"
+  },
+  "ImportDXFW": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportDXFW(_filePath : str, loadOption : ImportDxfOption) -> bool"
+  },
+  "ImportFBX": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportFBX(_filePath : str, _options : ImportExportOption) -> bool"
+  },
+  "ImportFBXW": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportFBXW(_filePath : str, _options : ImportExportOption) -> bool"
+  },
+  "ImportFile": {
+   "ingroup": "IMPORT_API",
+   "overloads": [
+    "ImportFile(filePath : str) -> bool",
+    "ImportFile(filePath : str, _options : ImportExportOption) -> bool"
+   ],
+   "signature": "ImportFile(filePath : str) -> bool"
+  },
+  "ImportFileW": {
+   "ingroup": "IMPORT_API",
+   "overloads": [
+    "ImportFileW(filePath : str) -> bool",
+    "ImportFileW(filePath : str, _options : ImportExportOption) -> bool"
+   ],
+   "signature": "ImportFileW(filePath : str) -> bool"
+  },
+  "ImportGLTF": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportGLTF(_filePath : str, _options : ImportExportOption) -> bool"
+  },
+  "ImportGLTFAsFabric": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ImportGLTFAsFabric(_filePath : str) -> list[int]",
+    "ImportGLTFAsFabric(_filePath : str, _index : int) -> int"
+   ],
+   "signature": "ImportGLTFAsFabric(_filePath : str) -> list[int]"
+  },
+  "ImportGLTFAsFabricW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ImportGLTFAsFabricW(_filePath : str) -> list[int]",
+    "ImportGLTFAsFabricW(_filePath : str, _index : int) -> int"
+   ],
+   "signature": "ImportGLTFAsFabricW(_filePath : str) -> list[int]"
+  },
+  "ImportGLTFW": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportGLTFW(_filePath : str, _options : ImportExportOption) -> bool"
+  },
+  "ImportGarmentInformation": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportGarmentInformation(filePath : str) -> bool"
+  },
+  "ImportGarmentInformationConfigData": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportGarmentInformationConfigData(filePath : str) -> bool"
+  },
+  "ImportGarmentInformationConfigDataW": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportGarmentInformationConfigDataW(filePath : str) -> bool"
+  },
+  "ImportGarmentInformationW": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportGarmentInformationW(filePath : str) -> bool"
+  },
+  "ImportGradeRuleToSizeGroup": {
+   "ingroup": "PATTERN_API",
+   "signature": "ImportGradeRuleToSizeGroup(_gradingSizeGroupIndex : int, _rulFilePath : str) -> bool"
+  },
+  "ImportGraphicStyleFromImage": {
+   "ingroup": "IMPORT_API",
+   "overloads": [
+    "ImportGraphicStyleFromImage(_filePath : str) -> bool"
+   ],
+   "signature": "ImportGraphicStyleFromImage(_filePath : str) -> bool"
+  },
+  "ImportMeasurement": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportMeasurement(_csvPath : str) -> bool"
+  },
+  "ImportOBJ": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportOBJ(_filePath : str, _options : ImportExportOption) -> bool"
+  },
+  "ImportOBJW": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportOBJW(_filePath : str, _options : ImportExportOption) -> bool"
+  },
+  "ImportPatternCPX": {
+   "ingroup": "PATTERN_API",
+   "signature": "ImportPatternCPX(_path : str) -> bool"
+  },
+  "ImportPatternJSON": {
+   "ingroup": "PATTERN_API",
+   "signature": "ImportPatternJSON(_path : str) -> bool"
+  },
+  "ImportPose": {
+   "ingroup": "IMPORT_API",
+   "overloads": [
+    "ImportPose(_filePath : str) -> bool",
+    "ImportPose(_filePath : str, _bPoseAndTranslation : bool, _bBottomToGround : bool) -> bool"
+   ],
+   "signature": "ImportPose(_filePath : str) -> bool"
+  },
+  "ImportPoseW": {
+   "ingroup": "IMPORT_API",
+   "overloads": [
+    "ImportPoseW(_filePath : str) -> bool",
+    "ImportPoseW(_filePath : str, _bPoseAndTranslation : bool, _bBottomToGround : bool) -> bool"
+   ],
+   "signature": "ImportPoseW(_filePath : str) -> bool"
+  },
+  "ImportSMP": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportSMP(_filePath : str) -> bool"
+  },
+  "ImportSMPW": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportSMPW(_filePath : str) -> bool"
+  },
+  "ImportSubstanceFile": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ImportSubstanceFile(fabricIndex : int, substanceFilePath : str) -> bool",
+    "ImportSubstanceFile(_colorwayIndex : int, _fabricIndex : int, _substanceFilePath : str) -> bool"
+   ],
+   "signature": "ImportSubstanceFile(fabricIndex : int, substanceFilePath : str) -> bool"
+  },
+  "ImportSubstanceFileAsFaceType": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ImportSubstanceFileAsFaceType(_fabricIndex : int, _substanceFilePath : str, _faceType : str) -> bool",
+    "ImportSubstanceFileAsFaceType(_colorwayIndex : int, _fabricIndex : int, _substanceFilePath : str, _faceType : str) -> bool"
+   ],
+   "signature": "ImportSubstanceFileAsFaceType(_fabricIndex : int, _substanceFilePath : str, _faceType : str) -> bool"
+  },
+  "ImportSubstanceFileAsFaceTypeW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ImportSubstanceFileAsFaceTypeW(_fabricIndex : int, _substanceFilePath : str, _faceType : str) -> bool",
+    "ImportSubstanceFileAsFaceTypeW(_colorwayIndex : int, _fabricIndex : int, _substanceFilePath : str, _faceType : str) -> bool"
+   ],
+   "signature": "ImportSubstanceFileAsFaceTypeW(_fabricIndex : int, _substanceFilePath : str, _faceType : str) -> bool"
+  },
+  "ImportSubstanceFileW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ImportSubstanceFileW(fabricIndex : int, substanceFilePath : str) -> bool",
+    "ImportSubstanceFileW(_colorwayIndex : int, _fabricIndex : int, _substanceFilePath : str) -> bool"
+   ],
+   "signature": "ImportSubstanceFileW(fabricIndex : int, substanceFilePath : str) -> bool"
+  },
+  "ImportTopStitchStyle": {
+   "ingroup": "PATTERN_API",
+   "signature": "ImportTopStitchStyle(_filePath : str) -> bool"
+  },
+  "ImportTrim": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportTrim(_filePath : str, _bTranslateToOrigin : bool) -> None"
+  },
+  "ImportVLP": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportVLP(_filePath : str) -> bool"
+  },
+  "ImportVLPW": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportVLPW(_filePath : str) -> bool"
+  },
+  "ImportVMP": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportVMP(_filePath : str) -> bool"
+  },
+  "ImportVMPW": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportVMPW(_filePath : str) -> bool"
+  },
+  "ImportVRP": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportVRP(_filePath : str) -> bool"
+  },
+  "ImportVRPW": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportVRPW(_filePath : str) -> bool"
+  },
+  "ImportXtexFile": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ImportXtexFile(fabricIndex : int, xTexFilePath : str) -> bool",
+    "ImportXtexFile(_colorwayIndex : int, _fabricIndex : int, _xTexFilePath : str) -> bool"
+   ],
+   "signature": "ImportXtexFile(fabricIndex : int, xTexFilePath : str) -> bool"
+  },
+  "ImportXtexFileW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "ImportXtexFileW(fabricIndex : int, xTexFilePath : str) -> bool",
+    "ImportXtexFileW(_colorwayIndex : int, _fabricIndex : int, _xTexFilePath : str) -> bool"
+   ],
+   "signature": "ImportXtexFileW(fabricIndex : int, xTexFilePath : str) -> bool"
+  },
+  "ImportZpac": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportZpac(filePath : str, loadOption : ImportExportOption) -> bool"
+  },
+  "ImportZprj": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportZprj(filePath : str, loadOption : ImportZPRJOption) -> bool"
+  },
+  "ImportZprjW": {
+   "ingroup": "IMPORT_API",
+   "signature": "ImportZprjW(filePath : str, loadOption : ImportZPRJOption) -> bool"
+  },
+  "InstancePatternPiece": {
+   "ingroup": "PATTERN_API",
+   "signature": "InstancePatternPiece(_patternIndex : int) -> None"
+  },
+  "InstancePatternPieceWithPatternName": {
+   "ingroup": "PATTERN_API",
+   "signature": "InstancePatternPieceWithPatternName(_patternName : str) -> None"
+  },
+  "IsCLOFileFormatWithThumbnail": {
+   "ingroup": "UTILITY_API",
+   "signature": "IsCLOFileFormatWithThumbnail(filePath : str) -> bool"
+  },
+  "IsCLOFileFormatWithThumbnailW": {
+   "ingroup": "UTILITY_API",
+   "signature": "IsCLOFileFormatWithThumbnailW(filePath : str) -> bool"
+  },
+  "IsCLOFileFormatWithTripleThumbnail": {
+   "ingroup": "UTILITY_API",
+   "signature": "IsCLOFileFormatWithTripleThumbnail(filePath : str) -> bool"
+  },
+  "IsCLOFileFormatWithTripleThumbnailW": {
+   "ingroup": "UTILITY_API",
+   "signature": "IsCLOFileFormatWithTripleThumbnailW(filePath : str) -> bool"
+  },
+  "IsGraphicInstanceLocked": {
+   "ingroup": "UTILITY_API",
+   "signature": "IsGraphicInstanceLocked(_patternIndex : int, _graphicIndex : int) -> bool"
+  },
+  "IsGraphicStyleLocked": {
+   "ingroup": "UTILITY_API",
+   "signature": "IsGraphicStyleLocked(_graphicIndex : int) -> bool"
+  },
+  "IsPatternAssignedTopstitchCurved": {
+   "ingroup": "PATTERN_API",
+   "signature": "IsPatternAssignedTopstitchCurved(_patternIndex : int, _segmentStitchIndex : int) -> bool"
+  },
+  "IsPatternAssignedTopstitchCurvedRightAngled": {
+   "ingroup": "PATTERN_API",
+   "signature": "IsPatternAssignedTopstitchCurvedRightAngled(_patternIndex : int, _segmentStitchIndex : int) -> bool"
+  },
+  "IsPatternAssignedTopstitchExtendEnd": {
+   "ingroup": "PATTERN_API",
+   "signature": "IsPatternAssignedTopstitchExtendEnd(_patternIndex : int, _segmentStitchIndex : int) -> bool"
+  },
+  "IsPatternAssignedTopstitchExtendStart": {
+   "ingroup": "PATTERN_API",
+   "signature": "IsPatternAssignedTopstitchExtendStart(_patternIndex : int, _segmentStitchIndex : int) -> bool"
+  },
+  "IsPatternPieceGrainLinkAllColorways": {
+   "ingroup": "PATTERN_API",
+   "signature": "IsPatternPieceGrainLinkAllColorways(_patternPieceIndex : int) -> bool"
+  },
+  "IsPatternPieceSolidify": {
+   "ingroup": "PATTERN_API",
+   "signature": "IsPatternPieceSolidify(_patternPieceIndex : int) -> bool"
+  },
+  "IsReadableImageFormat": {
+   "ingroup": "UTILITY_API",
+   "signature": "IsReadableImageFormat(filePath : str) -> bool"
+  },
+  "IsReadableImageFormatW": {
+   "ingroup": "UTILITY_API",
+   "signature": "IsReadableImageFormatW(filePath : str) -> bool"
+  },
+  "IsRoughnessValueMapInvert": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "IsRoughnessValueMapInvert(_index : int, _face : int) -> bool",
+    "IsRoughnessValueMapInvert(_colorwayIndex : int, _index : int, _face : int) -> bool"
+   ],
+   "signature": "IsRoughnessValueMapInvert(_index : int, _face : int) -> bool"
+  },
+  "IsShowAvatar": {
+   "ingroup": "UTILITY_API",
+   "signature": "IsShowAvatar(_avatarIndex : int) -> bool"
+  },
+  "LayerClonePatternPieceMove": {
+   "ingroup": "PATTERN_API",
+   "signature": "LayerClonePatternPieceMove(_patternIndex : int, _offsetX : float, _offsetY : float, _bUnder : bool) -> None"
+  },
+  "LayerClonePatternPiecePos": {
+   "ingroup": "PATTERN_API",
+   "signature": "LayerClonePatternPiecePos(_patternIndex : int, _x : float, _y : float, _bUnder : bool) -> None"
+  },
+  "LoadCustomViewIn3DWindow": {
+   "ingroup": "UTILITY_API",
+   "signature": "LoadCustomViewIn3DWindow(_index : int) -> None"
+  },
+  "LoadLibraryColorSwatchList": {
+   "ingroup": "UTILITY_API",
+   "signature": "LoadLibraryColorSwatchList(library : list[str], tabName : str) -> None"
+  },
+  "MergeSewnPatterns": {
+   "ingroup": "PATTERN_API",
+   "signature": "MergeSewnPatterns(_patternIndexA : int, _patternIndexB : int) -> bool"
+  },
+  "MoveAnimationFrame": {
+   "ingroup": "UTILITY_API",
+   "signature": "MoveAnimationFrame(_frame : double) -> None"
+  },
+  "MovePatternPoint": {
+   "ingroup": "PATTERN_API",
+   "signature": "MovePatternPoint(_patternIndex : int, _pointIndex : int, _x : float, _y : float) -> None"
+  },
+  "MovePatternToUVSpace": {
+   "ingroup": "PATTERN_API",
+   "signature": "MovePatternToUVSpace(_patternIndex : int, _uvTileX : int, _uvTileY : int, _offsetX : float, _offsetY : float, _bAllowRotation : bool, _scale : float, _padding : float) -> str"
+  },
+  "MovePatternsToUVSpace": {
+   "ingroup": "PATTERN_API",
+   "signature": "MovePatternsToUVSpace(_patternIndices : list[int], _uvTileX : int, _uvTileY : int, _offsetX : float, _offsetY : float, _bAllowRotation : bool, _scale : float, _padding : float) -> str"
+  },
+  "NewProject": {
+   "ingroup": "UTILITY_API",
+   "signature": "NewProject() -> None"
+  },
+  "OffsetAsInternalLine": {
+   "ingroup": "PATTERN_API",
+   "signature": "OffsetAsInternalLine(_patternIndex : int, _lineIndex : int, _number : int, _distance : float, _bReverseDirection : bool, _bExtend : bool) -> None"
+  },
+  "OpenButtonHeadStyleFileByIndex": {
+   "ingroup": "UTILITY_API",
+   "signature": "OpenButtonHeadStyleFileByIndex(_filePath : str, _index : int) -> bool"
+  },
+  "OpenGraphicStyleFileByIndex": {
+   "ingroup": "UTILITY_API",
+   "signature": "OpenGraphicStyleFileByIndex(_filePath : str, _index : int) -> bool"
+  },
+  "OpenTrimStyleFileByIndex": {
+   "ingroup": "UTILITY_API",
+   "signature": "OpenTrimStyleFileByIndex(_filePath : str, _index : int) -> bool"
+  },
+  "PlaceGraphicOnInternalShape": {
+   "ingroup": "UTILITY_API",
+   "signature": "PlaceGraphicOnInternalShape(_colorwayIndex : int, _graphicStyleIndex : int, _shapeName : str, _face : int, _zOffset : float) -> bool"
+  },
+  "PlaceTopstitchOnInternalLine": {
+   "ingroup": "UTILITY_API",
+   "signature": "PlaceTopstitchOnInternalLine(_colorwayIndex : int, _topStitchStyleIndex : int, _patternIndex : int, _line : CloApiLine, _anchorPoint : CloApiAnchorPoint) -> bool"
+  },
+  "ReDrape3DArrangement": {
+   "ingroup": "UTILITY_API",
+   "signature": "ReDrape3DArrangement(_options : ImportExportOption) -> None"
+  },
+  "Refresh3DWindow": {
+   "ingroup": "UTILITY_API",
+   "signature": "Refresh3DWindow() -> None"
+  },
+  "RefreshPlugIns": {
+   "ingroup": "UTILITY_API",
+   "signature": "RefreshPlugIns() -> None"
+  },
+  "RegisterPythonScript": {
+   "ingroup": "UTILITY_API",
+   "signature": "RegisterPythonScript(pythonScriptPath : str, menuPath : str) -> bool"
+  },
+  "RegisterPythonScriptFolder": {
+   "ingroup": "UTILITY_API",
+   "signature": "RegisterPythonScriptFolder(folderPath : str, menuPath : str) -> bool"
+  },
+  "RegisterPythonScriptFolderW": {
+   "ingroup": "UTILITY_API",
+   "signature": "RegisterPythonScriptFolderW(folderPath : str, menuPath : str) -> bool"
+  },
+  "RegisterPythonScriptW": {
+   "ingroup": "UTILITY_API",
+   "signature": "RegisterPythonScriptW(pythonScriptPath : str, menuPath : str) -> bool"
+  },
+  "RegisterWidget": {
+   "ingroup": null,
+   "signature": "RegisterWidget(_widget : int64_t) -> None"
+  },
+  "RemoveAllPins": {
+   "ingroup": "PATTERN_API",
+   "signature": "RemoveAllPins() -> bool"
+  },
+  "RemoveGraphicStyle": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "RemoveGraphicStyle(_graphicIndex : int) -> str",
+    "RemoveGraphicStyle(_colorwayIndex : int, _graphicIndex : int, _styleChipIndex : int, _overrideMode : int) -> str"
+   ],
+   "signature": "RemoveGraphicStyle(_graphicIndex : int) -> str"
+  },
+  "RemovePatternFromAvatarMeasure": {
+   "ingroup": "PATTERN_API",
+   "signature": "RemovePatternFromAvatarMeasure(_patternIndex : int, _avatarMeasureName : str) -> str"
+  },
+  "RemovePin": {
+   "ingroup": "PATTERN_API",
+   "signature": "RemovePin() -> bool"
+  },
+  "RemovePlugInFromList": {
+   "ingroup": "UTILITY_API",
+   "signature": "RemovePlugInFromList(_pluginListIndex : int) -> None"
+  },
+  "ReplaceFabric": {
+   "ingroup": "FABRIC_API",
+   "signature": "ReplaceFabric(_fabricIndex : int, _inputFilePath : str) -> bool"
+  },
+  "ReplaceGraphicStyleFromImage": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "ReplaceGraphicStyleFromImage(_graphicstyleIndex : int, _imagePath : str, _anchor : int) -> bool",
+    "ReplaceGraphicStyleFromImage(_iColorwayIndex : int, _graphicstyleIndex : int, _imagePath : str, _anchor : int, _width : float, _height : float) -> bool"
+   ],
+   "signature": "ReplaceGraphicStyleFromImage(_graphicstyleIndex : int, _imagePath : str, _anchor : int) -> bool"
+  },
+  "ReplaceGraphicStyleFromImageW": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "ReplaceGraphicStyleFromImageW(_graphicstyleIndex : int, _imagePath : str, _anchor : int) -> bool",
+    "ReplaceGraphicStyleFromImageW(_iColorwayIndex : int, _graphicstyleIndex : int, _imagePath : str, _anchor : int, _width : float, _height : float) -> bool"
+   ],
+   "signature": "ReplaceGraphicStyleFromImageW(_graphicstyleIndex : int, _imagePath : str, _anchor : int) -> bool"
+  },
+  "RepositionGraphicByAnchor": {
+   "ingroup": "UTILITY_API",
+   "signature": "RepositionGraphicByAnchor(_colorwayIndex : int, _graphicIndex : int, _patternIndex : int, _anchorPoint : CloApiAnchorPoint, _x : float, _y : float) -> bool"
+  },
+  "ResetClothArrangement": {
+   "ingroup": "UTILITY_API",
+   "signature": "ResetClothArrangement() -> None"
+  },
+  "ResetUVTo2DArrangement": {
+   "ingroup": "UTILITY_API",
+   "signature": "ResetUVTo2DArrangement() -> None"
+  },
+  "ResetWidgetRegistry": {
+   "ingroup": null,
+   "signature": "ResetWidgetRegistry() -> None"
+  },
+  "RunAnimationRecording": {
+   "ingroup": "UTILITY_API",
+   "signature": "RunAnimationRecording(_startFrame : double, _endFrame : double) -> None"
+  },
+  "SaveCLOFileThumbnail": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "SaveCLOFileThumbnail(filePath : str, outputPath : str, thumbnailIndex : int) -> bool"
+   ],
+   "signature": "SaveCLOFileThumbnail(filePath : str, outputPath : str, thumbnailIndex : int) -> bool"
+  },
+  "SelectPatternViaIndex": {
+   "ingroup": "PATTERN_API",
+   "signature": "SelectPatternViaIndex(patternIndex : int, keepPreviousSelection : bool) -> None"
+  },
+  "SelectPatternViaName": {
+   "ingroup": "PATTERN_API",
+   "signature": "SelectPatternViaName(_patternName : str, keepPreviousSelection : bool) -> None"
+  },
+  "Set3DGarmentRenderingStyle": {
+   "ingroup": "UTILITY_API",
+   "signature": "Set3DGarmentRenderingStyle(_surfaceTextureTypeIndex : int) -> None"
+  },
+  "Set3DWindowTitle": {
+   "ingroup": "UTILITY_API",
+   "signature": "Set3DWindowTitle(title : str) -> bool"
+  },
+  "Set3DWindowTitleW": {
+   "ingroup": "UTILITY_API",
+   "signature": "Set3DWindowTitleW(title : str) -> bool"
+  },
+  "SetAPF": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetAPF(_path : str) -> None"
+  },
+  "SetAPIMetaData": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetAPIMetaData(fabricIndex : int, jsonStr : str) -> bool",
+    "SetAPIMetaData(_colorwayIndex : int, _fabricIndex : int, _jsonStr : str) -> bool",
+    "SetAPIMetaData(filePath : str, jsonStr : str) -> bool"
+   ],
+   "signature": "SetAPIMetaData(fabricIndex : int, jsonStr : str) -> bool"
+  },
+  "SetAPIMetaDataW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetAPIMetaDataW(fabricIndex : int, jsonStr : str) -> bool",
+    "SetAPIMetaDataW(_colorwayIndex : int, _fabricIndex : int, _jsonStr : str) -> bool",
+    "SetAPIMetaDataW(filePath : str, jsonStr : str) -> bool"
+   ],
+   "signature": "SetAPIMetaDataW(fabricIndex : int, jsonStr : str) -> bool"
+  },
+  "SetAddlThicknessCollision": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetAddlThicknessCollision(_patternIndex : int, _value : float) -> None"
+  },
+  "SetAnimationRecording": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetAnimationRecording(_bStart : bool) -> None"
+  },
+  "SetArrangement": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetArrangement(_patternIndex : int, _arrangementIndex : int) -> None"
+  },
+  "SetArrangementOrientation": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetArrangementOrientation(_patternIndex : int, _orientation : int) -> None"
+  },
+  "SetArrangementPosition": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetArrangementPosition(_patternIndex : int, _positionX : int, _positionY : int, _offset : int) -> None"
+  },
+  "SetArrangementShapeStyle": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetArrangementShapeStyle(_patternIndex : int, _shapeStyle : str) -> None"
+  },
+  "SetArrangementShapeStyleW": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetArrangementShapeStyleW(_patternIndex : int, _shapeStyle : str) -> None"
+  },
+  "SetAssetShareRoot": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetAssetShareRoot(_shareRoot : str) -> None"
+  },
+  "SetAvatarActivation": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetAvatarActivation(_avatarName : str, _bActivate : bool) -> bool"
+  },
+  "SetAvatarMeshTexture": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetAvatarMeshTexture(_matShapeName : str, _matMeshIndex : int, _textureImagePath : str) -> bool"
+  },
+  "SetAvatarOpacityMap": {
+   "ingroup": null,
+   "signature": "SetAvatarOpacityMap(_imageFilePath : str) -> None"
+  },
+  "SetAvatarOpacityMapByIndex": {
+   "ingroup": null,
+   "signature": "SetAvatarOpacityMapByIndex(_imageFilePath : str, _matShapeIndex : int) -> None"
+  },
+  "SetAvatarProperties": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetAvatarProperties(_avatarIndex : int, avatarPropertyMap : map[str, str]) -> None"
+  },
+  "SetAvatarSmooth": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetAvatarSmooth(_avatarIndex : int, _smoothlevel : int) -> None"
+  },
+  "SetAvatarSoftBodyStiffness": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetAvatarSoftBodyStiffness(_avatarIndex : int, _stiffnessValue : float) -> None"
+  },
+  "SetAvatarTexureMap": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetAvatarTexureMap(_imageFilePath : str, _textureType : int) -> None"
+  },
+  "SetBackUVExpansion": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetBackUVExpansion(_patternIndex : int, _bSet : bool) -> None"
+  },
+  "SetBackgroundColorForExportRenderingImage": {
+   "ingroup": null,
+   "signature": "SetBackgroundColorForExportRenderingImage(_r : float, _g : float, _b : float, _a : float) -> None"
+  },
+  "SetBasePath": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetBasePath(_basePath : str) -> None"
+  },
+  "SetBaseTextureMapImageDesaturation": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetBaseTextureMapImageDesaturation(_fabricIndex : int, _colorwayIndex : int, _bSetOnOff : bool) -> None"
+  },
+  "SetBaseTextureMapImageGivenFilePath": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetBaseTextureMapImageGivenFilePath(_imageFilePath : str) -> None",
+    "SetBaseTextureMapImageGivenFilePath(_imageFilePath : str, _fabricIndex : int) -> None",
+    "SetBaseTextureMapImageGivenFilePath(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int) -> None",
+    "SetBaseTextureMapImageGivenFilePath(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int, _styleChipIndex : int, _materialFace : int) -> str"
+   ],
+   "signature": "SetBaseTextureMapImageGivenFilePath(_imageFilePath : str) -> None"
+  },
+  "SetBaseTextureMapImageGivenFilePathW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetBaseTextureMapImageGivenFilePathW(_imageFilePath : str) -> None",
+    "SetBaseTextureMapImageGivenFilePathW(_imageFilePath : str, _fabricIndex : int) -> None",
+    "SetBaseTextureMapImageGivenFilePathW(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int) -> None"
+   ],
+   "signature": "SetBaseTextureMapImageGivenFilePathW(_imageFilePath : str) -> None"
+  },
+  "SetButtonGradingPositionOffsets": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetButtonGradingPositionOffsets(_buttonIndex : int, _offsets : list[list[float]]) -> bool"
+  },
+  "SetButtonHeadStyleColor": {
+   "ingroup": null,
+   "overloads": [
+    "SetButtonHeadStyleColor(_styleIndex : int, _meshIndex : int, _r : int, _g : int, _b : int, _a : int) -> None",
+    "SetButtonHeadStyleColor(_styleIndex : int, _colorwayIndex : int, _meshIndex : int, _r : int, _g : int, _b : int, _a : int) -> None"
+   ],
+   "signature": "SetButtonHeadStyleColor(_styleIndex : int, _meshIndex : int, _r : int, _g : int, _b : int, _a : int) -> None"
+  },
+  "SetButtonHoleGradingPositionOffsets": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetButtonHoleGradingPositionOffsets(_buttonHoleIndex : int, _offsets : list[list[float]]) -> bool"
+  },
+  "SetButtonHoleStyleColor": {
+   "ingroup": null,
+   "overloads": [
+    "SetButtonHoleStyleColor(_styleIndex : int, _r : int, _g : int, _b : int, _a : int) -> None",
+    "SetButtonHoleStyleColor(_styleIndex : int, _colorwayIndex : int, _r : int, _g : int, _b : int, _a : int) -> None"
+   ],
+   "signature": "SetButtonHoleStyleColor(_styleIndex : int, _r : int, _g : int, _b : int, _a : int) -> None"
+  },
+  "SetCamViewPoint": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetCamViewPoint(_viewPointIndex : int) -> None"
+  },
+  "SetColorSwatchLibraryTabName": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetColorSwatchLibraryTabName(tabName : str, newTabName : str) -> bool"
+  },
+  "SetColorSwatchListItemName": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetColorSwatchListItemName(tabName : str, index : int, text : str) -> bool"
+  },
+  "SetColorwayColorItem": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetColorwayColorItem(_colorwayIndex : int, _colorItemIndex : int, _plmId : str, _colorName : str, _rgb : CloApiRgb) -> None"
+  },
+  "SetColorwayName": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetColorwayName(index : int, str : str) -> None"
+  },
+  "SetColorwayNameW": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetColorwayNameW(index : int, wstr : str) -> None"
+  },
+  "SetCropBackground": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetCropBackground(_bToggle : bool) -> None"
+  },
+  "SetCurrentAnimationFrame": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetCurrentAnimationFrame(_frame : double) -> None"
+  },
+  "SetCurrentColorwayIndex": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetCurrentColorwayIndex(index : int) -> None"
+  },
+  "SetCurrentFabricIndex": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetCurrentFabricIndex(_index : int) -> bool",
+    "SetCurrentFabricIndex(_colorwayIndex : int, _index : int) -> bool"
+   ],
+   "signature": "SetCurrentFabricIndex(_index : int) -> bool"
+  },
+  "SetCustomImage": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetCustomImage(_fabricIndex : int, _filePath : str) -> None",
+    "SetCustomImage(_colorwayIndex : int, _fabricIndex : int, _filePath : str) -> None"
+   ],
+   "signature": "SetCustomImage(_fabricIndex : int, _filePath : str) -> None"
+  },
+  "SetCustomImageW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetCustomImageW(_fabricIndex : int, _filePath : str) -> None",
+    "SetCustomImageW(_colorwayIndex : int, _fabricIndex : int, _filePath : str) -> None"
+   ],
+   "signature": "SetCustomImageW(_fabricIndex : int, _filePath : str) -> None"
+  },
+  "SetDisplacementMapImageGivenFilePath": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetDisplacementMapImageGivenFilePath(_imageFilePath : str) -> None",
+    "SetDisplacementMapImageGivenFilePath(_imageFilePath : str, _fabricIndex : int) -> None",
+    "SetDisplacementMapImageGivenFilePath(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int) -> None",
+    "SetDisplacementMapImageGivenFilePath(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int, _styleChipIndex : int, _materialFace : int) -> str"
+   ],
+   "signature": "SetDisplacementMapImageGivenFilePath(_imageFilePath : str) -> None"
+  },
+  "SetDisplacementMapImageGivenFilePathW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetDisplacementMapImageGivenFilePathW(_imageFilePath : str) -> None",
+    "SetDisplacementMapImageGivenFilePathW(_imageFilePath : str, _fabricIndex : int) -> None",
+    "SetDisplacementMapImageGivenFilePathW(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int) -> None"
+   ],
+   "signature": "SetDisplacementMapImageGivenFilePathW(_imageFilePath : str) -> None"
+  },
+  "SetEndAnimationFrame": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetEndAnimationFrame(_frame : double) -> None"
+  },
+  "SetEnvironmentDisplayProperties": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetEnvironmentDisplayProperties(_option : int, _show : bool) -> None"
+  },
+  "SetFabricInformation": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetFabricInformation(_fabricIndex : int, _infoMap : map[str, str]) -> None",
+    "SetFabricInformation(_colorwayIndex : int, _fabricIndex : int, _infoMap : map[str, str]) -> None"
+   ],
+   "signature": "SetFabricInformation(_fabricIndex : int, _infoMap : map[str, str]) -> None"
+  },
+  "SetFabricInformationW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetFabricInformationW(_fabricIndex : int, _infoMap : map[str, str]) -> None",
+    "SetFabricInformationW(_colorwayIndex : int, _fabricIndex : int, _infoMap : map[str, str]) -> None"
+   ],
+   "signature": "SetFabricInformationW(_fabricIndex : int, _infoMap : map[str, str]) -> None"
+  },
+  "SetFabricItemNo": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetFabricItemNo(_fabricIndex : int, _itemNo : str) -> bool",
+    "SetFabricItemNo(_colorwayIndexForFabric : int, _fabricIndex : int, _itemNo : str) -> bool"
+   ],
+   "signature": "SetFabricItemNo(_fabricIndex : int, _itemNo : str) -> bool"
+  },
+  "SetFabricItemNoW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetFabricItemNoW(_fabricIndex : int, _itemNo : str) -> bool",
+    "SetFabricItemNoW(_colorwayIndexForFabric : int, _fabricIndex : int, _itemNo : str) -> bool"
+   ],
+   "signature": "SetFabricItemNoW(_fabricIndex : int, _itemNo : str) -> bool"
+  },
+  "SetFabricName": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetFabricName(index : int, str : str) -> None",
+    "SetFabricName(_colorwayIndex : int, _fabricIndex : int, _str : str) -> None",
+    "SetFabricName(_index : int, _str : str, _bRefreshTab : bool) -> None"
+   ],
+   "signature": "SetFabricName(index : int, str : str) -> None"
+  },
+  "SetFabricNameW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetFabricNameW(index : int, wstr : str) -> None",
+    "SetFabricNameW(_colorwayIndex : int, _fabricIndex : int, _wstr : str) -> None"
+   ],
+   "signature": "SetFabricNameW(index : int, wstr : str) -> None"
+  },
+  "SetFabricPBRMaterialBaseColor": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetFabricPBRMaterialBaseColor(fabricIndex : int, materialFace : int, r : float, g : float, b : float, a : float) -> bool",
+    "SetFabricPBRMaterialBaseColor(_colorwayIndex : int, _fabricIndex : int, _materialFace : int, _r : float, _g : float, _b : float, _a : float) -> bool",
+    "SetFabricPBRMaterialBaseColor(fabricIndex : int, materialFace : int, _colorName : str) -> bool",
+    "SetFabricPBRMaterialBaseColor(_colorwayIndex : int, _fabricIndex : int, _materialFace : int, _colorName : str) -> bool"
+   ],
+   "signature": "SetFabricPBRMaterialBaseColor(fabricIndex : int, materialFace : int, r : float, g : float, b : float, a : float) -> bool"
+  },
+  "SetFabricWidth": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetFabricWidth(_fabricIndex : int, mm : float) -> None",
+    "SetFabricWidth(_colorwayIndex : int, _fabricIndex : int, _mm : float) -> None"
+   ],
+   "signature": "SetFabricWidth(_fabricIndex : int, mm : float) -> None"
+  },
+  "SetFormat3DBackground": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetFormat3DBackground(r : float, g : float, b : float) -> None"
+  },
+  "SetGarmentDisplayProperties": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetGarmentDisplayProperties(_option : int, _show : bool) -> None"
+  },
+  "SetGradingPairedAvatar": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetGradingPairedAvatar(_gradingIndex : int, _avatarName : str) -> bool"
+  },
+  "SetGradingPairedAvatarFromFile": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetGradingPairedAvatarFromFile(_gradingIndex : int, _avtFilePath : str) -> bool"
+  },
+  "SetGradingPairedAvatarSizing": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetGradingPairedAvatarSizing(_gradingIndex : int, _avsFilePath : str) -> bool"
+  },
+  "SetGradingSizeQuantityMix": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetGradingSizeQuantityMix(_groupIndex : int, _sizeQuantityDict : map[str, int]) -> bool"
+  },
+  "SetGraphicBaseColorMapTexture": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "SetGraphicBaseColorMapTexture(_imageFilePath : str, _graphicStyleIndex : int) -> None",
+    "SetGraphicBaseColorMapTexture(_imageFilePath : str, _graphicStyleIndex : int, _colorwayIndex : int) -> None"
+   ],
+   "signature": "SetGraphicBaseColorMapTexture(_imageFilePath : str, _graphicStyleIndex : int) -> None"
+  },
+  "SetGraphicDisplacementMapTexture": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "SetGraphicDisplacementMapTexture(_imageFilePath : str) -> None",
+    "SetGraphicDisplacementMapTexture(_GraphicIndex : int, _imageFilePath : str) -> None"
+   ],
+   "signature": "SetGraphicDisplacementMapTexture(_imageFilePath : str) -> None"
+  },
+  "SetGraphicGradingPositionOffsets": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetGraphicGradingPositionOffsets(_graphicStyleIndex : int, _patternIndex : int, _offsets : list[list[float]]) -> bool"
+  },
+  "SetGraphicGradingScaleRatios": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetGraphicGradingScaleRatios(_graphicStyleIndex : int, _patternIndex : int, _scaleRatios : list[list[float]]) -> bool"
+  },
+  "SetGraphicInstanceLocked": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetGraphicInstanceLocked(_patternIndex : int, _graphicIndex : int, _bLocked : bool) -> None"
+  },
+  "SetGraphicMetalnessMapTexture": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "SetGraphicMetalnessMapTexture(_imageFilePath : str) -> None",
+    "SetGraphicMetalnessMapTexture(_GraphicIndex : int, _imageFilePath : str) -> None"
+   ],
+   "signature": "SetGraphicMetalnessMapTexture(_imageFilePath : str) -> None"
+  },
+  "SetGraphicNormalMapTexture": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "SetGraphicNormalMapTexture(_imageFilePath : str) -> None",
+    "SetGraphicNormalMapTexture(_GraphicIndex : int, _imageFilePath : str) -> None"
+   ],
+   "signature": "SetGraphicNormalMapTexture(_imageFilePath : str) -> None"
+  },
+  "SetGraphicOpacityMapTexture": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "SetGraphicOpacityMapTexture(_imageFilePath : str) -> None",
+    "SetGraphicOpacityMapTexture(_GraphicIndex : int, _imageFilePath : str) -> None"
+   ],
+   "signature": "SetGraphicOpacityMapTexture(_imageFilePath : str) -> None"
+  },
+  "SetGraphicRoughnessMapTexture": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "SetGraphicRoughnessMapTexture(_imageFilePath : str) -> None",
+    "SetGraphicRoughnessMapTexture(_GraphicIndex : int, _imageFilePath : str) -> None"
+   ],
+   "signature": "SetGraphicRoughnessMapTexture(_imageFilePath : str) -> None"
+  },
+  "SetGraphicStyleBaseColorMapTextureDesaturation": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetGraphicStyleBaseColorMapTextureDesaturation(_graphicStyleIndex : int, _colorwayIndex : int, _bSetOnOff : bool) -> None"
+  },
+  "SetGraphicStyleColor": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "SetGraphicStyleColor(_styleIndex : int, r : float, g : float, b : float, a : float) -> bool",
+    "SetGraphicStyleColor(r : float, g : float, b : float, a : float) -> bool",
+    "SetGraphicStyleColor(_styleIndex : int, _colorName : str) -> bool",
+    "SetGraphicStyleColor(_styleIndex : int, _r : int, _g : int, _b : int, _a : int) -> None",
+    "SetGraphicStyleColor(_styleIndex : int, _colorwayIndex : int, _r : int, _g : int, _b : int, _a : int) -> None",
+    "SetGraphicStyleColor(_styleIndex : int, _colorwayIndex : int, _colorName : str) -> bool"
+   ],
+   "signature": "SetGraphicStyleColor(_styleIndex : int, r : float, g : float, b : float, a : float) -> bool"
+  },
+  "SetGraphicStyleDimensions": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "SetGraphicStyleDimensions(_index : int, _width : float, _height : float) -> None",
+    "SetGraphicStyleDimensions(_colorwayIndex : int, _index : int, _width : float, _height : float) -> None"
+   ],
+   "signature": "SetGraphicStyleDimensions(_index : int, _width : float, _height : float) -> None"
+  },
+  "SetGraphicStyleDimensionsOnPattern": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetGraphicStyleDimensionsOnPattern(_colorwayIndex : int, _graphicIndex : int, _patternIndex : int, _width : float, _height : float) -> bool"
+  },
+  "SetGraphicStyleHeight": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetGraphicStyleHeight(_index : int, _height : float, _bOnly : bool) -> None"
+  },
+  "SetGraphicStyleLocked": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetGraphicStyleLocked(_graphicIndex : int, _bLocked : bool) -> None"
+  },
+  "SetGraphicStyleName": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetGraphicStyleName(_index : int, _name : str) -> None"
+  },
+  "SetGraphicStylePositionOnPattern": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetGraphicStylePositionOnPattern(_colorwayIndex : int, _graphicIndex : int, _patternIndex : int, _x : float, _y : float) -> bool"
+  },
+  "SetGraphicStyleToGraphic": {
+   "ingroup": null,
+   "overloads": [
+    "SetGraphicStyleToGraphic(_styleIndex : int, _graphicIndex : int, _assignOption : int) -> None",
+    "SetGraphicStyleToGraphic(_styleIndex : int, _colorwayIndex : int, _graphicIndex : int, _assignOption : int) -> None"
+   ],
+   "signature": "SetGraphicStyleToGraphic(_styleIndex : int, _graphicIndex : int, _assignOption : int) -> None"
+  },
+  "SetGraphicStyleWidth": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetGraphicStyleWidth(_index : int, _width : float, _bOnly : bool) -> None"
+  },
+  "SetHeightShrinkagePercentage": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetHeightShrinkagePercentage(_patternIndex : int, _height : float) -> None"
+  },
+  "SetLightPresetForExportRenderingImage": {
+   "ingroup": null,
+   "signature": "SetLightPresetForExportRenderingImage(_index : int) -> None"
+  },
+  "SetMaterialProperties": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetMaterialProperties(colorwayIndex : int, objectIndex : int, browserContextOptions : ObjectBrowserContextOptions, materialContextProperties : MaterialPropertyOptions, newValues : MaterialPropertyOptions) -> str"
+  },
+  "SetMaterialTextureTransformations": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetMaterialTextureTransformations(colorwayIndex : int, objectIndex : int, browserContextOptions : ObjectBrowserContextOptions, propertyEditorContextOptions : PropertyEditorContextOptions, transformOptions : TransformOptions) -> None"
+  },
+  "SetMaterialType": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetMaterialType(_fabricIndex : int, _materialFace : int, _materialType : int) -> None",
+    "SetMaterialType(_colorwayIndex : int, _fabricIndex : int, _materialFace : int, _materialType : int) -> None"
+   ],
+   "signature": "SetMaterialType(_fabricIndex : int, _materialFace : int, _materialType : int) -> None"
+  },
+  "SetMeshType": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetMeshType(_patternIndex : int, _meshType : str) -> None"
+  },
+  "SetMeshTypeW": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetMeshTypeW(_patternIndex : int, _meshType : str) -> None"
+  },
+  "SetMetaDataForCurrentGarment": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetMetaDataForCurrentGarment(metaDataStr : str) -> None"
+  },
+  "SetMetalness": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetMetalness(_fabricIndex : int, _materialFace : int, _metalness : float) -> None",
+    "SetMetalness(_colorwayIndex : int, fabricIndex : int, _materialFace : int, _metalness : float) -> None"
+   ],
+   "signature": "SetMetalness(_fabricIndex : int, _materialFace : int, _metalness : float) -> None"
+  },
+  "SetMetalnessMapImageGivenFilePath": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetMetalnessMapImageGivenFilePath(_imageFilePath : str) -> None",
+    "SetMetalnessMapImageGivenFilePath(_imageFilePath : str, _fabricIndex : int) -> None",
+    "SetMetalnessMapImageGivenFilePath(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int) -> None",
+    "SetMetalnessMapImageGivenFilePath(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int, _styleChipIndex : int, _materialFace : int) -> str"
+   ],
+   "signature": "SetMetalnessMapImageGivenFilePath(_imageFilePath : str) -> None"
+  },
+  "SetMetalnessMapImageGivenFilePathW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetMetalnessMapImageGivenFilePathW(_imageFilePath : str) -> None",
+    "SetMetalnessMapImageGivenFilePathW(_imageFilePath : str, _fabricIndex : int) -> None",
+    "SetMetalnessMapImageGivenFilePathW(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int) -> None"
+   ],
+   "signature": "SetMetalnessMapImageGivenFilePathW(_imageFilePath : str) -> None"
+  },
+  "SetNestingBufferSpacing": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetNestingBufferSpacing(_mm : float) -> None"
+  },
+  "SetNestingFabricBufferSpacing": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetNestingFabricBufferSpacing(_mmLeft : float, _mmRight : float, _mmTop : float, _mmBottom : float) -> None"
+  },
+  "SetNestingFixedPatternPiecePos": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetNestingFixedPatternPiecePos(patternPieceIndex : int, x : int, y : int) -> None"
+  },
+  "SetNestingPatternBufferSpacing": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetNestingPatternBufferSpacing(_mmLeft : float, _mmRight : float, _mmTop : float, _mmBottom : float) -> None"
+  },
+  "SetNestingPatternPieceGrainDirection": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetNestingPatternPieceGrainDirection(patternPieceIndex : int, menuIndex : int) -> None"
+  },
+  "SetNestingTargetColorway": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetNestingTargetColorway(_colorwayList : list[int]) -> None"
+  },
+  "SetNormalBlendingMethod": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetNormalBlendingMethod(_index : int) -> None"
+  },
+  "SetNormalMapImageGivenFilePath": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetNormalMapImageGivenFilePath(_imageFilePath : str) -> None",
+    "SetNormalMapImageGivenFilePath(_imageFilePath : str, _fabricIndex : int) -> None",
+    "SetNormalMapImageGivenFilePath(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int) -> None",
+    "SetNormalMapImageGivenFilePath(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int, _styleChipIndex : int, _materialFace : int) -> str"
+   ],
+   "signature": "SetNormalMapImageGivenFilePath(_imageFilePath : str) -> None"
+  },
+  "SetNormalMapImageGivenFilePathW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetNormalMapImageGivenFilePathW(_imageFilePath : str) -> None",
+    "SetNormalMapImageGivenFilePathW(_imageFilePath : str, _fabricIndex : int) -> None",
+    "SetNormalMapImageGivenFilePathW(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int) -> None"
+   ],
+   "signature": "SetNormalMapImageGivenFilePathW(_imageFilePath : str) -> None"
+  },
+  "SetNormalMapIntensity": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetNormalMapIntensity(_fabricIndex : int, _materialFace : int, _normalMapIntensity : float) -> None",
+    "SetNormalMapIntensity(_colorwayIndex : int, fabricIndex : int, _materialFace : int, _normalMapIntensity : float) -> None"
+   ],
+   "signature": "SetNormalMapIntensity(_fabricIndex : int, _materialFace : int, _normalMapIntensity : float) -> None"
+  },
+  "SetObjectBrowserContext": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetObjectBrowserContext(options : ObjectBrowserContextOptions) -> None"
+  },
+  "SetOpacityIntensity": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetOpacityIntensity(_fabricIndex : int, _materialFace : int, _opacityIntensity : float) -> None",
+    "SetOpacityIntensity(_colorwayIndex : int, _fabricIndex : int, _materialFace : int, _opacityIntensity : float) -> None"
+   ],
+   "signature": "SetOpacityIntensity(_fabricIndex : int, _materialFace : int, _opacityIntensity : float) -> None"
+  },
+  "SetOpacityMapImageGivenFilePath": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetOpacityMapImageGivenFilePath(_imageFilePath : str) -> None",
+    "SetOpacityMapImageGivenFilePath(_imageFilePath : str, _fabricIndex : int) -> None",
+    "SetOpacityMapImageGivenFilePath(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int) -> None",
+    "SetOpacityMapImageGivenFilePath(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int, _styleChipIndex : int, _materialFace : int) -> str"
+   ],
+   "signature": "SetOpacityMapImageGivenFilePath(_imageFilePath : str) -> None"
+  },
+  "SetOpacityMapImageGivenFilePathW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetOpacityMapImageGivenFilePathW(_imageFilePath : str) -> None",
+    "SetOpacityMapImageGivenFilePathW(_imageFilePath : str, _fabricIndex : int) -> None",
+    "SetOpacityMapImageGivenFilePathW(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int) -> None"
+   ],
+   "signature": "SetOpacityMapImageGivenFilePathW(_imageFilePath : str) -> None"
+  },
+  "SetPBRMaterialDisplacementMap": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetPBRMaterialDisplacementMap(_fabricIndex : int, _path : str) -> bool",
+    "SetPBRMaterialDisplacementMap(_colorwayIndex : int, _fabricIndex : int, _path : str) -> bool"
+   ],
+   "signature": "SetPBRMaterialDisplacementMap(_fabricIndex : int, _path : str) -> bool"
+  },
+  "SetPBRMaterialDisplacementMapValue": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetPBRMaterialDisplacementMapValue(_fabricIndex : int, _amount : float, _shift : float, _clipping : float, _particleDist : float, _keep : bool) -> bool",
+    "SetPBRMaterialDisplacementMapValue(_colorwayIndex : int, _fabricIndex : int, _amount : float, _shift : float, _clipping : float, _particleDist : float, _keep : bool) -> bool"
+   ],
+   "signature": "SetPBRMaterialDisplacementMapValue(_fabricIndex : int, _amount : float, _shift : float, _clipping : float, _particleDist : float, _keep : bool) -> bool"
+  },
+  "SetParticleDistanceOfPattern": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetParticleDistanceOfPattern(_patternIndex : int, _length : float) -> None"
+  },
+  "SetParticleDistanceOfPatterns": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetParticleDistanceOfPatterns(_length : float) -> None"
+  },
+  "SetPatternArchiveState": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternArchiveState(_patternIndex : int, _archiveState : bool) -> None"
+  },
+  "SetPatternAssignedTopstitchCurved": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternAssignedTopstitchCurved(_patternIndex : int, _segmentStitchIndex : int, _bCurved : bool) -> None"
+  },
+  "SetPatternAssignedTopstitchCurvedLength": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternAssignedTopstitchCurvedLength(_patternIndex : int, _segmentStitchIndex : int, _length : int) -> None"
+  },
+  "SetPatternAssignedTopstitchCurvedRightAngled": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternAssignedTopstitchCurvedRightAngled(_patternIndex : int, _segmentStitchIndex : int, _bRightAngled : bool) -> None"
+  },
+  "SetPatternAssignedTopstitchExtendEnd": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternAssignedTopstitchExtendEnd(_patternIndex : int, _segmentStitchIndex : int, _bEnd : bool) -> None"
+  },
+  "SetPatternAssignedTopstitchExtendStart": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternAssignedTopstitchExtendStart(_patternIndex : int, _segmentStitchIndex : int, _bStart : bool) -> None"
+  },
+  "SetPatternAssignedTopstitchStyle": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternAssignedTopstitchStyle(_patternIndex : int, _segmentStitchIndex : int, _stitchStyleIndex : int) -> None"
+  },
+  "SetPatternAssignedTopstitchZOffset": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternAssignedTopstitchZOffset(_patternIndex : int, _segmentStitchIndex : int, _zOffset : float) -> None"
+  },
+  "SetPatternFreeze": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternFreeze(_patternIndex : int, _bFreeze : bool) -> None"
+  },
+  "SetPatternHide3D": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternHide3D(_patternIndex : int, _bHide : bool) -> None"
+  },
+  "SetPatternLayer": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternLayer(_patternIndex : int, _layer : int) -> None"
+  },
+  "SetPatternLock": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternLock(_patternIndex : int, _bLock : bool) -> None"
+  },
+  "SetPatternPieceCategory": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternPieceCategory(_patternPieceIndex : int, _category : int) -> None"
+  },
+  "SetPatternPieceClassification": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternPieceClassification(_patternPieceIndex : int, _classification : str) -> None"
+  },
+  "SetPatternPieceElastic": {
+   "ingroup": null,
+   "signature": "SetPatternPieceElastic(_patternIndex : int, _lineIndex : int, _bElastic : bool) -> None"
+  },
+  "SetPatternPieceElasticSegmentLength": {
+   "ingroup": null,
+   "signature": "SetPatternPieceElasticSegmentLength(_patternIndex : int, _lineIndex : int, _segmentLength : float) -> None"
+  },
+  "SetPatternPieceElasticStrength": {
+   "ingroup": null,
+   "signature": "SetPatternPieceElasticStrength(_patternIndex : int, _lineIndex : int, _strength : float) -> None"
+  },
+  "SetPatternPieceElasticStrengthRatio": {
+   "ingroup": null,
+   "signature": "SetPatternPieceElasticStrengthRatio(_patternIndex : int, _lineIndex : int, _ratio : int) -> None"
+  },
+  "SetPatternPieceElasticTotalLength": {
+   "ingroup": null,
+   "signature": "SetPatternPieceElasticTotalLength(_patternIndex : int, _lineIndex : int, _totalLength : float) -> None"
+  },
+  "SetPatternPieceFabricIndex": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternPieceFabricIndex(_patternPieceIndex : int, _fabricIndex : int) -> None"
+  },
+  "SetPatternPieceGrainDirection": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternPieceGrainDirection(_patternPieceIndex : int, _degree : float) -> None"
+  },
+  "SetPatternPieceGrainLinkAllColorways": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternPieceGrainLinkAllColorways(_patternPieceIndex : int, _isOn : bool) -> None"
+  },
+  "SetPatternPieceMove": {
+   "ingroup": null,
+   "signature": "SetPatternPieceMove(_patternIndex : int, _offsetX : float, _offsetY : float) -> None"
+  },
+  "SetPatternPieceName": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternPieceName(_patternIndex : int, _patternName : str) -> None"
+  },
+  "SetPatternPiecePos": {
+   "ingroup": null,
+   "signature": "SetPatternPiecePos(_patternIndex : int, _x : float, _y : float) -> None"
+  },
+  "SetPatternPieceSametapingWidth": {
+   "ingroup": null,
+   "signature": "SetPatternPieceSametapingWidth(_patternIndex : int, _lineIndex : int, _width : float) -> None"
+  },
+  "SetPatternPieceSeamtaping": {
+   "ingroup": null,
+   "signature": "SetPatternPieceSeamtaping(_patternIndex : int, _lineIndex : int, _bSeamtaping : bool) -> None"
+  },
+  "SetPatternPieceShirring": {
+   "ingroup": null,
+   "signature": "SetPatternPieceShirring(_patternIndex : int, _lineIndex : int, _bShirring : bool) -> None"
+  },
+  "SetPatternPieceShirringExtend": {
+   "ingroup": null,
+   "signature": "SetPatternPieceShirringExtend(_patternIndex : int, _lineIndex : int, _bExtend : bool) -> None"
+  },
+  "SetPatternPieceShirringHeight": {
+   "ingroup": null,
+   "signature": "SetPatternPieceShirringHeight(_patternIndex : int, _lineIndex : int, _height : float) -> None"
+  },
+  "SetPatternPieceShirringInterval": {
+   "ingroup": null,
+   "signature": "SetPatternPieceShirringInterval(_patternIndex : int, _lineIndex : int, _interval : float) -> None"
+  },
+  "SetPatternPieceSolidify": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternPieceSolidify(_patternPieceIndex : int, _isOn : bool) -> None"
+  },
+  "SetPatternPieceSolidifyStrengthen": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternPieceSolidifyStrengthen(_patternPieceIndex : int, _strengthen : float) -> None"
+  },
+  "SetPatternPointsGradingPositionOffsets": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternPointsGradingPositionOffsets(_patternIndex : int, _pointIndices : list[int], _offsets : list[list[float]]) -> bool"
+  },
+  "SetPatternSnapShotColorwayOption": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetPatternSnapShotColorwayOption(_op : PatternSnapShotColorwayOption, _mode : int) -> None"
+  },
+  "SetPatternSnapShotImageOption": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetPatternSnapShotImageOption(_op : PatternSnapShotImageOption, _mode : int) -> None"
+  },
+  "SetPatternSnapShotInformationOption": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetPatternSnapShotInformationOption(_op : PatternSnapShotInformationOption, _mode : int) -> None"
+  },
+  "SetPatternSnapShotLineOption": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetPatternSnapShotLineOption(_op : PatternSnapShotLineOption, _mode : int) -> None"
+  },
+  "SetPatternSnapShotSizeOption": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetPatternSnapShotSizeOption(_op : PatternSnapShotSizeOption, _mode : int) -> None"
+  },
+  "SetPatternStrengthen": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetPatternStrengthen(_patternIndex : int, _bStrengthen : bool) -> None"
+  },
+  "SetProgress": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetProgress(title : str, progress : int) -> None"
+  },
+  "SetProgressW": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetProgressW(title : str, progress : int) -> None"
+  },
+  "SetQualityRender": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetQualityRender(_bSet : bool) -> None"
+  },
+  "SetReflectionIntensity": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetReflectionIntensity(_fabricIndex : int, _materialFace : int, _reflectionIntensity : float) -> None",
+    "SetReflectionIntensity(_colorwayIndex : int, fabricIndex : int, _materialFace : int, _reflectionIntensity : float) -> None"
+   ],
+   "signature": "SetReflectionIntensity(_fabricIndex : int, _materialFace : int, _reflectionIntensity : float) -> None"
+  },
+  "SetReflectionRoughness": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetReflectionRoughness(_fabricIndex : int, _materialFace : int, _reflectionRoughness : float) -> None",
+    "SetReflectionRoughness(_colorwayIndex : int, fabricIndex : int, _materialFace : int, _reflectionRoughness : float) -> None"
+   ],
+   "signature": "SetReflectionRoughness(_fabricIndex : int, _materialFace : int, _reflectionRoughness : float) -> None"
+  },
+  "SetRenderImageVideoProperties": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetRenderImageVideoProperties(_renderImageVideoOption : RenderImageVideoOptions) -> None"
+  },
+  "SetRenderingProperties": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetRenderingProperties(_renderPropertyOptions : RenderPropertyOptions) -> None"
+  },
+  "SetRoughnessMapImageGivenFilePath": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetRoughnessMapImageGivenFilePath(_imageFilePath : str) -> None",
+    "SetRoughnessMapImageGivenFilePath(_imageFilePath : str, _fabricIndex : int) -> None",
+    "SetRoughnessMapImageGivenFilePath(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int) -> None",
+    "SetRoughnessMapImageGivenFilePath(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int, _styleChipIndex : int, _materialFace : int) -> str"
+   ],
+   "signature": "SetRoughnessMapImageGivenFilePath(_imageFilePath : str) -> None"
+  },
+  "SetRoughnessMapImageGivenFilePathW": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetRoughnessMapImageGivenFilePathW(_imageFilePath : str) -> None",
+    "SetRoughnessMapImageGivenFilePathW(_imageFilePath : str, _fabricIndex : int) -> None",
+    "SetRoughnessMapImageGivenFilePathW(_imageFilePath : str, _colorwayIndex : int, _fabricIndex : int) -> None"
+   ],
+   "signature": "SetRoughnessMapImageGivenFilePathW(_imageFilePath : str) -> None"
+  },
+  "SetRoughnessType": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetRoughnessType(_index : int, _materialFace : int, _roughnessType : int) -> None",
+    "SetRoughnessType(_colorwayIndex : int, _index : int, _materialFace : int, _roughnessType : int) -> None"
+   ],
+   "signature": "SetRoughnessType(_index : int, _materialFace : int, _roughnessType : int) -> None"
+  },
+  "SetRoughnessValueIntensity": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetRoughnessValueIntensity(_fabricIndex : int, _face : int, _value : int) -> None",
+    "SetRoughnessValueIntensity(_colorwayIndex : int, _fabricIndex : int, _face : int, _value : int) -> None"
+   ],
+   "signature": "SetRoughnessValueIntensity(_fabricIndex : int, _face : int, _value : int) -> None"
+  },
+  "SetRoughnessValueMapIntensity": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetRoughnessValueMapIntensity(_index : int, _face : int, _value : int) -> None",
+    "SetRoughnessValueMapIntensity(_colorwayIndex : int, _index : int, _face : int, _value : int) -> None"
+   ],
+   "signature": "SetRoughnessValueMapIntensity(_index : int, _face : int, _value : int) -> None"
+  },
+  "SetRoughnessValueMapInvert": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetRoughnessValueMapInvert(_index : int, _face : int, _bInvert : bool) -> None",
+    "SetRoughnessValueMapInvert(_colorwayIndex : int, _index : int, _face : int, _bInvert : bool) -> None"
+   ],
+   "signature": "SetRoughnessValueMapInvert(_index : int, _face : int, _bInvert : bool) -> None"
+  },
+  "SetSchematicBrightness": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSchematicBrightness(_value : int) -> None"
+  },
+  "SetSchematicClothColor": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSchematicClothColor(_r : int, _g : int, _b : int) -> None"
+  },
+  "SetSchematicClothRenderType": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSchematicClothRenderType(_bTexture : bool) -> None"
+  },
+  "SetSchematicInternalLineWidth": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSchematicInternalLineWidth(_value : int) -> None"
+  },
+  "SetSchematicRender": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSchematicRender(_bSet : bool) -> None"
+  },
+  "SetSchematicSeamLineWidth": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSchematicSeamLineWidth(_value : int) -> None"
+  },
+  "SetSchematicSilhouetteLineWidth": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSchematicSilhouetteLineWidth(_value : int) -> None"
+  },
+  "SetSchematicTopstitchLineScalePercent": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSchematicTopstitchLineScalePercent(_value : int) -> None"
+  },
+  "SetShowHideAvatar": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "SetShowHideAvatar(_bShow : bool) -> None",
+    "SetShowHideAvatar(_bShow : bool, _avatarIdex : int) -> None"
+   ],
+   "signature": "SetShowHideAvatar(_bShow : bool) -> None"
+  },
+  "SetShowHideColorOptions": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetShowHideColorOptions(_option : int, _show : bool) -> None"
+  },
+  "SetShowSchematicInternalLine": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetShowSchematicInternalLine(_bOn : bool) -> None"
+  },
+  "SetShowSchematicSeamLine": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetShowSchematicSeamLine(_bOn : bool) -> None"
+  },
+  "SetShowSchematicSilhouetteLine": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetShowSchematicSilhouetteLine(_bOn : bool) -> None"
+  },
+  "SetShowSchematicTopstitchLine": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetShowSchematicTopstitchLine(_bOn : bool) -> None"
+  },
+  "SetSideUVExpansion": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetSideUVExpansion(_patternIndex : int, _bSet : bool) -> None"
+  },
+  "SetSimulationAirDamping": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSimulationAirDamping(_airDamping : float) -> None"
+  },
+  "SetSimulationCGFinishCondition": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSimulationCGFinishCondition(_cgFinishCondition : int) -> None"
+  },
+  "SetSimulationCGIterationCount": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSimulationCGIterationCount(_cgIterationCount : int) -> None"
+  },
+  "SetSimulationCGResidual": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSimulationCGResidual(_cgResidual : float) -> None"
+  },
+  "SetSimulationGravity": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSimulationGravity(_gravity : float) -> None"
+  },
+  "SetSimulationGroundCollision": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSimulationGroundCollision(_bGroundCollision : bool) -> None"
+  },
+  "SetSimulationGroundHeight": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSimulationGroundHeight(_groundHeight : float) -> None"
+  },
+  "SetSimulationLayerBasedCollisionDetection": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSimulationLayerBasedCollisionDetection(_bUseLayer : bool) -> None"
+  },
+  "SetSimulationNonlinearSimulation": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSimulationNonlinearSimulation(_bNonlinearSimulation : bool) -> None"
+  },
+  "SetSimulationNumberOfCPUInUse": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSimulationNumberOfCPUInUse(_numberOfSimulationInUse : int) -> None"
+  },
+  "SetSimulationNumberOfSimulation": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSimulationNumberOfSimulation(_numberOfSimulation : int) -> None"
+  },
+  "SetSimulationQuality": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSimulationQuality(_quality : int, _simulationMode : int) -> None"
+  },
+  "SetSimulationSelfCollisionAvoidanceStiffness": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSimulationSelfCollisionAvoidanceStiffness(_avoidanceStiffness : float) -> None"
+  },
+  "SetSimulationSelfCollisionIterationCount": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSimulationSelfCollisionIterationCount(_selfCollisionIterationCount : int) -> None"
+  },
+  "SetSimulationTimeStep": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetSimulationTimeStep(_timeStep : float) -> None"
+  },
+  "SetStartAnimationFrame": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetStartAnimationFrame(_frame : double) -> None"
+  },
+  "SetStrainMapStatus": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetStrainMapStatus(_bOn : bool) -> None"
+  },
+  "SetStressMapStatus": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetStressMapStatus(_bOn : bool) -> None"
+  },
+  "SetStyleLineColor": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetStyleLineColor(_r : int, _g : int, _b : int) -> None"
+  },
+  "SetSubstancePreset": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetSubstancePreset(fabricIndex : int, materialFace : int, presetIndex : int) -> None",
+    "SetSubstancePreset(colorwayIndex : int, fabricIndex : int, materialFace : int, presetIndex : int) -> None"
+   ],
+   "signature": "SetSubstancePreset(fabricIndex : int, materialFace : int, presetIndex : int) -> None"
+  },
+  "SetSubstanceResolution": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetSubstanceResolution(fabricIndex : int, materialFace : int, resolutionIndex : int) -> None",
+    "SetSubstanceResolution(colorwayIndex : int, fabricIndex : int, materialFace : int, resolutionIndex : int) -> None"
+   ],
+   "signature": "SetSubstanceResolution(fabricIndex : int, materialFace : int, resolutionIndex : int) -> None"
+  },
+  "SetTextureMapping": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetTextureMapping(fabricIndex : int, mappingType : int) -> None",
+    "SetTextureMapping(_colorwayIndex : int, _fabricIndex : int, _mappingType : int) -> None"
+   ],
+   "signature": "SetTextureMapping(fabricIndex : int, mappingType : int) -> None"
+  },
+  "SetTopStitchColor": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "SetTopStitchColor(_styleIndex : int, _lineIndex : int, _r : int, _g : int, _b : int, _a : int) -> None",
+    "SetTopStitchColor(_styleIndex : int, _lineIndex : int, _colorName : str) -> bool",
+    "SetTopStitchColor(_styleIndex : int, _colorwayIndex : int, _lineIndex : int, _r : int, _g : int, _b : int, _a : int) -> None",
+    "SetTopStitchColor(_styleIndex : int, _colorwayIndex : int, _lineIndex : int, _colorName : str) -> bool"
+   ],
+   "signature": "SetTopStitchColor(_styleIndex : int, _lineIndex : int, _r : int, _g : int, _b : int, _a : int) -> None"
+  },
+  "SetTopStitchDistanceValue": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetTopStitchDistanceValue(_topStitchIndex : int, _stitchCountIndex : int, _distanceValue : float) -> None"
+  },
+  "SetTopStitchName": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetTopStitchName(_topStitchIndex : int, _name : str) -> None"
+  },
+  "SetTopStitchNumberOfLines": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetTopStitchNumberOfLines(_topStitchIndex : int, _stitchCountIndex : int, _numberOfLines : int) -> None"
+  },
+  "SetTopStitchOffsetIndex": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetTopStitchOffsetIndex(_topStitchIndex : int, _offsetIndex : int) -> None"
+  },
+  "SetTopStitchOpacity": {
+   "ingroup": null,
+   "overloads": [
+    "SetTopStitchOpacity(_styleIndex : int, _lineIndex : int, _opacityValue : int) -> None",
+    "SetTopStitchOpacity(_styleIndex : int, _colorwayIndex : int, _lineIndex : int, _opacityValue : int) -> None"
+   ],
+   "signature": "SetTopStitchOpacity(_styleIndex : int, _lineIndex : int, _opacityValue : int) -> None"
+  },
+  "SetTopStitchWidthValue": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetTopStitchWidthValue(_topStitchIndex : int, _stitchCountIndex : int, _widthValue : float) -> None"
+  },
+  "SetTopstitchStyleModelType": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetTopstitchStyleModelType(_topStitchStyleIndex : int, _modelType : int) -> bool"
+  },
+  "SetTransparentBackgroundForExportRenderingImage": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetTransparentBackgroundForExportRenderingImage(_bTransparent : bool) -> None"
+  },
+  "SetTrimDisplaySettings": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetTrimDisplaySettings(_option : int, _show : bool) -> None"
+  },
+  "SetTrimMaterialProperties": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetTrimMaterialProperties(_trimStyleIndex : int, _meshIndex : int, _props : map[str, str]) -> None"
+  },
+  "SetTrimStyleColor": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "SetTrimStyleColor(_styleIndex : int, _meshIndex : int, _r : int, _g : int, _b : int, _a : int) -> None",
+    "SetTrimStyleColor(_styleIndex : int, _meshIndex : int, _colorName : str) -> bool",
+    "SetTrimStyleColor(_styleIndex : int, _colorwayIndex : int, _meshIndex : int, _r : int, _g : int, _b : int, _a : int) -> None",
+    "SetTrimStyleColor(_styleIndex : int, _colorwayIndex : int, _meshIndex : int, _colorName : str) -> bool"
+   ],
+   "signature": "SetTrimStyleColor(_styleIndex : int, _meshIndex : int, _r : int, _g : int, _b : int, _a : int) -> None"
+  },
+  "SetTrimWeight": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetTrimWeight(_trimStyleIndex : int, _mass : float) -> None"
+  },
+  "SetUseSameColorAsFront": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetUseSameColorAsFront(fabricIndex : int, materialFace : int, _useSameColor : bool) -> None",
+    "SetUseSameColorAsFront(colorwayIndex : int, fabricIndex : int, materialFace : int, _useSameColor : bool) -> None"
+   ],
+   "signature": "SetUseSameColorAsFront(fabricIndex : int, materialFace : int, _useSameColor : bool) -> None"
+  },
+  "SetUseSameMapAsFabricForGraphicOpacity": {
+   "ingroup": null,
+   "signature": "SetUseSameMapAsFabricForGraphicOpacity(_colorwayIndex : int, _graphicItemIndex : int, _materialFace : int, _bUse : bool) -> None"
+  },
+  "SetUseSameMaterialAsFront": {
+   "ingroup": "FABRIC_API",
+   "overloads": [
+    "SetUseSameMaterialAsFront(fabricIndex : int, materialFace : int, _useSameMaterial : bool) -> None",
+    "SetUseSameMaterialAsFront(colorwayIndex : int, fabricIndex : int, materialFace : int, _useSameMaterial : bool) -> None"
+   ],
+   "signature": "SetUseSameMaterialAsFront(fabricIndex : int, materialFace : int, _useSameMaterial : bool) -> None"
+  },
+  "SetViewControlDefaults": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetViewControlDefaults(_xAngle : double, _yPosition : double, _cameraDistance : double) -> None"
+  },
+  "SetViewPoint": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetViewPoint(_index : int) -> None"
+  },
+  "SetWidthShrinkagePercentage": {
+   "ingroup": "PATTERN_API",
+   "signature": "SetWidthShrinkagePercentage(_patternIndex : int, _width : float) -> None"
+  },
+  "SetWindActive": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetWindActive(_bActive : bool) -> None"
+  },
+  "SetWindControllerSettings": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetWindControllerSettings(_index : int, _op : WindControllerOptions) -> bool"
+  },
+  "SetWindPosition": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetWindPosition(_xPos : float, _yPos : float, _zPos : float) -> None"
+  },
+  "SetWindRotation": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetWindRotation(_xAngle : float, _yAngle : float, _zAngle : float) -> None"
+  },
+  "SetZipperBottomStopperStyle": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetZipperBottomStopperStyle(_zipperStyleIndex : int, _filePath : str) -> None"
+  },
+  "SetZipperPullerStyle": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetZipperPullerStyle(_zipperStyleIndex : int, _filePath : str) -> None"
+  },
+  "SetZipperSliderStyle": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetZipperSliderStyle(_zipperStyleIndex : int, _filePath : str) -> None"
+  },
+  "SetZipperStyleAssetType": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetZipperStyleAssetType(_zipperStyleIndex : int, _typeIndex : int) -> None"
+  },
+  "SetZipperStyleFunctionType": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetZipperStyleFunctionType(_zipperStyleIndex : int, _typeIndex : int) -> None"
+  },
+  "SetZipperStyleName": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetZipperStyleName(_zipperStyleIndex : int, _name : str) -> None"
+  },
+  "SetZipperStyleTapeThickness": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetZipperStyleTapeThickness(_zipperStyleIndex : int, _tapeThickness : float) -> None"
+  },
+  "SetZipperStyleTeethType": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetZipperStyleTeethType(_zipperStyleIndex : int, _typeIndex : int) -> None"
+  },
+  "SetZipperStyleTeethWidth": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetZipperStyleTeethWidth(_zipperStyleIndex : int, _teethWidth : float) -> None"
+  },
+  "SetZipperStyleWeight": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetZipperStyleWeight(_zipperStyleIndex : int, _weight : float) -> None"
+  },
+  "SetZipperTopStopperStyle": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetZipperTopStopperStyle(_zipperStyleIndex : int, _filePath : str) -> None"
+  },
+  "SetZoomView": {
+   "ingroup": "UTILITY_API",
+   "signature": "SetZoomView() -> None"
+  },
+  "Simulate": {
+   "ingroup": "UTILITY_API",
+   "signature": "Simulate(_steps : int) -> bool"
+  },
+  "StartNesting": {
+   "ingroup": "UTILITY_API",
+   "signature": "StartNesting() -> None"
+  },
+  "StopNesting": {
+   "ingroup": "UTILITY_API",
+   "signature": "StopNesting() -> None"
+  },
+  "SymmetryPatternPiece": {
+   "ingroup": "PATTERN_API",
+   "signature": "SymmetryPatternPiece(_patternIndex : int, _bWithSewing : bool) -> None"
+  },
+  "SymmetryPatternPieceWithPatternName": {
+   "ingroup": "PATTERN_API",
+   "signature": "SymmetryPatternPieceWithPatternName(_patternName : str, _bWithSewing : bool) -> None"
+  },
+  "TerminatePlugInFromList": {
+   "ingroup": "UTILITY_API",
+   "signature": "TerminatePlugInFromList(_pluginListIndex : int) -> None"
+  },
+  "TraceBaselineAsInternalShape": {
+   "ingroup": "PATTERN_API",
+   "signature": "TraceBaselineAsInternalShape(_patternIndex : int, _baselineIndex : int) -> bool"
+  },
+  "TransformAOPOnFabric": {
+   "ingroup": "FABRIC_API",
+   "signature": "TransformAOPOnFabric(_aopMode : int, _colorwayIndex : int, _fabricIndex : int, _styleChipIndex : int, _transformOptions : TransformOptions, _materialSide : int) -> str"
+  },
+  "UVPacking": {
+   "ingroup": "UTILITY_API",
+   "signature": "UVPacking(_bAll : bool, _bFixScaleRatio : bool, _bAdvancedSearch : bool, _padding : float, _fidelity : int, _roationAngleOptions : list[int]) -> bool"
+  },
+  "UnfoldPatternPiece": {
+   "ingroup": "PATTERN_API",
+   "signature": "UnfoldPatternPiece(_patternIndex : int, _lineIndex : int, _bHalfSymmetry : bool) -> bool"
+  },
+  "UnfoldPatternPieceWithPatternName": {
+   "ingroup": "PATTERN_API",
+   "signature": "UnfoldPatternPieceWithPatternName(_patternName : str, _lineIndex : int, _bHalfSymmetry : bool) -> bool"
+  },
+  "UnlinkGraphicStyleAllColorways": {
+   "ingroup": "UTILITY_API",
+   "signature": "UnlinkGraphicStyleAllColorways(_graphicStyleIndex : int) -> bool"
+  },
+  "UpdateCloStyleForPlugIn": {
+   "ingroup": "UTILITY_API",
+   "overloads": [
+    "UpdateCloStyleForPlugIn(_pWidget : QWidget*) -> None",
+    "UpdateCloStyleForPlugIn(_pWidget : QWidget*, _type : CloWidgetType) -> None"
+   ],
+   "signature": "UpdateCloStyleForPlugIn(_pWidget : QWidget*) -> None"
+  },
+  "UpdateColorways": {
+   "ingroup": "UTILITY_API",
+   "signature": "UpdateColorways(bUpdateSnapshot : bool) -> None"
+  },
+  "UpdatePropertyWindow": {
+   "ingroup": "UTILITY_API",
+   "signature": "UpdatePropertyWindow() -> None"
+  },
+  "UsePlugInFromList": {
+   "ingroup": "UTILITY_API",
+   "signature": "UsePlugInFromList(_pluginListIndex : int) -> None"
+  },
+  "ValidateCLOFile": {
+   "ingroup": "UTILITY_API",
+   "signature": "ValidateCLOFile(filePath : str) -> map[str, str]"
+  },
+  "ValidateCLOFileW": {
+   "ingroup": "UTILITY_API",
+   "signature": "ValidateCLOFileW(filePath : str) -> map[str, str]"
+  },
+  "stringToMD5": {
+   "ingroup": "UTILITY_API",
+   "signature": "stringToMD5(str : str) -> str"
+  },
+  "toUtf8": {
+   "ingroup": "UTILITY_API",
+   "signature": "toUtf8(str : str) -> str"
+  }
+ }
+}

@@ -113,7 +113,21 @@ def classify(names):
 TYPES_MODULE = "ApiTypes"
 
 
+OFFICIAL = os.path.join(HERE, "official_signatures.json")
+
+
+def load_official():
+    """CLO's published parameter names, if fetch_official_signatures.py has been run."""
+    try:
+        with open(OFFICIAL, encoding="utf-8") as fh:
+            d = json.load(fh)
+        return d.get("functions", {}), d.get("_source", "")
+    except (OSError, ValueError):
+        return {}, ""
+
+
 def render(surface):
+    official, official_src = load_official()
     all_modules = {k: v for k, v in surface["modules"].items()
                    if isinstance(v, dict) and "error" not in v}
     types = sorted(all_modules.pop(TYPES_MODULE, {}))
@@ -135,9 +149,11 @@ def render(surface):
            % (len(by_name), len(modules),
               ", ".join("`%s` %d" % (m, len(v)) for m, v in sorted(modules.items()))),
            "",
-           "> Signatures come from each function's `__doc__`: the API is a pybind11 binding, so",
-           "> every callable carries its own argument list, overloads included. That is the only",
-           "> machine-readable source for them - `inspect.signature()` raises on these builtins.",
+           "> Parameter names come from CLO's published API list at developer.clo3d.com, read by",
+           "> `scripts/fetch_official_signatures.py`. Where a function is not in that list the",
+           "> signature falls back to the probe's own `__doc__`, which pybind11 fills with",
+           "> `arg0, arg1` because the C++ parameter names do not survive the binding. CLO's",
+           "> descriptions are not reproduced here - follow the link for those.",
            "> Types such as `Marvelous::ImportDxfOption` are C++ names; the corresponding Python",
            "> object is usually in `ApiTypes` at the end of this file. Names and arities differ",
            "> between builds, so regenerate rather than trusting the copy committed here.", "",
@@ -147,7 +163,11 @@ def render(surface):
 
     def entry(name):
         where = ", ".join(by_name[name])
-        forms = signatures(docs.get(name, ""))
+        # CLO publishes the parameter names; pybind11 does not keep them, so the probe can only
+        # ever say arg0, arg1. Prefer the published form and fall back to the probed one.
+        pub = official.get(name)
+        forms = (pub.get("overloads") or [pub["signature"]]) if pub else signatures(
+            docs.get(name, ""))
         if not forms:
             return ["- `%s`  <sub>%s</sub>" % (name, where)]
         if len(forms) == 1:
@@ -174,6 +194,34 @@ def render(surface):
     for name in other:
         out.extend(entry(name))
     out.append("")
+
+    if official:
+        probed = set(by_name)
+        published = set(official)
+        only_probed = sorted(probed - published)
+        only_published = sorted(published - probed)
+        out.append("---")
+        out.append("")
+        out.append("## Where the two sources disagree  <sub>%d</sub>"
+                   % (len(only_probed) + len(only_published)))
+        out.append("")
+        out.append("Parameter names come from CLO's published API list; existence comes from a")
+        out.append("probe of the interpreter actually running. The two are different builds, so")
+        out.append("they do not have to agree, and where they do not that is itself the answer")
+        out.append("to \"is this function on my CLO\".")
+        out.append("")
+        out.append("**Present on the probed build, not in the published list (%d).** Newer, or"
+                   % len(only_probed))
+        out.append("undocumented. Usable, with no published parameter names.")
+        out.append("")
+        out.append(", ".join("`%s`" % n for n in only_probed) or "_none_")
+        out.append("")
+        out.append("**In the published list, absent from the probed build (%d).** Do not call"
+                   % len(only_published))
+        out.append("these without checking; the probe is the one that reflects your install.")
+        out.append("")
+        out.append(", ".join("`%s`" % n for n in only_published) or "_none_")
+        out.append("")
 
     if types:
         out.append("---")
