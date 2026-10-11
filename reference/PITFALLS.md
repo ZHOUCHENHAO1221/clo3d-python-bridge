@@ -42,6 +42,35 @@ wrinkle: several CLO top-level windows carry an `Edit` menu and only one of them
 
 ---
 
+## Assigning a fabric to a piece is in the wrong module
+
+**Symptom.** `fabric_api.AssignFabricToPattern` has the right name and three unnamed integers.
+Called one way it returns `True` and nothing changes; called the other way it returns `False`.
+
+**Cause.** You are in the wrong module. The call that works lives in `pattern_api`:
+
+```python
+pattern_api.SetPatternPieceFabricIndex(piece_index, fabric_index)   # -> None
+pattern_api.GetPatternPieceFabricIndex(piece_index)                 # -> int
+```
+
+Two named integers, and a getter to read it back with. Whatever
+`fabric_api.AssignFabricToPattern` is for, this is not it.
+
+**Rule.** When a function whose name fits returns `True` and changes nothing, stop tuning the
+arguments and search the other modules for the same idea. `reference/API_MAP.md` groups by task
+across modules precisely so this costs a lookup and not an afternoon.
+
+And read it back. The sweep in the README does
+`if any(GetPatternPieceFabricIndex(i) != fi for i in range(count)): raise` before it simulates
+anything, because a sweep where the fabric silently failed to apply produces twenty-one
+identical garments and a table of numbers that all look plausible.
+
+One more: `GetFabricCount()` defaults to `_bCurrentColorway=True` and will not count a fabric
+you have just added. Pass `False`.
+
+---
+
 ## You are looking for the function that sets a fabric's weight, and there isn't one
 
 **Symptom.** You want to drive the simulation from measured material data, and nothing in

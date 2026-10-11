@@ -219,6 +219,26 @@ different claims.
 > calls, not your results: a signature gives the argument count and types, and does not say
 > what an argument means.
 
+## What it is for
+
+![Twenty-one garments: three patterns simulated in each of seven measured fabrics](docs/fabric_sweep_3x7.jpg)
+
+Three patterns, seven measured fabrics, twenty-one simulations — plus six repeats to size the
+run-to-run noise. Twenty-seven runs in **5.3 minutes** of solver time, 6.1 s to 21.8 s each,
+with nobody at the keyboard. Each run does the same thing: open the project, load a `.zfab`,
+assign it to every piece **and read the assignment back**, set the solver quality and time step,
+simulate, export the mesh, measure the hem off the exported geometry. Progress is written after
+every run, so stopping loses nothing already done.
+
+The numbers above each garment are measured off the exported mesh, not read out of the
+simulator. The hem of the widest pattern moves from 432 mm to 502 mm depending only on which
+measured cloth it is cut in — which is the kind of thing worth having twenty-one of, and the
+kind of thing nobody produces by hand.
+
+One trap this sweep walks past: the function that assigns a fabric to a piece is
+`pattern_api.SetPatternPieceFabricIndex`, not `fabric_api.AssignFabricToPattern`. See
+`reference/PITFALLS.md`.
+
 ## Finding the function you need
 
 ![The CLO Python API grouped by task](docs/api_surface.svg)
