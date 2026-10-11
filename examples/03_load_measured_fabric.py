@@ -11,12 +11,11 @@ opacity, texture maps, the name, the item number, the roll width and metadata.
 `ChangeFabricWithJson` looks like the way in and is not - the JSON it round-trips has 31 keys
 and every one is appearance.
 
-There is one route that has NOT been tested here and that you should know about before quoting
-the paragraph above: `GetFabricInformationW` returns a dict containing `Weight` and
-`Thickness`, and `SetFabricInformationW(index, dict)` is its exact write counterpart. Whether
-writing through it reaches the solver, updates only the displayed metadata, or is ignored
-outright is unknown - and it returns None, so the call tells you nothing either way. See
-reference/PITFALLS.md.
+One candidate looks like a way in and is not. `GetFabricInformationW` returns a dict
+containing `Weight` and `Thickness` and `SetFabricInformationW(index, dict)` is its exact write
+counterpart. Writing `SupplierName` through it works - that is the control. Writing `Weight` or
+`Thickness` changes nothing, in four call forms, with no error raised and None returned. They
+are read-only through that route, and the call does not tell you so.
 
 What this script does is the route that is known to work. Loading a `.zfab` from a script
 delivers the values:

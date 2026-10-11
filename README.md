@@ -210,13 +210,28 @@ tolerance.
 keys, every one of them appearance — `baseColor`, `roughness`, `metalness`, `opacity`,
 `reflectionIntensity`, `thumbnail`, `rollWidth`.
 
-> **One route is untested, and it matters.** `GetFabricInformationW` returns a dict containing
-> `Weight` and `Thickness`, and `SetFabricInformationW(index, dict)` is its exact write
-> counterpart. Whether writing through it reaches the solver, changes only the metadata the
-> panel displays, or is ignored has **not been tested here** — and it returns `None`, so the
-> call reports nothing. An earlier version of this README claimed no function sets a fabric's
-> weight at all. That claim came from a keyword search, `SetFabricInformation` contains no
-> mechanical word, and **a keyword search cannot establish an absence.**
+One candidate looks like a way in and is not, and it is worth knowing why.
+`GetFabricInformationW` returns a dict containing `Weight` and `Thickness`, and
+`SetFabricInformationW(index, dict)` is its exact write counterpart — a name with no mechanical
+word in it, which is why a keyword search never finds it. Tested on 2026.1.310:
+
+| call | result |
+|---|---|
+| `SetFabricInformationW(0, {…, "SupplierName": "ACME"})` | **`SupplierName` changed** |
+| `SetFabricInformationW(0, {…, "Weight": "1200 g/m2"})` | no change |
+| three more forms, including the 3-argument overload | no change |
+
+The first row is the control, and it is what makes the rest mean anything: the function does
+write this dictionary. **`Weight` and `Thickness` are read-only through it** — no error, no
+change, and it returns `None`, so nothing in the call tells you it declined. A script that
+writes a measured weight there and carries on produces a whole study at CLO's default
+300 g/m² with every call having "succeeded".
+
+> An earlier version of this README claimed outright that no function sets a fabric's weight.
+> That came from a keyword search, which could not have found `SetFabricInformation` and so
+> could not support the claim. The conclusion survived, but only after enumerating all
+> fifty-nine writers in the module and testing the candidate against a control. **A keyword
+> search cannot establish an absence.**
 
 Loading a `.zfab` is the route that is known to work, and the example reads the values back and
 compares, because "AddFabricW returned an index" and "the document now holds the fabric I

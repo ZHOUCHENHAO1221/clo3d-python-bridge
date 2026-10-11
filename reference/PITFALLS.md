@@ -86,25 +86,41 @@ Across the whole API the only functions that set anything mechanical are
 `SetZipperStyleWeight`, `SetZipperStyleTapeThickness`, `SetTrimWeight` and
 `SetAddlThicknessCollision` — a zipper, a trim, and a solver collision tolerance.
 
-**What is open, and read this before you quote the paragraph above.** `GetFabricInformationW`
-returns a `Dict[str, str]` that contains `Weight` and `Thickness`, and there is an exact write
-counterpart:
+**The one candidate that looks like a way in, and what happened when it was tried.**
+`GetFabricInformationW` returns a `Dict[str, str]` containing `Weight` and `Thickness`, and
+there is an exact write counterpart:
 
 ```
-GetFabricInformationW(arg0: int)                     -> Dict[str, str]
+GetFabricInformationW(arg0: int)                      -> Dict[str, str]
 SetFabricInformationW(arg0: int, arg1: Dict[str,str]) -> None
 ```
 
-**Whether writing `Weight` and `Thickness` through it reaches the solver has not been tested
-here.** It might set them properly, it might update only the metadata the panel displays, or it
-might be ignored — and it returns `None`, so the call itself tells you nothing. Three different
-conclusions, and no evidence yet for any of them.
+It carries no mechanical word in its name, so a keyword search for
+`weight|thick|bend|stretch|shear` walks straight past it. Tested on CLO 2026.1.310:
 
-The name carries no mechanical word, which is exactly why a keyword search for
-`weight|thick|bend|stretch|shear` walks straight past it. That search is how the earlier version
-of this entry came to claim, wrongly, that no function sets a fabric's weight at all. **A
-keyword search cannot establish an absence.** If you want to assert that something is missing,
-enumerate the module's writers and read them.
+| call | result |
+|---|---|
+| `SetFabricInformationW(0, {…, "SupplierName": "ACME"})` | **`SupplierName` changed** |
+| `SetFabricInformationW(0, {…, "Weight": "1200 g/m2"})` | no change |
+| `SetFabricInformationW(0, {…, "Weight": "1200"})` | no change |
+| `SetFabricInformationW(0, {"Weight": "1200 g/m2"})` | no change |
+| `SetFabricInformationW(0, 0, {…, "Weight": "1200 g/m2"})` | no change |
+| `ChangeMetaDataValueForFabricW(0, "Weight", "1200 g/m2")` | no change |
+
+The first row is the control and it is what makes the rest mean anything: **the function does
+write this dictionary.** `Weight` and `Thickness` are read-only through it. Four call forms,
+no error, no change — it returns `None`, so nothing in the call tells you it declined.
+
+That silence is this repository's own trap in its purest form. A script that writes a measured
+weight here and carries on would produce a whole study at CLO's default 300 g/m², with every
+call having "succeeded".
+
+**On how this entry got here.** An earlier version claimed outright that no function sets a
+fabric's weight. That came from the keyword search, which could not have found
+`SetFabricInformation` and therefore could not support the claim. **A keyword search cannot
+establish an absence.** The conclusion happens to have survived, but only after enumerating all
+fifty-nine writers in the module and testing the one candidate against a control. If you want
+to assert something is missing, that is the work.
 
 **Rule, as far as it goes.** A `.zfab` file is a route that is known to work: `AddFabricW(path)`
 loads one from a script and the values arrive with it — a measured file reading back 0.22 mm
