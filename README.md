@@ -18,8 +18,8 @@ print(info["version"], info["patternCount"])
 
 ## Why this exists
 
-CLO exposes about **800 Python functions** across five modules, and gives you **no way to call
-them except by hand**: open `Edit > Python Script`, paste, press Play. There is no headless
+CLO exposes **842 Python functions** across five modules (measured on CLO 2026.1.310),
+and gives you **no way to call them except by hand**: open `Edit > Python Script`, paste, press Play. There is no headless
 flag, no `clo --script`, no socket and no RPC. If you have searched for how to automate CLO,
 you have already found that there is no answer.
 
@@ -54,10 +54,12 @@ This is read-only. It opens nothing, changes nothing and saves nothing, which is
 right first thing to run.
 
 ```
-CLO 2026.1.224
+CLO 2026.1.310
 project: my_garment
-patterns: 7
+patterns: 5
 ```
+
+Verified against CLO **2026.1.310** on Windows 11.
 
 If you get `No CLO window with a Python editor was found`, open `Edit > Python Script` in CLO
 and run it again. If you get `CLO's Python editor contains a script this bridge did not write`,
@@ -102,7 +104,7 @@ developing a worker and the files stay put so you can read them.
 | `scripts/build_api_map.py` | your process | Turns that into `reference/API_MAP.md` |
 | `scripts/build_diagrams.py` | your process | Generates the figures in this README |
 | `reference/PITFALLS.md` | — | **Read this first.** Every trap, with the symptom stated first, because the symptom is what you will have |
-| `reference/API_MAP.md` | — | 818 functions grouped by task |
+| `reference/API_MAP.md` | — | 842 functions grouped by task, plus the 159 `ApiTypes` enums and constants |
 | `tests/test_offline.py` | anywhere | The whole contract against a fake editor. No CLO, no Windows, no pytest |
 
 ## Writing a worker
@@ -154,8 +156,8 @@ with CloSession() as clo:
 
 **[`01_hello_clo.py`](examples/01_hello_clo.py)** asks CLO for its version, the open project's
 name and the pattern count, and prints them. Read-only. Every function it uses takes no
-argument and was confirmed present by the probe, so this one is safe to trust exactly as
-written.
+argument, and the whole example has been run against a live CLO 2026.1.310, so this one is
+safe to trust exactly as written.
 
 **[`02_import_dxf_simulate_export.py`](examples/02_import_dxf_simulate_export.py)** imports a
 DXF, simulates it, exports an OBJ and returns the path and file size:
@@ -196,12 +198,13 @@ cost you an afternoon; there isn't one.
 
 ![The CLO Python API grouped by task](docs/api_surface.svg)
 
-[`reference/API_MAP.md`](reference/API_MAP.md) lists all 818 names under the task you would
+[`reference/API_MAP.md`](reference/API_MAP.md) lists all 842 names under the task you would
 have been thinking of — importing, fabric, simulation, camera, export, grading and so on — and
 a name that fits two tasks is listed under both. Names ending in `W` are the wide-string
 variants; use those for any path or label that may contain non-ASCII characters.
 
-The committed map is a contributed snapshot whose CLO build was not recorded. Regenerate it
+The committed map was probed from CLO 2026.1.310. Builds differ — between that one and an
+earlier 2026.1 probe, `pattern_api` gained 14 names and `utility_api` gained 7. Regenerate it
 against your own:
 
 ```bash

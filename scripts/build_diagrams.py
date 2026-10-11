@@ -141,7 +141,8 @@ def api_surface():
     import build_api_map as bam
 
     surface = json.load(open(os.path.join(HERE, "api_surface.json"), encoding="utf-8"))
-    modules = {k: v for k, v in surface["modules"].items() if isinstance(v, list)}
+    modules = {k: v for k, v in surface["modules"].items()
+               if isinstance(v, list) and k != bam.TYPES_MODULE}
     by_name = {}
     for mod, names in modules.items():
         for n in names:

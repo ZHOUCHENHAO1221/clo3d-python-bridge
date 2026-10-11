@@ -41,11 +41,14 @@ def probe(_payload):
     except Exception as exc:
         out["version"] = None
         out["versionError"] = str(exc)
+    # The pattern count is a connectivity check, not reference data - it says the probe reached
+    # a real document. It is reported to the caller and deliberately not written to the file,
+    # which describes an API and has no business carrying anyone's scene state.
     try:
         import pattern_api
-        out["patternCount"] = pattern_api.GetPatternCount()
+        out["_patternCount"] = pattern_api.GetPatternCount()
     except Exception as exc:
-        out["sceneError"] = str(exc)
+        out["_sceneError"] = str(exc)
     return out
 
 
@@ -59,11 +62,14 @@ elif __name__ == "__main__":
     with CloSession() as clo:
         surface = clo.run(__file__)
     target = os.path.join(HERE, "api_surface.json")
-    with open(target, "w", encoding="utf-8") as fh:
+    scene = surface.pop("_patternCount", None)
+    surface.pop("_sceneError", None)
+    with open(target, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(surface, fh, indent=2, ensure_ascii=False)
+        fh.write("\n")
     counts = {k: (len(v) if isinstance(v, list) else "ERROR")
               for k, v in surface["modules"].items()}
-    print("CLO %s" % surface.get("version"))
+    print("CLO %s  (reached a document with %s patterns)" % (surface.get("version"), scene))
     for name, n in counts.items():
         print("  %-14s %s" % (name, n))
     print("written: %s" % target)

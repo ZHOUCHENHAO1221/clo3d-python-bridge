@@ -79,8 +79,16 @@ def classify(names):
     return buckets, other
 
 
+# ApiTypes holds enums, constants and struct types, not callable functions. Grouping it by task
+# alongside the *_api modules would inflate every count and answer a different question from the
+# one the map exists to answer, so it gets a section of its own.
+TYPES_MODULE = "ApiTypes"
+
+
 def render(surface):
-    modules = {k: v for k, v in surface["modules"].items() if isinstance(v, list)}
+    all_modules = {k: v for k, v in surface["modules"].items() if isinstance(v, list)}
+    types = sorted(all_modules.pop(TYPES_MODULE, []))
+    modules = all_modules
     everything = [(n, m) for m, names in modules.items() for n in names]
     by_name = {}
     for name, module in everything:
@@ -123,6 +131,18 @@ def render(surface):
     for name in other:
         out.append("- `%s`  <sub>%s</sub>" % (name, ", ".join(by_name[name])))
     out.append("")
+
+    if types:
+        out.append("---")
+        out.append("")
+        out.append("## `ApiTypes` - enums, constants and struct types  <sub>%d</sub>" % len(types))
+        out.append("")
+        out.append("Not callable, which is why these are kept out of the task grouping above.")
+        out.append("They are the vocabulary the functions expect: anchor points, units, option")
+        out.append("flags and the small result objects some calls return.")
+        out.append("")
+        out.append(", ".join("`%s`" % n for n in types))
+        out.append("")
     return "\n".join(out)
 
 

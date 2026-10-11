@@ -42,6 +42,44 @@ wrinkle: several CLO top-level windows carry an `Edit` menu and only one of them
 
 ---
 
+## Every write fails with a bare `COMError`
+
+**Symptom.** The editor is found, the dialog is open, and `set_edit_text` raises
+`_ctypes.COMError: (-2146233079, None, (None, None, None, 0, None))` with nothing else to go on.
+
+**Cause.** **Two** controls in that dialog have an `automation_id` ending in `QCodeEditor`:
+
+```
+MVSingleApplication.MVDialog.CodeEditor.QSplitter.textEditorFrame.QCodeEditor   <- you type here
+MVSingleApplication.MVDialog.CodeEditor.QSplitter.resultFrame.QCodeEditor       <- CLO prints here
+```
+
+A search for the tail `QCodeEditor` finds the output pane first. It is read-only, so setting its
+value fails — and the error says nothing about which control it was.
+
+**Rule.** Include one frame name in the match (`textEditorFrame.QCodeEditor`). That is still
+short enough to survive a CLO update, because the part that changes is the prefix. Match the
+control type as well: a container carrying the same id tail is otherwise indistinguishable from
+the control itself.
+
+The output pane is worth keeping once you have found it. `CloSession`'s editor exposes it as
+`output()`, and it is where CLO's own stdout and tracebacks go.
+
+---
+
+## The Play button is clicked and nothing runs
+
+**Symptom.** Intermittent, and more likely after you have moved the window or changed display
+scaling.
+
+**Cause.** A physical click goes to a screen coordinate, and the coordinate was worked out
+before the window moved.
+
+**Rule.** Call the accessible action (`invoke()`) instead, and keep `click_input()` only as a
+fallback for a build that exposes no Invoke pattern.
+
+---
+
 ## It worked last month, it does not work after a CLO update
 
 **Symptom.** The editor control is suddenly not found, though the dialog is plainly open.

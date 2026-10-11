@@ -21,9 +21,15 @@ one running the tests.
 """
 import time
 
-# The editor and Play button, identified by the tail of their auto_id.
-EDIT_SUFFIX = "QCodeEditor"
-PLAY_SUFFIX = "playButton"
+# The controls, identified by the tail of their auto_id.
+#
+# Two frames end in "QCodeEditor": textEditorFrame is where you type, resultFrame is the
+# read-only pane CLO prints into. Matching on "QCodeEditor" alone finds the output pane first
+# and every write fails with a bare COMError, because you cannot SetValue a read-only control.
+# One frame name is enough to disambiguate and still drops the part of the path that changes.
+EDIT_SUFFIX = "textEditorFrame.QCodeEditor"
+OUTPUT_SUFFIX = "resultFrame.QCodeEditor"
+PLAY_SUFFIX = "menubarFrame.playButton"
 # CLO's main window title varies by edition and sign-in mode ("CLO Standalone OnlineAuth",
 # "CLO Standalone", ...). Match the family, not one spelling.
 WINDOW_PREFIX = "CLO"
@@ -41,14 +47,19 @@ class Editor(object):
     def play(self):
         raise NotImplementedError
 
+    def output(self):
+        """Whatever CLO printed into its result pane. Empty string if unavailable."""
+        return ""
+
 
 class UiaEditor(Editor):
     """The real one, backed by pywinauto's UIA backend."""
 
-    def __init__(self, window, edit, play):
+    def __init__(self, window, edit, play, out=None):
         self._window = window
         self._edit = edit
         self._play = play
+        self._out = out
 
     def read(self):
         return self._edit.window_text()
@@ -58,7 +69,21 @@ class UiaEditor(Editor):
         self._edit.set_edit_text(text)
 
     def play(self):
-        self._play.click_input()
+        # Invoke the accessible action rather than moving the mouse: a physical click lands at
+        # a screen coordinate, and that coordinate goes stale when the window moves or the DPI
+        # changes. click_input is kept as a fallback for builds that expose no Invoke pattern.
+        try:
+            self._play.invoke()
+        except Exception:
+            self._play.click_input()
+
+    def output(self):
+        if self._out is None:
+            return ""
+        try:
+            return self._out.window_text()
+        except Exception:
+            return ""
 
 
 def _endswith(control, suffix):
@@ -69,15 +94,25 @@ def _endswith(control, suffix):
 
 
 def _editor_in(window):
-    """Return (edit, play) inside an open Python Script dialog, or None."""
-    edit = play = None
+    """Return (edit, play, output_pane) inside an open Python Script dialog, or None.
+
+    The control type is part of the match. Without it a container that happens to carry the
+    same automation_id tail is indistinguishable from the control itself.
+    """
+    edit = play = out = None
     for child in window.descendants():
-        if edit is None and _endswith(child, EDIT_SUFFIX):
+        try:
+            kind = child.element_info.control_type
+        except Exception:
+            continue
+        if edit is None and kind == "Edit" and _endswith(child, EDIT_SUFFIX):
             edit = child
-        elif play is None and _endswith(child, PLAY_SUFFIX):
+        elif out is None and kind == "Edit" and _endswith(child, OUTPUT_SUFFIX):
+            out = child
+        elif play is None and kind == "Button" and _endswith(child, PLAY_SUFFIX):
             play = child
-        if edit is not None and play is not None:
-            return edit, play
+    if edit is not None and play is not None:
+        return edit, play, out
     return None
 
 
