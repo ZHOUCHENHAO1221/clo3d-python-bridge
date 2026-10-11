@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 600" width="1120" height="600" role="img" aria-labelledby="t d">
+<title id="t">Architecture of the CLO bridge</title><desc id="d">The host writes a request file, drives CLO's Python editor, and polls a result file that the worker writes. The GUI provides no return channel.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#14161a"/></marker><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e5242b"/></marker></defs>
+<rect width="1120" height="600" fill="#ffffff"/>
+<text x="40" y="46" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="19" fill="#14161a" font-weight="700" text-anchor="start">How a job reaches CLO and how its result comes back</text>
+<text x="40" y="72" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="14" fill="#6b7280" font-weight="400" text-anchor="start">CLO has no headless mode, so the host drives the GUI's Python editor. The GUI cannot answer back.</text>
+<rect x="40" y="104" width="310" height="220" rx="10" fill="#ffffff" stroke="#c7cbd1" stroke-width="1.5"/>
+<text x="60" y="134" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="12" fill="#6b7280" font-weight="700" text-anchor="start">YOUR PYTHON PROCESS</text>
+<text x="60" y="164" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="14" fill="#14161a" font-weight="600" text-anchor="start">CloSession.run(script, payload)</text>
+<text x="60" y="196" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="13.5" fill="#14161a" font-weight="400" text-anchor="start">1  create the job directory</text>
+<text x="60" y="222" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="13.5" fill="#14161a" font-weight="400" text-anchor="start">2  write request.json</text>
+<text x="60" y="248" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="13.5" fill="#14161a" font-weight="400" text-anchor="start">3  type the loader, click Play</text>
+<text x="60" y="274" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="13.5" fill="#e5242b" font-weight="600" text-anchor="start">6  poll for result.json</text>
+<rect x="770" y="104" width="310" height="220" rx="10" fill="#ffffff" stroke="#c7cbd1" stroke-width="1.5"/>
+<text x="790" y="134" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="12" fill="#6b7280" font-weight="700" text-anchor="start">CLO STANDALONE  (GUI)</text>
+<text x="790" y="164" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="14" fill="#14161a" font-weight="600" text-anchor="start">Edit › Python Script</text>
+<text x="790" y="196" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="13.5" fill="#14161a" font-weight="400" text-anchor="start">4  the loader execs your worker</text>
+<text x="790" y="222" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="13.5" fill="#14161a" font-weight="400" text-anchor="start">5  worker writes heartbeat.json</text>
+<text x="790" y="248" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="13.5" fill="#14161a" font-weight="400" text-anchor="start">   then result.json</text>
+<text x="790" y="274" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="13.5" fill="#6b7280" font-weight="400" text-anchor="start">   nothing is returned to the host</text>
+<rect x="400" y="150" width="320" height="174" rx="10" fill="#f6f7f9" stroke="#c7cbd1" stroke-width="1.5"/>
+<text x="560" y="180" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="12" fill="#6b7280" font-weight="700" text-anchor="middle">THE JOB DIRECTORY (on disk)</text>
+<text x="424" y="212" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="13.5" fill="#14161a" font-weight="500" text-anchor="start">request.json</text>
+<text x="696" y="212" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="12" fill="#6b7280" font-weight="400" text-anchor="end">host → worker</text>
+<text x="424" y="246" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="13.5" fill="#14161a" font-weight="500" text-anchor="start">heartbeat.json</text>
+<text x="696" y="246" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="12" fill="#6b7280" font-weight="400" text-anchor="end">worker → host</text>
+<text x="424" y="280" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="13.5" fill="#e5242b" font-weight="700" text-anchor="start">result.json</text>
+<text x="696" y="280" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="12" fill="#6b7280" font-weight="400" text-anchor="end">worker → host</text>
+<line x1="350" y1="196" x2="398" y2="196" stroke="#14161a" stroke-width="1.8" marker-end="url(#a)"/>
+<line x1="722" y1="246" x2="768" y2="246" stroke="#14161a" stroke-width="1.8"/>
+<line x1="722" y1="246" x2="768" y2="246" stroke="#14161a" stroke-width="1.8" marker-end="url(#a)"/>
+<line x1="768" y1="280" x2="724" y2="280" stroke="#e5242b" stroke-width="1.8" marker-end="url(#a)"/>
+<line x1="398" y1="280" x2="352" y2="280" stroke="#e5242b" stroke-width="1.8" marker-end="url(#a)"/>
+<line x1="768" y1="140" x2="352" y2="140" stroke="#6b7280" stroke-width="1.4" stroke-dasharray="6 6" marker-end="url(#a)"/>
+<text x="560" y="132" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="12" fill="#6b7280" font-weight="400" text-anchor="middle">no return channel from the editor</text>
+<rect x="40" y="372" width="1040" height="2" fill="#c7cbd1"/>
+<text x="40" y="414" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="17" fill="#14161a" font-weight="700" text-anchor="start">Pressing Play tells you nothing.</text>
+<text x="40" y="444" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="14" fill="#14161a" font-weight="400" text-anchor="start">Qt can invalidate the editor's automation handle while CLO is still executing, so the host sees an error for a job</text>
+<text x="40" y="468" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="14" fill="#14161a" font-weight="400" text-anchor="start">that succeeded. The click, the control state and any pywinauto exception are all ignored. Only result.json decides.</text>
+<rect x="40" y="496" width="1040" height="72" rx="10" fill="#f6f7f9" stroke="#c7cbd1" stroke-width="1.5"/>
+<text x="64" y="526" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="14" fill="#14161a" font-weight="600" text-anchor="start">result, stage = wait_for_result(job_dir, timeout=900)</text>
+<text x="64" y="552" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,'Noto Sans',sans-serif" font-size="13" fill="#6b7280" font-weight="400" text-anchor="start">stage is the last heartbeat, which is what turns a timeout into “it got as far as simulating”.</text>
+</svg>
