@@ -122,8 +122,14 @@ elif __name__ == "__main__":
     ap.add_argument("--fps", type=int, default=30, help="time step is 1/fps")
     a = ap.parse_args()
 
-    from clo_bridge import CloSession
-    from clo_bridge.mesh import MeshInvalid, largest_surface, loop_span, measure
+    from clo_bridge import CloBusy, CloSession, CloTimeout, CloWorkerError
+    from clo_bridge.mesh import MeshInvalid, MeshTooLarge, largest_surface, loop_span, measure
+
+    # Failures a sweep should record and carry on past: this garment in this fabric did not
+    # work. Anything else - a typo in the worker, a missing file, a broken install - is not a
+    # property of one run, and continuing would repeat it for every fabric and hand back a
+    # ledger of identical "failures" that looks like data.
+    PER_RUN = (CloWorkerError, CloTimeout, MeshInvalid, MeshTooLarge, OSError)
 
     fabrics = sorted({p for g in a.zfab for p in (glob.glob(g) or [g])})
     os.makedirs(a.out, exist_ok=True)
@@ -145,6 +151,7 @@ elif __name__ == "__main__":
                        "runs": [done[k] for k in sorted(done)]}, fh, indent=1)
         os.replace(tmp, ledger)
 
+    consecutive = 0
     with CloSession(timeout=1800) as clo:
         for zfab, rep in plan:
             slot = "%s_r%d" % (os.path.splitext(os.path.basename(zfab))[0], rep)
@@ -170,11 +177,32 @@ elif __name__ == "__main__":
                 })
                 if loop is None:
                     rec["status"] = "no closed boundary loop - look at the mesh"
-            except (MeshInvalid, Exception) as exc:        # noqa: B014 - report, keep going
+            except CloBusy:
+                raise
+            except PER_RUN as exc:
                 rec.update({"status": "failed", "error": "%s: %s" % (type(exc).__name__, exc)})
+            except Exception as exc:
+                rec.update({"status": "failed",
+                            "error": "%s: %s" % (type(exc).__name__, exc),
+                            "stopped": "not a per-run failure"})
+                done[slot] = rec
+                save()
+                print("  %-22s %s" % (slot, rec["error"]))
+                raise SystemExit(
+                    "\nStopped: that is not a failure of one run. %d of %d done, recorded in "
+                    "%s - fix it and start again, the finished runs are skipped."
+                    % (len([r for r in done.values() if r.get("status") == "ok"]),
+                       len(plan), ledger))
             done[slot] = rec
             save()
             print("  %-22s %s" % (slot, rec.get("status")))
+            # Three in a row is not about the cloth. Stopping beats handing back a ledger of
+            # identical failures that reads like a result.
+            consecutive = 0 if rec.get("status") == "ok" else consecutive + 1
+            if consecutive >= 3:
+                raise SystemExit(
+                    "\nStopped after three failures in a row. Whatever is wrong is not about "
+                    "one fabric. Ledger: %s" % ledger)
 
     ok = [r for r in done.values() if r.get("status") == "ok"]
     print("\n%d/%d ok, ledger at %s\n" % (len(ok), len(done), ledger))

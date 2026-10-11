@@ -107,6 +107,7 @@ developing a worker and the files stay put so you can read them.
 | `scripts/build_diagrams.py` | your process | Generates the figures in this README |
 | `reference/PITFALLS.md` | — | **Read this first.** Every trap, with the symptom stated first, because the symptom is what you will have |
 | `reference/API_MAP.md` | — | 846 functions grouped by task with CLO's published parameter names, plus the 159 `ApiTypes` enums and constants |
+| `src/clo_bridge/lock.py` | your process | One job at a time across processes, because CLO's editor is a single slot |
 | `tests/test_offline.py` | anywhere | The whole contract against a fake editor. No CLO, no Windows, no pytest |
 
 ## Writing a worker
@@ -352,12 +353,21 @@ destructive act on a document you did not author.
 It also handles no credentials, automates no sign-in and bypasses nothing. It drives the editor
 of an instance a person has already signed in to.
 
+What it does do is `exec()` the worker file you name, inside CLO, with CLO's API in reach.
+That is the point of it, and it means **`CloSession` must not be put behind an unauthenticated
+network service**: anything that can choose the script path can run code on that machine.
+
 ## Honest limits
 
 - **There is no headless mode.** Running this on a server means a real desktop session with CLO
   signed in. Whether your licence allows that is between you and CLO.
-- **One job at a time.** CLO's editor is a single slot and the GUI blocks while a script runs.
-  Serialise your own queue; do not try to open a second editor.
+- **One job at a time, now enforced.** CLO's editor is a single slot. Two bridge processes
+  used to collide silently: the second would recognise the first's loader as this package's
+  own, treat it as a leftover and overwrite a job mid-flight, leaving the first to time out
+  for a result nobody would write. `CloSession` now takes a lock on the jobs directory for the
+  whole job and raises `CloBusy` instead. A lock whose owner has died is taken over; a lock
+  held by a live process never is, however old, because a long simulation and a hung one look
+  identical from outside.
 - **Windows only**, because the UI automation is `pywinauto`.
 - **The map gives you the interface, not the semantics.** Parameter names and types are
   CLO's own, so `Simulate(_steps: int)` does tell you what the integer is — but nothing

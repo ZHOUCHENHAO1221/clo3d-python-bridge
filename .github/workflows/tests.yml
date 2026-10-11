@@ -29,6 +29,8 @@ jobs:
         run: python tests/test_offline.py
       - name: Run the mesh suite
         run: python tests/test_mesh.py
+      - name: Run the lock suite
+        run: python tests/test_lock.py
 
   # The map and the figures are generated, so a hand-edited one would drift from its source
   # silently - and a figure that disagrees with the code is worse than no figure.

@@ -45,9 +45,14 @@ def read_json(path, default=None):
         return default
 
 
+def default_jobs_root():
+    """Where jobs and the single-job lock live, unless the caller says otherwise."""
+    return os.path.join(tempfile.gettempdir(), "clo_bridge_jobs")
+
+
 def new_job_dir(root=None):
     """A fresh directory for one job. Defaults under the system temp dir."""
-    root = root or os.path.join(tempfile.gettempdir(), "clo_bridge_jobs")
+    root = root or default_jobs_root()
     os.makedirs(root, exist_ok=True)
     path = os.path.join(root, time.strftime("%Y%m%d-%H%M%S-") + uuid.uuid4().hex[:6])
     os.makedirs(path)

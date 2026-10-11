@@ -14,8 +14,9 @@ See reference/PITFALLS.md before writing your own worker.
 """
 from .errors import (CloEditorBusy, CloError, CloNotFound, CloTimeout,
                      CloWorkerError)
+from .lock import CloBusy, JobLock
 from .session import CloSession
 
-__all__ = ["CloSession", "CloError", "CloNotFound", "CloEditorBusy",
-           "CloTimeout", "CloWorkerError"]
+__all__ = ["CloSession", "JobLock", "CloError", "CloNotFound", "CloEditorBusy",
+           "CloTimeout", "CloWorkerError", "CloBusy"]
 __version__ = "0.1.0"

@@ -18,6 +18,7 @@ import shutil
 
 from . import protocol
 from .editor import blocking_dialog, find_editor
+from .lock import JobLock
 from .errors import CloEditorBusy, CloNotFound, CloTimeout, CloWorkerError
 
 SRC_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,7 +41,7 @@ class CloSession(object):
 
     def __init__(self, editor=None, jobs_root=None, timeout=900.0, keep_jobs=False):
         self._editor = editor
-        self._jobs_root = jobs_root
+        self._jobs_root = jobs_root or protocol.default_jobs_root()
         self.timeout = timeout
         self.keep_jobs = keep_jobs
 
@@ -73,6 +74,10 @@ class CloSession(object):
         if not os.path.isfile(script):
             raise FileNotFoundError(script)
 
+        with JobLock(self._jobs_root):
+            return self._run_locked(editor, script, payload, timeout)
+
+    def _run_locked(self, editor, script, payload, timeout):
         existing = editor.read().strip()
         if existing and not protocol.is_our_loader(existing):
             raise CloEditorBusy(
