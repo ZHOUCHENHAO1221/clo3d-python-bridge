@@ -42,6 +42,39 @@ wrinkle: several CLO top-level windows carry an `Edit` menu and only one of them
 
 ---
 
+## Your measurement mesh has a mannequin in it
+
+**Symptom.** You export the garment, measure the lowest closed boundary loop, and get a
+plausible number that is not the hem. Or a surface check refuses the mesh because the largest
+connected piece is only a third of it.
+
+**Cause.** `ImportExportOption()` comes with **`bExportAvatar = True`**. The avatar is exported
+along with the garment, and on a top it is the larger surface by far — measured here at 38.7%
+of the total for the garment and the rest for the body.
+
+Why that produces a wrong number rather than an obvious error: the avatar's **ankle and neck
+openings are closed boundary loops too**, and they sit lower than a hem. "The lowest closed
+boundary loop" then finds an ankle. It is a perfect loop. Nothing about it looks wrong.
+
+**Rule.** Configure the options object; do not accept the defaults for a measurement export.
+
+```python
+opt = ApiTypes.ImportExportOption()
+opt.bExportAvatar = False                        # default True - the mannequin comes too
+opt.bSingleObject = True
+opt.weldType = ApiTypes.WELD_TYPE.FULLY_WELDED   # panels as one surface, not loose pieces
+export_api.ExportOBJW(path, opt)
+```
+
+`WELD_TYPE` offers `DEFAULT_WELDED`, `FULLY_WELDED`, `FULLY_UNWELDED` and `SELECTED_WELDED`.
+Unwelded panels arrive as separate surfaces, and a measurement that does not notice measures
+one panel.
+
+Keep a surface check in front of the measurement anyway — `clo_bridge.mesh.largest_surface`
+refuses when the largest connected piece is under 90% of the area, which is what caught this.
+
+---
+
 ## Assigning a fabric to a piece is in the wrong module
 
 **Symptom.** `fabric_api.AssignFabricToPattern` has the right name and three unnamed integers.

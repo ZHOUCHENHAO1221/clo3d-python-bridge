@@ -99,6 +99,7 @@ developing a worker and the files stay put so you can read them.
 | `src/clo_bridge/errors.py` | your process | One exception type per thing you would do differently about it |
 | `src/clo_bridge/worker.py` | **inside CLO** | `run(main)` always writes a result; `beat(stage)` says where a job got to |
 | `src/clo_bridge/api.py` | **inside CLO** | `require()` name-checks a module before you touch the document; `changed()` asserts the output actually moved |
+| `src/clo_bridge/mesh.py` | your process | Measures an exported mesh: boundary loops, the lowest closed one, non-manifold edges. No CLO, so the tests cover it |
 | `src/clo_bridge/protocol.py` | both | The loader text, the file names, the polling. No GUI, so this is the part the tests cover |
 | `scripts/probe_api.py` | both | Reads the API surface out of your own CLO build |
 | `scripts/build_api_map.py` | your process | Turns that into `reference/API_MAP.md` |
@@ -236,7 +237,36 @@ Loading a `.zfab` is the route that is known to work, and the example reads the 
 compares, because "AddFabricW returned an index" and "the document now holds the fabric I
 measured" are different claims.
 
-> All three examples have been **run end to end against CLO 2026.1.310**. That verifies the
+**[`04_sweep.py`](examples/04_sweep.py)** is the one that produced the contact sheet at the
+top: one garment, every fabric you hand it, measured.
+
+```bash
+python examples/04_sweep.py garment.zprj fabrics/*.zfab -o out/ --repeats 2
+```
+
+```
+run                         sec     loop Y loop width   bbox Y
+P24_measured_r1            12.0     913.62     431.72   913.62
+P28_measured_r1            10.0     903.37     502.46   903.37
+```
+
+Three things in it are the example, and the rest is loop:
+
+It **reads the fabric assignment back** before simulating. `SetPatternPieceFabricIndex` returns
+`None`, so a sweep where the fabric silently failed to apply gives you N identical garments and
+a table of plausible numbers — and nobody re-checks a plausible table.
+
+It **fixes the solver quality and time step**. Those are session state, not project state. Left
+alone, your runs are not comparable to each other.
+
+It **measures off the exported mesh** with `clo_bridge.mesh`, which finds the lowest closed
+boundary loop rather than the lowest vertex. On a garment those are usually different numbers,
+because the lowest vertex is normally a fold.
+
+Progress is written after every run, so stopping loses nothing and starting again skips what is
+done.
+
+> All four examples have been **run end to end against CLO 2026.1.310**. That verifies the
 > calls, not your results: a signature gives the argument count and types, and does not say
 > what an argument means.
 
