@@ -19,6 +19,7 @@ The host polls for result.json and ignores everything else it might think it kno
 """
 import json
 import os
+import re
 import tempfile
 import time
 import uuid
@@ -57,6 +58,41 @@ def new_job_dir(root=None):
     path = os.path.join(root, time.strftime("%Y%m%d-%H%M%S-") + uuid.uuid4().hex[:6])
     os.makedirs(path)
     return path
+
+
+def prune_jobs(root, keep_days=7.0, now=None):
+    """Delete job directories older than `keep_days`. Returns how many went.
+
+    A failed or timed-out job keeps its directory on purpose - that is where the request, the
+    last heartbeat and any partial result are, and they are the only record of what the worker
+    was doing when it stopped. Successful jobs clean themselves up, so over a long batch it is
+    only the failures that accumulate.
+
+    Deleting is conservative by design: nothing younger than the window, nothing that is not a
+    job directory, and never the lock. Mistiming a prune is worse than a full temp directory,
+    because the thing deleted is evidence about a failure somebody is still investigating.
+    """
+    import shutil
+    now = time.time() if now is None else now
+    gone = 0
+    try:
+        names = os.listdir(root)
+    except OSError:
+        return 0
+    for name in names:
+        path = os.path.join(root, name)
+        # Only directories this module made: <timestamp>-<hex>. Never the lock, never anything
+        # a user dropped in here.
+        if not os.path.isdir(path) or not re.match(r"^\d{8}-\d{6}-[0-9a-f]{6}$", name):
+            continue
+        try:
+            if now - os.path.getmtime(path) <= keep_days * 86400:
+                continue
+            shutil.rmtree(path)
+            gone += 1
+        except OSError:
+            continue
+    return gone
 
 
 def build_loader(script_path, job_dir, src_root):

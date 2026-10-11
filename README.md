@@ -90,6 +90,13 @@ that is deliberate — see [Safety](#safety) below.
 The job directory is deleted after a successful run. Pass `keep_jobs=True` while you are
 developing a worker and the files stay put so you can read them.
 
+A **failed** job keeps its directory whatever you pass, because the request and the last
+heartbeat are the only record of what the worker was doing when it stopped. Over a long batch
+those accumulate, so directories older than a week are removed when a session connects;
+`prune_days=None` keeps them for ever. Nothing younger goes, and nothing that is not a job
+directory this package named — deleting the wrong thing here destroys the evidence about a
+failure somebody is still investigating.
+
 ## The package, file by file
 
 | File | Runs where | What it is for |

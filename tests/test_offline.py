@@ -174,6 +174,38 @@ def test_no_clo_gives_an_actionable_message():
         mod.find_editor = original
 
 
+def test_pruning_takes_old_jobs_and_leaves_everything_else():
+    """Deleting the wrong thing here destroys the only record of a failure somebody is still
+    looking into, so the rule is narrow: old, and named like a job directory."""
+    import time as _t
+    root = tempfile.mkdtemp()
+    old = protocol.new_job_dir(root)
+    young = protocol.new_job_dir(root)
+    lock = os.path.join(root, ".clo_bridge.lock")
+    stranger = os.path.join(root, "my_notes")
+    open(lock, "w").close()
+    os.makedirs(stranger)
+    ancient = _t.time() - 30 * 86400
+    os.utime(old, (ancient, ancient))
+    os.utime(stranger, (ancient, ancient))
+
+    assert protocol.prune_jobs(root, keep_days=7.0) == 1
+    assert not os.path.exists(old), "an old job directory should go"
+    assert os.path.isdir(young), "a recent one must stay"
+    assert os.path.exists(lock), "the lock is not a job"
+    assert os.path.isdir(stranger), "only directories this module named are ours to delete"
+
+
+def test_pruning_can_be_turned_off():
+    root = tempfile.mkdtemp()
+    old = protocol.new_job_dir(root)
+    import time as _t
+    ancient = _t.time() - 365 * 86400
+    os.utime(old, (ancient, ancient))
+    CloSession(editor=FakeEditor(), jobs_root=root, prune_days=None).connect()
+    assert os.path.isdir(old)
+
+
 def test_atomic_write_leaves_no_partial_file():
     d = tempfile.mkdtemp()
     p = os.path.join(d, "r.json")

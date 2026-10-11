@@ -37,13 +37,21 @@ class CloSession(object):
         Seconds to wait for result.json. CLO simulation is slow; 900 is not paranoid.
     keep_jobs : bool
         Keep the job directory after a successful run. Useful while developing a worker.
+    prune_days : float or None
+        Delete job directories older than this on connect. Failed jobs keep theirs, so a long
+        batch leaves a trail of them. None keeps everything.
     """
 
-    def __init__(self, editor=None, jobs_root=None, timeout=900.0, keep_jobs=False):
+    def __init__(self, editor=None, jobs_root=None, timeout=900.0, keep_jobs=False,
+                 prune_days=7.0):
         self._editor = editor
         self._jobs_root = jobs_root or protocol.default_jobs_root()
         self.timeout = timeout
         self.keep_jobs = keep_jobs
+        # Successful jobs delete themselves; failed ones stay, because their request and last
+        # heartbeat are the only record of what the worker was doing. Over a long batch that
+        # accumulates, so old ones go on connect. None disables it.
+        self.prune_days = prune_days
 
     # ------------------------------------------------------------------ context manager
     def __enter__(self):
@@ -56,6 +64,8 @@ class CloSession(object):
     def connect(self):
         if self._editor is None:
             self._editor = find_editor()
+        if self.prune_days:
+            protocol.prune_jobs(self._jobs_root, self.prune_days)
         if self._editor is None:
             raise CloNotFound(
                 "No CLO window with a Python editor was found. Start CLO, sign in, then "
