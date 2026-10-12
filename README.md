@@ -14,6 +14,13 @@ with CloSession() as clo:
 print(info["version"], info["patternCount"])
 ```
 
+[![A still from the film: one pattern in poly chiffon, its hem measured at 432 mm](docs/film_poster.jpg)](docs/film.mp4)
+
+**[Watch the 72-second film](docs/film.mp4)** (with sound). It walks through one run call by
+call, then the same pattern in seven measured fabrics. Every point in it is a vertex CLO solved
+and every hem width is measured off the exported mesh. It is drawn by code, and
+[`film/`](film/) renders it again.
+
 ---
 
 ## Why this exists

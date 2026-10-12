@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>clo3d-python-bridge film</title>
+<!--
+  One 1920x1080 frame, drawn as a function of time. window.seek(t) puts every point and every
+  word where it belongs at second t; render.py calls it once per frame. No clock, no state
+  between frames, so the film is reproducible and any second can be re-rendered alone.
+
+  What moves is real, and it is one set of points from start to end:
+
+    846 dots       one per function name in the CLO Python API
+    a flat pattern the cut and internal lines of the DXF the garment was simulated from
+    a garment      the vertices CLO solved, in seven measured fabrics (film/build_clouds.py)
+
+  The hem widths on screen are measured off those meshes by clo_bridge.mesh. Within a pattern
+  the fabrics share a topology, so vertex i of one fabric moves to vertex i of the next - the
+  morphs are the data, not an effect laid over it. Dots to pattern, and pattern to garment, are
+  transitions: which point goes where between those states means nothing.
+
+  120 BPM: a beat is 0.5 s, a bar 2 s, and everything that arrives, arrives on one.
+-->
+<style>
+@font-face{font-family:"Geist";src:url("fonts/geist.woff2") format("woff2");font-weight:100 900;font-display:block}
+@font-face{font-family:"Geist Mono";src:url("fonts/geist-mono.woff2") format("woff2");font-weight:100 900;font-display:block}
+:root{--m:120px;--col:118px;--g:24px;--bl:8px;--ink:#f4f4f2;--paper:#0b0b0c;--red:#e5242b;--mute:#8b9097}
+html,body{margin:0;background:#000}
+#film{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--paper);
+  font-family:"Geist",Helvetica,Arial,sans-serif;color:var(--ink);
+  -webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+#gl{position:absolute;inset:0;width:1920px;height:1080px}
+/* a line of type: column start and baseline row, flush left on the margin */
+.b{position:absolute;left:calc(var(--m) + var(--c,0) * (var(--col) + var(--g)));
+  top:calc(var(--y,0) * var(--bl));white-space:nowrap;visibility:hidden}
+.x{font-size:320px;line-height:320px;font-weight:600;letter-spacing:-0.04em;font-variant-numeric:tabular-nums}
+.d{font-size:132px;line-height:144px;font-weight:600;letter-spacing:-0.03em}
+.t{font-size:56px;line-height:72px;font-weight:400;letter-spacing:-0.01em;font-variant-numeric:tabular-nums}
+.f{font-family:"Geist Mono",Consolas,monospace;font-size:72px;line-height:96px;font-weight:500;letter-spacing:-0.02em}
+.u{font-family:"Geist Mono",Consolas,monospace;font-size:40px;line-height:64px}
+.r{color:var(--red)} .mu{color:var(--mute)}
+.mm{font-size:132px;letter-spacing:-0.03em;margin-left:.14em;color:var(--ink)}
+.wm{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .08em;margin:0 -.08em}
+.wi{display:inline-block;will-change:transform}
+</style>
+</head>
+<body>
+<div id="film">
+<canvas id="gl" width="1920" height="1080"></canvas>
+
+<!-- 0-8  846 dots, one per function; how many of them each job gets -->
+<div class="b x r" style="--y:38" data-in="0.5" data-out="15.75" data-whole id="n846">0</div>
+<div class="b d" style="--y:92" data-in="1.0" data-out="3.9">Python functions.</div>
+<div class="b d" style="--y:92" data-in="4.0" data-out="4.9"><span class="r">207</span> for patterns.</div>
+<div class="b d" style="--y:92" data-in="5.0" data-out="5.9"><span class="r">173</span> for fabric.</div>
+<div class="b d" style="--y:92" data-in="6.0" data-out="6.9"><span class="r">106</span> for the camera.</div>
+<div class="b d" style="--y:92" data-in="7.0" data-out="7.9"><span class="r">43</span> for the solver.</div>
+
+<!-- 8-16  the only way in -->
+<div class="b d" style="--y:92" data-in="8.0" data-out="9.9">One way to call them.</div>
+<div class="b d" style="--y:92" data-in="10.0" data-out="11.9">Paste. Press <span class="r">Play.</span></div>
+<div class="b d" style="--y:92" data-in="12.0" data-out="13.4">No headless mode.</div>
+<div class="b d" style="--y:92" data-in="13.5" data-out="15.75">This presses it for you.</div>
+
+<!-- 16-32  one run, call by call. The line at the foot is the worker reporting where it is. -->
+<div class="b f mu" style="--y:34" data-in="16.0" data-out="19.9" data-whole>ImportDXFW()</div>
+<div class="b d" style="--y:48" data-in="16.1" data-out="19.9">Import.</div>
+<div class="b t" style="--y:70" data-in="16.7" data-out="19.9">Two pieces from a DXF.</div>
+
+<div class="b f mu" style="--y:34" data-in="20.0" data-out="23.9" data-whole>AddFabricW()</div>
+<div class="b d" style="--y:48" data-in="20.1" data-out="23.9">Load.</div>
+<div class="b t" style="--y:70" data-in="20.7" data-out="23.9">Weight 300 &rarr; <span class="r">135.3</span> g/m&sup2;</div>
+<div class="b t" style="--y:79" data-in="21.5" data-out="23.9">Thickness 0.5 &rarr; <span class="r">0.22</span> mm</div>
+
+<div class="b f mu" style="--y:34" data-in="24.0" data-out="27.9" data-whole>Simulate()</div>
+<div class="b d" style="--y:48" data-in="24.1" data-out="27.9">Simulate.</div>
+<div class="b t" style="--y:70" data-in="24.5" data-out="27.9" data-whole id="step">step 0 of 60</div>
+
+<div class="b f mu" style="--y:34" data-in="28.0" data-out="31.9" data-whole>ExportOBJW()</div>
+<div class="b d" style="--y:48" data-in="28.1" data-out="31.9">Measure.</div>
+<div class="b t" style="--y:70" data-in="28.6" data-out="31.9">Four boundary loops.</div>
+<div class="b t" style="--y:79" data-in="29.5" data-out="31.9">The lowest is the <span class="r">hem.</span></div>
+
+<div class="b u mu" style="--y:104" data-in="16.4" data-out="30.4" data-whole>heartbeat.json</div>
+<div class="b u" style="--c:3;--y:104" data-in="16.5" data-out="30.4" data-whole id="hb">opening the garment</div>
+<div class="b u r" style="--y:104" data-in="30.5" data-out="31.9" data-whole>result.json</div>
+<div class="b u" style="--c:3;--y:104" data-in="30.6" data-out="31.9" data-whole>the answer</div>
+
+<!-- 32-36  the rule -->
+<div class="b d" style="--y:46" data-in="32.0" data-out="33.9">Pressing Play</div>
+<div class="b d" style="--y:64" data-in="32.5" data-out="33.9">tells you <span class="r">nothing.</span></div>
+<div class="b d" style="--y:46" data-in="34.0" data-out="35.5">Only the file</div>
+<div class="b d" style="--y:64" data-in="34.25" data-out="35.5"><span class="r">counts.</span></div>
+
+<!-- 36-50  one pattern, seven measured fabrics -->
+<div class="b t mu" style="--y:30" data-in="36.0" data-out="47.9" data-whole>hem width, measured off the mesh</div>
+<div class="b x r" style="--y:42" data-in="36.0" data-out="47.9"><span id="hn">492</span><span class="mm">mm</span></div>
+<div class="b t" style="--y:86" data-in="36.2" data-out="47.9" data-whole id="fab">P06 cotton poplin</div>
+<div class="b d" style="--y:46" data-in="48.0" data-out="49.75">Same pattern.</div>
+<div class="b d" style="--y:64" data-in="48.5" data-out="49.75"><span class="r">432</span> to <span class="r">502</span> mm.</div>
+
+<!-- 50-56  twenty-seven -->
+<div class="b d" style="--y:106" data-in="50.5" data-out="51.9"><span class="r">27</span> runs.</div>
+<div class="b d" style="--y:106" data-in="52.0" data-out="53.4"><span class="r">5.3</span> minutes.</div>
+<div class="b d" style="--y:106" data-in="53.5" data-out="55.75">Nobody at the keyboard.</div>
+
+<!-- 56-64  what the API does not say -->
+<div class="b f mu" style="--y:38" data-in="56.5" data-out="58.9" data-whole>ExportOBJ(path)</div>
+<div class="b d" style="--y:52" data-in="56.75" data-out="58.9">opens a dialog.</div>
+<div class="b d" style="--y:70" data-in="57.5" data-out="58.9">And <span class="r">waits.</span></div>
+<div class="b f mu" style="--y:38" data-in="59.0" data-out="61.4" data-whole>ImportExportOption()</div>
+<div class="b d" style="--y:52" data-in="59.25" data-out="61.4">exports the</div>
+<div class="b d" style="--y:70" data-in="59.5" data-out="61.4"><span class="r">mannequin</span> too.</div>
+<div class="b f mu" style="--y:38" data-in="61.5" data-out="63.75" data-whole>SetFabricInformationW()</div>
+<div class="b d" style="--y:52" data-in="61.75" data-out="63.75">ignores your weight.</div>
+<div class="b d" style="--y:70" data-in="62.5" data-out="63.75"><span class="r">No error.</span></div>
+
+<!-- 64-72  where to find it -->
+<div class="b d" style="--y:40" data-in="64.5" data-out="99">clo3d-python-bridge</div>
+<div class="b u r" style="--y:62" data-in="65.5" data-out="99" data-whole>github.com/ZHOUCHENHAO1221/clo3d-python-bridge</div>
+<div class="b t" style="--y:76" data-in="66.5" data-out="99">31 tests. None of them needs CLO.</div>
+<div class="b t mu" style="--y:86" data-in="67.0" data-out="99">MIT &middot; Windows &middot; CLO 2026.1.310</div>
+</div>
+
+<script src="assets/clouds.js"></script>
+<script>
+"use strict";
+const DUR = 72, W = 1920, H = 1080, BEAT = 0.5;
+/* the film's joints, in seconds. Sound reads the same numbers (out/cues.json). */
+const S = {tasks: 4, steps: 16, rule: 32, cut: 35.5, drop: 36, fan: 50, traps: 56, end: 64};
+const CUTS = [S.drop, S.traps];               // the two camera cuts; everything else is one move
+const PULSE = [S.drop, S.traps, BEAT];        // between these seconds the picture flashes on every beat
+const KEYS = [1.6, 4.6, 6.6, 9.0, 13.0, 15.0, 17.2, 19.0, 21.2, 23.0, 25.3, 26.2, 27.6, 29.2, 30.9, 33.2,
+              35.0, 36.6, 41.0, 45.0, 49.2, 50.6, 52.6, 55.0, 57.8, 60.4, 62.9, 66.0];
+const TASKS = [207, 173, 106, 43];            // section sizes in reference/API_MAP.md
+
+/* ---------- easing ---------- */
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const prog = (t, t0, d) => clamp((t - t0) / d, 0, 1);
+const lerp = (a, b, k) => a + (b - a) * k;
+const io = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const out = x => 1 - Math.pow(1 - x, 4);
+const inn = x => x * x * x;
+/* a damped step, in closed form: no state, so any frame can be computed alone */
+function spring(x, w = 11, z = 0.78) {
+  if (x <= 0) return 0;
+  const wd = w * Math.sqrt(1 - z * z);
+  return 1 - Math.exp(-z * w * x) * (Math.cos(wd * x) + z * w / wd * Math.sin(wd * x));
+}
+const hash = i => { const s = Math.sin(i * 12.9898) * 43758.5453; return s - Math.floor(s); };
+/* Catmull-Rom through [t, v...] keys: the camera never stops between them */
+function track(keys) {
+  return t => {
+    const n = keys.length;
+    if (t <= keys[0][0]) return keys[0].slice(1);
+    if (t >= keys[n - 1][0]) return keys[n - 1].slice(1);
+    let i = 0;
+    while (t > keys[i + 1][0]) i++;
+    const p0 = keys[Math.max(0, i - 1)], p1 = keys[i], p2 = keys[i + 1], p3 = keys[Math.min(n - 1, i + 2)];
+    const u = (t - p1[0]) / (p2[0] - p1[0]), u2 = u * u, u3 = u2 * u;
+    return p1.slice(1).map((_, k) => {
+      const a = p0[k + 1], b = p1[k + 1], c = p2[k + 1], d = p3[k + 1];
+      return 0.5 * (2 * b + (c - a) * u + (2 * a - 5 * b + 4 * c - d) * u2 + (3 * b - a - 3 * c + d) * u3);
+    });
+  };
+}
+
+/* ---------- the data ---------- */
+function decode(b64, Type) {
+  const s = atob(b64), u = new Uint8Array(s.length);
+  for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i);
+  return new Type(u.buffer);
+}
+const STEP = CLOUDS.step;
+const PAT = CLOUDS.patterns.map(p => ({
+  id: p.id, name: p.name, n: p.vertices, loops: p.loops,
+  fab: p.fabrics.map(f => ({
+    id: f.id, name: f.name, hem: f.hem, loop: f.loop,
+    pos: Float32Array.from(decode(f.pos, Int16Array), v => v * STEP),
+    nrm: Float32Array.from(decode(f.nrm, Int8Array), v => v / 127),
+  })),
+}));
+const V3 = PAT[2], NF = 7;
+const HEM = V3.fab.map(f => Math.round(f.hem));
+
+/* The 846 dots: 37 across, the last row short. They stand on the plane the pattern will lie in. */
+const DOTS = 846, DOT_COLS = 37, DOT_MM = 52;
+const dotX = k => (k % DOT_COLS - 18) * DOT_MM, dotY = k => (11 - Math.floor(k / DOT_COLS)) * DOT_MM;
+
+/* The flat pattern, as points: every vertex of the garment takes a place along the DXF's lines.
+   Cut lines get the points; internal lines get fewer, so the outline reads first. */
+const FLAT = (() => {
+  const segs = [];
+  let total = 0;
+  for (const piece of CLOUDS.flat) for (const [key, weight] of [["cut", 1], ["inner", 0.35]]) for (const pl of piece[key])
+    for (let i = 0; i + 3 < pl.length; i += 2) {
+      const len = Math.hypot(pl[i + 2] - pl[i], pl[i + 3] - pl[i + 1]) * weight;
+      if (len > 0) { segs.push([total, len, pl[i], pl[i + 1], pl[i + 2], pl[i + 3]]); total += len; }
+    }
+  const xy = new Float32Array(V3.n * 2);
+  for (let i = 0, s = 0; i < V3.n; i++) {
+    const at = (i + 0.5) / V3.n * total;
+    while (s < segs.length - 1 && at > segs[s][0] + segs[s][1]) s++;
+    const g = segs[s], k = clamp((at - g[0]) / g[1], 0, 1);
+    xy[i * 2] = lerp(g[2], g[4], k); xy[i * 2 + 1] = lerp(g[3], g[5], k);
+  }
+  return xy;
+})();
+
+/* ---------- the camera ----------
+   keys: t, angle round the target, distance, height, target x y z, where the lens centre sits */
+const CAM = [
+  track([[0, -0.50, 6400, 600, 0, 0, 0, 1310, 430], [8, -0.10, 5800, 250, 0, 0, 0, 1310, 430],
+         [16, 0.14, 5000, 60, 0, 0, 0, 1400, 520], [24, -0.16, 4900, 80, 0, 0, 0, 1400, 530],
+         [27.5, 0.10, 2250, 80, 0, 0, 0, 1500, 540], [32, 0.45, 1950, 40, 0, 0, 0, 1520, 540],
+         [36, 0.80, 900, 0, 0, 60, 0, 1380, 540]]),
+  track([[36, -0.60, 2050, 90, 0, -10, 0, 1480, 540], [42, -0.05, 2000, 70, 0, -10, 0, 1480, 540],
+         [47, 0.42, 2000, 150, 0, -10, 0, 1480, 540], [49.2, 0.62, 1150, 1900, 0, -355, 0, 1500, 620],
+         [50.4, 0.50, 2300, 1900, 0, -200, 0, 1200, 560], [52.6, 0.24, 6500, 400, 0, 760, 0, 960, 430],
+         [56, -0.20, 6700, 200, 0, 760, 0, 960, 430]]),
+  track([[56, 0.75, 1750, 160, -2300, 0, 0, 1480, 540], [60, 0.50, 1650, 120, 0, 0, 0, 1480, 540],
+         [64, 0.32, 1750, 100, 1920, 0, 0, 1500, 540], [67, 0.10, 2450, 60, 1920, 0, 0, 1650, 540],
+         [72, -0.22, 2550, 60, 1920, 0, 0, 1650, 540]]),
+];
+const F = 2400;                               // px: at 2400 mm, one millimetre is one pixel
+let cam = null;
+function setCamera(t) {
+  const [th, r, h, tx, ty, tz, cx, cy] = CAM[t < S.drop ? 0 : t < S.traps ? 1 : 2](t);
+  const px = tx + r * Math.sin(th), py = ty + h, pz = tz + r * Math.cos(th);
+  let fx = tx - px, fy = ty - py, fz = tz - pz;
+  const fl = Math.hypot(fx, fy, fz); fx /= fl; fy /= fl; fz /= fl;
+  let rx = -fz, rz = fx;                      // forward x up(0,1,0)
+  const rl = Math.hypot(rx, rz); rx /= rl; rz /= rl;
+  const ux = -rz * fy, uy = rz * fx - rx * fz, uz = rx * fy;   // right x forward
+  cam = {px, py, pz, fx, fy, fz, rx, rz, ux, uy, uz, cx, cy};
+}
+
+/* ---------- drawing ---------- */
+const ctx = document.getElementById("gl").getContext("2d");
+const LEVELS = 14, MAXN = 16000;
+const bx = Array.from({length: LEVELS}, () => new Float32Array(MAXN * 3)), bn = new Int32Array(LEVELS);
+const LX = -0.42, LY = 0.50, LZ = 0.76;       // a key light, up and to the left of the lens
+
+/* One set of points. a -> b at mix m; ox/oy/oz place it in the room.
+   stage 0 = the dots, 1 = the flat pattern, 2 = the garment; in between, each point leaves in its own time. */
+function cloud(pat, a, b, m, o) {
+  const A = pat.fab[a].pos, B = pat.fab[b].pos, NA = pat.fab[a].nrm, NB = pat.fab[b].nrm;
+  const {px, py, pz, fx, fy, fz, rx, rz, ux, uy, uz, cx, cy} = cam;
+  const ox = o.ox || 0, oy = o.oy || 0, oz = o.oz || 0, stage = o.stage === undefined ? 2 : o.stage;
+  bn.fill(0);
+  for (let i = 0; i < pat.n; i++) {
+    const j = i * 3;
+    let x = A[j] + (B[j] - A[j]) * m + ox, y = A[j + 1] + (B[j + 1] - A[j + 1]) * m + oy,
+        z = A[j + 2] + (B[j + 2] - A[j + 2]) * m + oz;
+    let e = 1, flatI = 0, flatSize = 0;
+    if (stage < 2) {
+      const h = hash(i), k = i % DOTS;
+      let qx = FLAT[i * 2], qy = FLAT[i * 2 + 1];
+      flatI = 0.62; flatSize = 2.6;
+      if (stage < 1) {                        // dots -> pattern
+        const g = io(clamp(stage * 1.6 - h * 0.6, 0, 1));
+        qx = lerp(dotX(k), qx, g); qy = lerp(dotY(k), qy, g);
+        flatI = lerp(0.9 * clamp((o.dotT - (k % DOT_COLS) * 0.028) / 0.25, 0, 1), flatI, g);
+        flatSize = lerp(16, flatSize, g);
+        if (flatI < 0.004) continue;          // a dot that has not arrived yet
+      }
+      e = stage < 1 ? 0 : io(clamp((stage - 1) * 1.6 - h * 0.6, 0, 1));   // pattern -> garment
+      x = lerp(qx, x, e); y = lerp(qy, y, e); z = lerp(0, z, e);
+    }
+    const dx = x - px, dy = y - py, dz = z - pz;
+    const vz = dx * fx + dy * fy + dz * fz;
+    if (vz < 120) continue;
+    const s = F / vz;
+    const sx = cx + (dx * rx + dz * rz) * s, sy = cy - (dx * ux + dy * uy + dz * uz) * s;
+    let nx = NA[j] + (NB[j] - NA[j]) * m, ny = NA[j + 1] + (NB[j + 1] - NA[j + 1]) * m,
+        nz = NA[j + 2] + (NB[j + 2] - NA[j + 2]) * m;
+    const facing = -(nx * dx + ny * dy + nz * dz) / vz;      // > 0: this side of the cloth faces the lens
+    if (facing < 0) { nx = -nx; ny = -ny; nz = -nz; }
+    // light in the camera's frame, so the modelling follows the lens round
+    const l = Math.max(0, (nx * rx + nz * rz) * LX + (nx * ux + ny * uy + nz * uz) * LY - (nx * fx + ny * fy + nz * fz) * LZ);
+    const I = lerp(flatI, (0.22 + 0.78 * l) * (facing < 0 ? 0.42 : 1), e);
+    const size = clamp(lerp(flatSize, 2.3, e) * s, 1.2, 12);
+    const lv = Math.min(LEVELS - 1, I * LEVELS | 0), q = bn[lv] * 3;
+    bx[lv][q] = sx; bx[lv][q + 1] = sy; bx[lv][q + 2] = size; bn[lv]++;
+  }
+  for (let lv = 0; lv < LEVELS; lv++) {
+    if (!bn[lv]) continue;
+    ctx.fillStyle = "rgba(244,244,242," + (o.alpha * (lv + 0.6) / LEVELS).toFixed(3) + ")";
+    const p = bx[lv];
+    for (let k = 0, e = bn[lv] * 3; k < e; k += 3) ctx.fillRect(p[k] - p[k + 2] / 2, p[k + 1] - p[k + 2] / 2, p[k + 2], p[k + 2]);
+  }
+}
+
+function project(x, y, z) {
+  const {px, py, pz, fx, fy, fz, rx, rz, ux, uy, uz, cx, cy} = cam;
+  const dx = x - px, dy = y - py, dz = z - pz, vz = dx * fx + dy * fy + dz * fz;
+  if (vz < 120) return null;
+  const s = F / vz;
+  return [cx + (dx * rx + dz * rz) * s, cy - (dx * ux + dy * uy + dz * uz) * s, s];
+}
+
+/* the first n dots, in red: how many of the 846 one job gets */
+function redDots(n, alpha) {
+  ctx.fillStyle = "rgba(229,36,43," + alpha.toFixed(3) + ")";
+  for (let k = 0; k < n; k++) {
+    const p = project(dotX(k), dotY(k), 0), size = 17 * p[2];
+    ctx.fillRect(p[0] - size / 2, p[1] - size / 2, size, size);
+  }
+}
+
+/* A boundary loop of the mesh. The lowest closed one is the hem, and the hem is what gets measured. */
+function ring(pat, ids, a, b, m, rgb, alpha, grow, ox) {
+  if (alpha <= 0.01) return;
+  const A = pat.fab[a].pos, B = pat.fab[b].pos;
+  ctx.fillStyle = "rgba(" + rgb + "," + alpha.toFixed(3) + ")";
+  for (const i of ids) {
+    const j = i * 3;
+    const p = project(A[j] + (B[j] - A[j]) * m + (ox || 0), A[j + 1] + (B[j + 1] - A[j + 1]) * m, A[j + 2] + (B[j + 2] - A[j + 2]) * m);
+    if (!p) continue;
+    const size = clamp(5.5 * p[2], 2.5, 16) * grow;
+    ctx.fillRect(p[0] - size / 2, p[1] - size / 2, size, size);
+  }
+}
+const RED = "229,36,43", INK = "244,244,242";
+
+/* which fabric the pattern is in at second t: one bar each, from the drop */
+function sweep(t) {
+  const k = clamp(Math.floor((t - S.drop) / 2), 0, NF - 1), local = t - S.drop - k * 2;
+  return k === 0 ? {a: 0, b: 0, m: 0, k} : {a: k - 1, b: k, m: spring(local), k};
+}
+
+function drawScene(t) {
+  ctx.globalCompositeOperation = "source-over";
+  ctx.fillStyle = "#0b0b0c"; ctx.fillRect(0, 0, W, H);
+  setCamera(t);
+  ctx.globalCompositeOperation = "lighter";
+  const beat = t >= S.drop && t < S.traps ? Math.exp(-7 * ((t / BEAT) % 1)) : 0;   // the room breathes with the kick
+  const step = t >= S.steps && t < S.rule ? Math.exp(-5 * ((t - S.steps) % 4)) : 0;  // each call lands
+  const sw = sweep(t);
+  const fan = out(prog(t, S.fan, 1.4));                                       // one garment becomes seven
+  const tail = 1 - prog(t, S.end, 0.9);                                       // the room empties at the end
+  const dim = t < S.traps ? 1 : lerp(1, 0.4, prog(t, S.traps, 0.5));
+
+  // the dots, the flat pattern they become on ImportDXFW, the garment that becomes on Simulate
+  const stage = io(prog(t, S.steps, 1.8)) + prog(t, S.steps + 8.3, 2.9);
+  const rule = t >= S.rule && t < S.drop ? lerp(1, 0.45, prog(t, S.rule, 0.5)) * (1 - prog(t, S.cut, 0.25)) : 1;
+  const heroAlpha = (0.85 + 0.15 * Math.max(beat, step)) * rule * (t < S.end ? dim : lerp(0.4, 0.85, prog(t, S.end, 1.0)));
+  const heroX = (NF - 1 - 3) * 640 * fan;                                     // the last fabric walks to its own place
+  cloud(V3, sw.a, sw.b, sw.m, {ox: heroX, alpha: heroAlpha, stage, dotT: t - 0.5});
+
+  ctx.globalCompositeOperation = "source-over";
+  if (t >= S.tasks && t < S.tasks + TASKS.length) {                           // 207, 173, 106, 43 of the 846
+    const k = Math.floor(t - S.tasks), local = t - S.tasks - k;
+    redDots(Math.round(TASKS[k] * out(prog(local, 0, 0.35))), 1 - prog(local, 0.85, 0.15));
+  }
+  if (t >= S.steps + 12 && t < S.rule) {                                      // ExportOBJW: the mesh's four edges
+    const t0 = S.steps + 12, gone = 1 - prog(t, S.rule - 0.4, 0.4), L = V3.loops;
+    [[3, 0.3], [1, 0.55], [2, 0.7]].forEach(([i, at]) =>
+      ring(V3, L[i], 0, 0, 0, INK, prog(t, t0 + at, 0.2) * gone, 1 + 0.6 * Math.exp(-6 * Math.max(0, t - t0 - at))));
+    ring(V3, L[0], 0, 0, 0, RED, prog(t, t0 + 1.4, 0.2) * gone, 1 + 0.8 * Math.exp(-5 * Math.max(0, t - t0 - 1.4)));
+  }
+  if (t >= S.drop && t < S.fan + 1) {                                         // every hem so far, left where it hung
+    const gone = 1 - prog(t, S.fan, 0.8), top = prog(t, S.fan - 2.4, 1.2);
+    for (let k = 0; k <= sw.k; k++) {
+      const ext = k === 2 || k === 4;                                         // 432 and 502: the two ends
+      if (k === sw.k) ring(V3, V3.loops[0], sw.a, sw.b, sw.m, RED, gone, 1 + 0.5 * Math.exp(-6 * (t - S.drop - k * 2)), heroX);
+      else ring(V3, V3.loops[0], k, k, 0, RED, lerp(0.30, ext ? 0.95 : 0.45, top) * gone, 0.7);
+    }
+  }
+  ctx.globalCompositeOperation = "lighter";
+  if (t >= S.fan && t < S.end + 1) {                                          // the other twenty
+    for (let r = 0; r < 3; r++) for (let c = 0; c < NF; c++) {
+      if (r === 0 && c === NF - 1) continue;                                  // that one is the hero
+      const a = r === 0 ? prog(t, S.fan, 0.35) : out(prog(t, S.fan + 0.7 + r * 0.35 + c * 0.05, 0.9));
+      if (a <= 0) continue;
+      cloud(PAT[2 - r], c, c, 0, {ox: (c - 3) * 640 * (r === 0 ? fan : 1), oy: r * 760, oz: r ? -(1 - a) * 700 : 0,
+                                  alpha: 0.8 * a * dim * tail * (1 + 0.15 * beat)});
+    }
+  }
+  // bloom: the frame, blurred, laid back over itself
+  ctx.filter = "blur(9px)"; ctx.globalAlpha = 0.55;
+  ctx.drawImage(ctx.canvas, 0, 0);
+  ctx.filter = "none"; ctx.globalAlpha = 1;
+  // while the camera flies through the garments, shade the side the words are on
+  const shade = prog(t, S.traps, 0.5) * (1 - prog(t, S.end - 0.25, 0.5));
+  if (shade > 0) {
+    const g = ctx.createLinearGradient(0, 0, 1500, 0);
+    g.addColorStop(0, "rgba(11,11,12," + (0.9 * shade).toFixed(3) + ")");
+    g.addColorStop(0.55, "rgba(11,11,12," + (0.7 * shade).toFixed(3) + ")");
+    g.addColorStop(1, "rgba(11,11,12,0)");
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  }
+}
+
+/* ---------- type ---------- */
+const film = document.getElementById("film");
+const blocks = [...document.querySelectorAll(".b")].map(el => {
+  const o = {el, t0: +el.dataset.in, t1: +el.dataset.out, words: []};
+  const wrap = node => {
+    const m = document.createElement("span"), i = document.createElement("span");
+    m.className = "wm"; i.className = "wi"; i.appendChild(node); m.appendChild(i); o.words.push(i);
+    return m;
+  };
+  if (el.dataset.whole !== undefined) el.replaceChildren(wrap(document.createTextNode(el.textContent)));
+  else el.replaceChildren(...[...el.childNodes].flatMap(n => n.nodeType === 3
+    ? n.textContent.split(/(\s+)/).filter(Boolean).map(w => /^\s+$/.test(w) ? document.createTextNode(" ") : wrap(document.createTextNode(w)))
+    : [wrap(n)]));
+  return o;
+});
+const byId = id => blocks.find(b => b.el.id === id);
+const N846 = byId("n846"), HB = byId("hb"), STEPT = byId("step"), HN = document.getElementById("hn"), FAB = byId("fab");
+/* what worker.beat() says in examples/04_sweep.py, one per call */
+const STAGES = ["opening the garment", "loading PG1_measured.zfab", "simulating", "exporting"];
+
+function drawType(t) {
+  for (const b of blocks) {
+    const on = t >= b.t0 && t < b.t1;
+    b.el.style.visibility = on ? "visible" : "hidden";
+    if (!on) continue;
+    b.words.forEach((w, j) => {
+      const a = out(prog(t, b.t0 + j * 0.06, 0.42)), z = inn(prog(t, b.t1 - 0.22, 0.22));
+      w.style.transform = "translateY(" + ((1 - a) * 105 - z * 105).toFixed(2) + "%)";
+    });
+  }
+  N846.words[0].textContent = Math.round(DOTS * out(prog(t, 0.5, 1.6)));
+  HB.words[0].textContent = STAGES[clamp(Math.floor((t - S.steps) / 4), 0, 3)];
+  STEPT.words[0].textContent = "step " + Math.round(60 * prog(t, S.steps + 8.3, 2.9)) + " of 60";
+  const sw = sweep(t);
+  HN.textContent = Math.round(lerp(HEM[sw.a], HEM[sw.b], clamp(sw.m, 0, 1)));
+  FAB.words[0].textContent = V3.fab[sw.k].id + " " + V3.fab[sw.k].name;
+}
+
+function seek(t) {
+  t = clamp(t, 0, DUR - 1e-6);
+  drawScene(t);
+  drawType(t);
+}
+
+/* Optical alignment: put the ink of a big first glyph on the margin, not its box. Measured with
+   the film's own font - a fallback has a different side bearing and would give a wrong nudge. */
+function alignInk() {
+  const c = document.createElement("canvas").getContext("2d");
+  document.querySelectorAll(".b.d,.b.x").forEach(el => {
+    const cs = getComputedStyle(el), ch = (el.textContent || "").trim()[0];
+    c.font = cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
+    const abl = c.measureText(ch).actualBoundingBoxLeft;
+    if (isFinite(abl)) el.style.marginLeft = abl.toFixed(2) + "px";
+  });
+}
+
+/* What render.py verify asks: each line, once it has arrived - on a column, inside the frame, one line. */
+function verify() {
+  const res = {offGrid: [], offFrame: [], wrapped: []};
+  for (const b of blocks) {
+    seek(Math.min(b.t0 + 1.2, Math.min(b.t1, DUR) - 0.3));
+    const r = b.el.getBoundingClientRect(), f = film.getBoundingClientRect();
+    const tag = '"' + b.el.textContent.trim().slice(0, 30) + '" @' + b.t0;
+    const left = r.left - f.left - (parseFloat(b.el.style.marginLeft) || 0);
+    if (Math.abs((left - 120) / 142 - Math.round((left - 120) / 142)) > 0.01) res.offGrid.push(tag);
+    if (r.right - f.left > 1800 + 1 || r.bottom - f.top > 1032) res.offFrame.push(tag);
+    if (r.height > parseFloat(getComputedStyle(b.el).lineHeight) * 1.5) res.wrapped.push(tag);
+  }
+  seek(0);
+  return res;
+}
+
+/* Sound cues, read off the same timeline the picture uses. audio.py places a sound on each. */
+const kind = el => el.classList.contains("f") ? "call" : el.classList.contains("d") || el.classList.contains("x") ? "slam" : "soft";
+const CUES = blocks.map(b => ({t: b.t0, k: kind(b.el)}))
+  .concat([{t: 0.5, k: "dots"}, {t: S.steps, k: "flatten"}, {t: S.steps + 8.3, k: "form"}, {t: S.cut, k: "cutout"}, {t: S.fan, k: "fan"}],
+          TASKS.map((n, i) => ({t: S.tasks + i, k: "task", n})),
+          [0.3, 0.55, 0.7, 1.4].map((d, i) => ({t: S.steps + 12 + d, k: "loop", n: i})),
+          Array.from({length: NF}, (_, k) => ({t: S.drop + k * 2, k: "morph", n: k, hem: HEM[k]})))
+  .sort((a, b) => a.t - b.t);
+
+/* Preview for a person with the file open: Space, arrows, R, ?t=20. render.py passes ?render=1. */
+const Q = new URLSearchParams(location.search);
+function play() {
+  let at = +(Q.get("t") || 0), on = true, last = performance.now();
+  const fit = () => { film.style.zoom = Math.min(innerWidth / W, innerHeight / H); };
+  fit(); addEventListener("resize", fit);
+  addEventListener("keydown", e => {
+    if (e.code === "Space") { on = !on; e.preventDefault(); }
+    if (e.code === "ArrowRight") { on = false; seek(at = Math.min(DUR, at + 1 / 60)); }
+    if (e.code === "ArrowLeft") { on = false; seek(at = Math.max(0, at - 1 / 60)); }
+    if (e.code === "KeyR") at = 0;
+  });
+  const tick = now => { if (on) { at = (at + (now - last) / 1000) % DUR; seek(at); } last = now; requestAnimationFrame(tick); };
+  requestAnimationFrame(tick);
+}
+
+Object.assign(window, {seek, verify, DUR, CUTS, KEYS, CUES, PULSE, SECTIONS: S});
+document.fonts.ready.then(() => { alignInk(); seek(0); window.ready = true; if (!Q.get("render")) play(); });
+</script>
+</body>
+</html>

@@ -9,3 +9,5 @@ venv/
 *.tmp
 # local probe output; the committed snapshot lives in scripts/api_surface.json
 scripts/api_surface.local.json
+# rendered frames and video; rebuild with film/render.py
+film/out/
