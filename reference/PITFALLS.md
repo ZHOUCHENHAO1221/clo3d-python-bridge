@@ -110,16 +110,39 @@ you have just added. Pass `False`.
 to put the numbers.
 
 **What is established.** Reading every writer in `fabric_api` — all fifty-nine of them, with no
-keyword filtering — **none sets bending, stretch or shear.** They set colour, roughness,
-metalness, opacity, texture maps, Substance presets, the fabric's name, item number, roll width
-and metadata. `ChangeFabricWithJson` looks like the way in and is not: round-trip its JSON
-through `GetFabricInfoW` and it has 31 keys, every one of them appearance.
-
-Across the whole API the only functions that set anything mechanical are
-`SetZipperStyleWeight`, `SetZipperStyleTapeThickness`, `SetTrimWeight` and
+keyword filtering — **none sets bending, stretch or shear one property at a time.** They set
+colour, roughness, metalness, opacity, texture maps, Substance presets, the fabric's name, item
+number, roll width and metadata. Across the whole API the only setters with weight or thickness
+in their names are `SetZipperStyleWeight`, `SetZipperStyleTapeThickness`, `SetTrimWeight` and
 `SetAddlThicknessCollision` — a zipper, a trim, and a solver collision tolerance.
 
-**The one candidate that looks like a way in, and what happened when it was tried.**
+**The way in is the fabric file.** An earlier version of this page said `ChangeFabricWithJson`
+was not a way in. That was wrong, and the mistake is instructive: the 31 appearance keys it
+cited come from `GetFabricInfoW`, a summary, and were taken for the JSON that
+`ChangeFabricWithJson` reads. The file it reads is a `.jfab`, which `ExportFabricW(path, index)`
+writes. Its `mapPhysical` block holds density, thickness, stretch, bending, shear and buckling.
+
+Tested on CLO 2026.1.310, on the default fabric of an empty project. The file was exported,
+edited as text, loaded through `ChangeFabricWithJsonW` and again through `AddFabricW`, and read
+back through `GetFabricInformationW` and a fresh export:
+
+| field edited in the `.jfab` | read back after loading |
+|---|---|
+| `fDensity`, `fThickness` | as written — `GetFabricInformationW` went from `300 g/m2`, `0.5 mm` to `135.3 g/m2`, `0.22 mm` |
+| `fSuK`, `fSvK` (stretch) | as written |
+| `fBuK_v2`, `fBvK_v2` (bending), `fLeftShearK_v2`, `fRightShearK_v2` (shear) | as written, and `fBuK`, `fBvK`, `fLeftShearK` moved with them |
+| `fBuK`, `fBvK` edited directly | **the call returned `True` and nothing changed** |
+| the unedited file, reloaded first | nothing changed — the control |
+
+**The trap inside the route that works.** Bending has two sets of fields. `fBuK` is `fBuK_v2`
+divided by π, and CLO recomputes it on load. Edit `fBuK` alone and the call returns `True`, the
+file is accepted, and the fabric is unchanged. Edit the `_v2` fields.
+
+**What this does not show.** The values were read back from the fabric record. No simulation
+was run on them. They are solver units — `fDensity` in g/mm², bending and shear as engine
+coefficients — so a measured figure still has to be converted before it goes in.
+
+**The candidate that looks like a way in and is not.**
 `GetFabricInformationW` returns a `Dict[str, str]` containing `Weight` and `Thickness`, and
 there is an exact write counterpart:
 
@@ -154,7 +177,7 @@ search cannot establish an absence.** The claim above rests on two things instea
 every writer in the module and reading them, and testing the one candidate against a control
 key that does change. If you want to assert that something is missing, that is the work.
 
-**Rule, as far as it goes.** A `.zfab` file is a route that is known to work: `AddFabricW(path)`
+**Rule, as far as it goes.** A `.zfab` file is a route that is known to work, as is an edited `.jfab`: `AddFabricW(path)`
 loads one from a script and the values arrive with it — a measured file reading back 0.22 mm
 and 135.3 g/m² where CLO's default fabric reads 0.5 mm and 300 g/m². See
 `examples/03_load_measured_fabric.py`.

@@ -6,10 +6,11 @@
 Verified against CLO 2026.1.310.
 
 Why this example loads a file rather than setting numbers: across the fifty-nine writers in
-`fabric_api`, none sets bending, stretch or shear. They set colour, roughness, metalness,
-opacity, texture maps, the name, the item number, the roll width and metadata.
-`ChangeFabricWithJson` looks like the way in and is not - the JSON it round-trips has 31 keys
-and every one is appearance.
+`fabric_api`, none sets bending, stretch or shear one property at a time. They set colour,
+roughness, metalness, opacity, texture maps, the name, the item number, the roll width and
+metadata. The file is the way in. A `.zfab` is loaded here; an edited `.jfab` loaded through
+`ChangeFabricWithJsonW` also works - see reference/PITFALLS.md, including which bending fields
+CLO reads.
 
 One candidate looks like a way in and is not. `GetFabricInformationW` returns a dict
 containing `Weight` and `Thickness` and `SetFabricInformationW(index, dict)` is its exact write
@@ -17,8 +18,7 @@ counterpart. Writing `SupplierName` through it works - that is the control. Writ
 `Thickness` changes nothing, in four call forms, with no error raised and None returned. They
 are read-only through that route, and the call does not tell you so.
 
-What this script does is the route that is known to work. Loading a `.zfab` from a script
-delivers the values:
+Loading a `.zfab` from a script delivers the values:
 
     CLO's default fabric   0.5 mm    300 g/m2
     a measured .zfab       0.22 mm   135.3 g/m2

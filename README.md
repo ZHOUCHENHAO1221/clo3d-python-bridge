@@ -209,18 +209,46 @@ loaded 'PG1_measured' at index 3
   Thickness  0.5 mm       -> 0.22 mm
 ```
 
-It loads a file rather than setting numbers because **across the fifty-nine writers in
-`fabric_api`, none sets bending, stretch or shear.** They set colour, roughness, metalness,
-opacity, texture maps, the name, the item number, the roll width and metadata. Across the whole
-API the only mechanical setters are `SetZipperStyleWeight`, `SetZipperStyleTapeThickness`,
+It loads a file because **no function in `fabric_api` sets bending, stretch or shear one property
+at a time.** The fifty-nine writers set colour, roughness, metalness, opacity, texture maps, the
+name, the item number, the roll width and metadata. Across the whole API the only setters with
+weight or thickness in their names are `SetZipperStyleWeight`, `SetZipperStyleTapeThickness`,
 `SetTrimWeight` and `SetAddlThicknessCollision` — a zipper, a trim, and a solver collision
 tolerance.
 
-`ChangeFabricWithJson` sounds like the way in and is not: round-trip its JSON and you get 31
-keys, every one of them appearance — `baseColor`, `roughness`, `metalness`, `opacity`,
-`reflectionIntensity`, `thumbnail`, `rollWidth`.
+**The way in is the fabric file. An earlier version of this README said there was none, and that
+was wrong.** `ExportFabricW(path, index)` writes a `.jfab`, which is plain JSON, and its
+`mapPhysical` block holds density, thickness, stretch, bending, shear and buckling. Edit the
+file and load it with `ChangeFabricWithJsonW` or `AddFabricW`, and the values arrive. Tested on
+2026.1.310 on the default fabric of an empty project, reading back through both
+`GetFabricInformationW` and a fresh export:
 
-One candidate looks like a way in and is not, and it is worth knowing why.
+| field edited in the `.jfab` | read back after loading |
+|---|---|
+| `fDensity`, `fThickness` | as written — `GetFabricInformationW` went from `300 g/m2`, `0.5 mm` to `135.3 g/m2`, `0.22 mm` |
+| `fSuK`, `fSvK` (stretch) | as written |
+| `fBuK_v2`, `fBvK_v2` (bending), `fLeftShearK_v2`, `fRightShearK_v2` (shear) | as written, and `fBuK`, `fBvK`, `fLeftShearK` moved with them |
+| `fBuK`, `fBvK` edited directly | **the call returned `True` and nothing changed** |
+| the unedited file, reloaded first | nothing changed — the control |
+
+Three things to know before relying on it:
+
+- **The numbers are solver units.** `fDensity` is grams per square millimetre (`0.0001353` is
+  135.3 g/m²). The bending and shear values are engine coefficients, not the 0–99 index the
+  property editor shows.
+- **Bending has two sets of fields and only one is read.** `fBuK` is `fBuK_v2` divided by π.
+  Edit `fBuK` and CLO accepts the file, returns `True` and recomputes it from `fBuK_v2`. This
+  is the repository's own trap again: a success value for a write that did not happen.
+- **This shows the values reach the fabric record.** No simulation was run on them here.
+
+What went wrong the first time is worth a line. The 31 appearance keys this README used to cite
+come from `GetFabricInfoW`, which returns a summary. That was taken for the JSON
+`ChangeFabricWithJson` reads. It is a different document; the `.jfab` has about a thousand
+leaves. CLO's published API list says `ChangeFabricWithJson` overwrites all the properties of a
+fabric, and for every mechanical field tried here it did.
+
+`SetFabricInformation` is the candidate that looks like a way in and is not, and it is worth
+knowing why.
 `GetFabricInformationW` returns a dict containing `Weight` and `Thickness`, and
 `SetFabricInformationW(index, dict)` is its exact write counterpart — a name with no mechanical
 word in it, which is why a keyword search never finds it. Tested on 2026.1.310:
@@ -242,7 +270,7 @@ writes a measured weight there and carries on produces a whole study at CLO's de
 > rests on enumerating all fifty-nine writers in the module and testing the one candidate
 > against a control, which is what it takes.
 
-Loading a `.zfab` is the route that is known to work, and the example reads the values back and
+Loading a `.zfab` is the route this example uses, and it reads the values back and
 compares, because "AddFabricW returned an index" and "the document now holds the fabric I
 measured" are different claims.
 
