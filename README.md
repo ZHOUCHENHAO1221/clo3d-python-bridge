@@ -14,12 +14,14 @@ with CloSession() as clo:
 print(info["version"], info["patternCount"])
 ```
 
-[![A still from the film: one pattern in poly chiffon, its hem measured at 432 mm](docs/film_poster.jpg)](docs/film.mp4)
+[![Nine seconds of the film: a flat pattern becomes a garment, then the same pattern changes fabric and its measured hem changes with it](docs/film_preview.gif)](https://cdn.jsdelivr.net/gh/ZHOUCHENHAO1221/clo3d-python-bridge@master/docs/film.mp4)
 
-**[Watch the 72-second film](docs/film.mp4)** (with sound). It walks through one run call by
-call, then the same pattern in seven measured fabrics. Every point in it is a vertex CLO solved
-and every hem width is measured off the exported mesh. It is drawn by code, and
-[`film/`](film/) renders it again.
+**[Watch the 72-second film](https://cdn.jsdelivr.net/gh/ZHOUCHENHAO1221/clo3d-python-bridge@master/docs/film.mp4)** (with sound; the loop above is a silent excerpt). It walks
+through one run call by call, then the same pattern in seven measured fabrics. Every point in
+it is a vertex CLO solved and every hem width is measured off the exported mesh. It is drawn
+by code, and [`film/`](film/) renders it again.
+
+<sub>GitHub will not play a video stored in a repository, so that link goes through jsDelivr, which serves the same file. To keep a copy: [`docs/film.mp4`](docs/film.mp4?raw=true).</sub>
 
 ---
 

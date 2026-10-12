@@ -1,7 +1,8 @@
 # The film
 
-A 72-second film about this package, drawn by code. [`../docs/film.mp4`](../docs/film.mp4) is a
-720p copy; this folder is everything needed to render it again at 1080p, 60 fps.
+A 72-second film about this package, drawn by code. [Watch it](https://cdn.jsdelivr.net/gh/ZHOUCHENHAO1221/clo3d-python-bridge@master/docs/film.mp4): that is the 720p copy in
+`docs/film.mp4`, served through jsDelivr because GitHub will not play a video stored in a
+repository. This folder is everything needed to render it again at 1080p, 60 fps.
 
 ## What is real in it
 
