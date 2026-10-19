@@ -138,6 +138,10 @@ back through `GetFabricInformationW` and a fresh export:
 divided by π, and CLO recomputes it on load. Edit `fBuK` alone and the call returns `True`, the
 file is accepted, and the fabric is unchanged. Edit the `_v2` fields.
 
+**Reading the exported file.** A `.jfab` that `ExportFabric` writes can contain `nan.0` in a
+field nothing uses (seen in a texture `graph` block), and `json.loads` rejects it. Replace it
+before parsing: `json.loads(re.sub(r'(?<![\w.])-?nan\.0', 'null', text))`.
+
 **What this does not show.** The values were read back from the fabric record. No simulation
 was run on them. They are solver units — `fDensity` in g/mm², bending and shear as engine
 coefficients — so a measured figure still has to be converted before it goes in.
@@ -357,6 +361,79 @@ characters. See `reference/API_MAP.md` — the pairs are listed side by side.
 
 CLO's Python editor is a single slot and the GUI blocks while a script runs. There is no
 concurrency to be had. Serialise jobs in your own queue; do not try to open a second editor.
+
+---
+
+## Putting texture maps on a fabric set its thickness to zero
+
+**Symptom.** You add maps to a fabric with `utility_api.SetMaterialProperties` — base colour,
+normal, displacement, roughness. The call returns `"success"`, the maps are there, and the
+fabric's thickness is now 0 mm.
+
+**Cause.** `ApiTypes.MaterialPropertyOptions()` carries a field `physical_thickness_mm`, default
+`0.0`, and `SetMaterialProperties` writes it back along with the maps you set. Nothing in the
+call mentions thickness. Measured on CLO 2026.1.310: seven fabrics exported to `.jfab` before
+and after, 85 physical fields compared, and `mapPhysical.fThickness` was the only one that
+moved — every one to `0.0`.
+
+**Rule.** Read the thickness first and put it in the options object before the call:
+
+```python
+nv = ApiTypes.MaterialPropertyOptions()
+nv.physical_thickness_mm = thickness_mm      # from the fabric's own .jfab, mapPhysical.fThickness
+# ... set nv.front maps ...
+utility_api.SetMaterialProperties(0, obj_index, ctx, selection, nv)
+```
+
+Then export the fabric again and compare `mapPhysical` field by field. An appearance change
+should leave every physical value where it was; check that it did.
+
+---
+
+## With a texture on the fabric, OBJ UVs are no longer millimetres
+
+**Symptom.** You compute strain from an exported OBJ by comparing each triangle's UV (flat
+pattern) shape with its 3D shape. On one garment the flat and draped areas agree to 1 %; on the
+next the ratio is 15,000.
+
+**Cause.** With no texture, CLO writes UVs in pattern millimetres. With a texture on the fabric
+it writes them in texture repeats: one UV unit is one tile. The ratio of 15,000 was
+125.0 × 122.1 mm, the size the texture had been placed at.
+
+**Rule.** Multiply the UVs by the texture's width and height in millimetres before using them as
+pattern coordinates, then check: total draped area over total flat area should be close to 1.
+Trims and avatar parts carry 0–1 texture UVs either way; filter them out by material.
+
+---
+
+## Stress and strain maps: a picture, not data
+
+What CLO 2026.1.310 does and does not give through the API:
+
+- **No values.** Only display toggles: `Set/GetStressMapStatus`, `Set/GetStrainMapStatus`. No
+  export option carries per-face stress or strain. Stress can only be compared as screenshots.
+  Strain can be computed from the mesh yourself (previous section).
+- **The two maps switch each other off.** Opening the strain map in the GUI turns the stress map
+  off. Read the status right before you export.
+- **The colour scale is not settable** through the API. It lives in the GUI map panel (mode
+  Global or Fabric, and a range). Two screenshots are comparable only if they were taken under
+  the same mode and range; record both.
+
+---
+
+## Exporting a view: which call honours the camera
+
+Two reports from CLO 2026.1.310, from two different jobs:
+
+- `utility_api.SetCamViewPoint(n)` followed by `export_api.ExportSnapshot3D(path)` gave
+  different images for `n = 2` (front) and `n = 3` (three-quarter).
+- With `SetViewPoint`, `ExportSnapshot3D` ignored the view and always wrote the same front image.
+  `export_api.ExportStdViewImage(viewIndex, "<file>.png", colorway, width, height)` takes the
+  view as an argument instead; the path must include the extension. Indices observed: 0 bottom,
+  1 and 3 three-quarter, 2 front close, 4 and 6 side, 5 top, 7 full front, 8 back, 9 front.
+
+**Rule.** Whichever you use, look at the first two images before running the batch. View numbers
+do not match their names, and an export that ignores the view still succeeds.
 
 ---
 
