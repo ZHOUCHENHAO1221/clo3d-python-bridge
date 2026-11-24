@@ -62,8 +62,21 @@ def beat(stage):
 
 
 def run(main):
-    """Call `main(payload)` and write its return value to result.json."""
-    path = os.path.join(job_dir(), protocol.RESULT)
+    """Call `main(payload)` and write its return value to result.json.
+
+    A job runs once. Play can reach CLO twice - the click fallback after an Invoke that failed
+    but had already started the job - and a person can press Play on a loader left in the
+    editor. A second run would repeat the work and overwrite the result, so it does nothing.
+    """
+    directory = job_dir()
+    try:
+        os.close(os.open(os.path.join(directory, protocol.CLAIM),
+                         os.O_CREAT | os.O_EXCL | os.O_WRONLY))
+    except (FileExistsError, FileNotFoundError):
+        print("clo_bridge: this job has already run, or its directory is gone. Not running it "
+              "again.")
+        return
+    path = os.path.join(directory, protocol.RESULT)
     try:
         value = main(payload())
         protocol.write_json(path, {"ok": True, "value": value})

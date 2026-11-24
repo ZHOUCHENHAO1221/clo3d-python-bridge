@@ -102,6 +102,51 @@ def test_a_failing_play_does_not_end_a_job_that_succeeded():
         assert clo.run(_worker(OK_WORKER), {"n": 3}) == {"doubled": 6}
 
 
+def test_a_stale_editor_is_found_again_and_the_job_runs_once():
+    """Regression, from a real run. After CLO rebuilt its editor window the cached handle
+    failed with "Handle N is not a valid window handle" and the job was never sent."""
+    class Stale(FakeEditor):
+        def read(self):
+            raise RuntimeError("Handle 1 is not a valid window handle")
+
+    stale, fresh = Stale(), FakeEditor()
+    import clo_bridge.session as mod
+    original, mod.find_editor = mod.find_editor, lambda *a, **k: fresh
+    try:
+        with CloSession(editor=stale) as clo:
+            assert clo.run(_worker(OK_WORKER), {"n": 4}) == {"doubled": 8}
+    finally:
+        mod.find_editor = original
+    assert (stale.plays, fresh.plays) == (0, 1), (stale.plays, fresh.plays)
+
+
+COUNT_WORKER = """
+from clo_bridge.worker import run
+
+def main(payload):
+    with open(payload["log"], "a") as fh:
+        fh.write("ran\\n")
+    return "done"
+
+run(main)
+"""
+
+
+def test_play_delivered_twice_runs_the_job_once():
+    """Play can reach CLO twice (the click fallback after an Invoke that had already started
+    the job). The second run must not repeat the work or overwrite the result."""
+    class Twice(FakeEditor):
+        def play(self):
+            FakeEditor.play(self)
+            return FakeEditor.play(self)
+
+    log = os.path.join(tempfile.mkdtemp(), "runs.txt")
+    with CloSession(editor=Twice()) as clo:
+        assert clo.run(_worker(COUNT_WORKER), {"log": log}) == "done"
+    with open(log) as fh:
+        assert fh.read() == "ran\n"
+
+
 def test_worker_exception_reaches_the_host():
     with CloSession(editor=FakeEditor()) as clo:
         try:

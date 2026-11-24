@@ -40,6 +40,12 @@ result, stage = protocol.wait_for_result(job_dir, timeout=900)
 wrinkle: several CLO top-level windows carry an `Edit` menu and only one of them owns the
 `Python Script` item, so a window that does not have it means *try the next window*, not give up.
 
+The rebuild can also leave an editor on screen and kill the handle you found earlier. The next
+read or write then fails with `Handle N is not a valid window handle`. This was seen on CLO
+2026.1.382 (19 November 2026), on the job sent straight after one that imported a project.
+`CloSession` now finds the editor again and repeats, up to three times, but only before Play.
+A Play that failed may still have started the job, so Play is never repeated.
+
 ---
 
 ## Your measurement mesh has a mannequin in it
@@ -277,6 +283,11 @@ before the window moved.
 
 **Rule.** Call the accessible action (`invoke()`) instead, and keep `click_input()` only as a
 fallback for a build that exposes no Invoke pattern.
+
+Play can also reach CLO twice. A tool built the same way saw two runs of one job overlap, and
+their writes to the same report file collided with `WinError 5`. Here it can happen when Invoke
+fails after it has started the job and the fallback click starts it again. `worker.run` now
+claims the job directory before it calls `main`, and a second run of the same job does nothing.
 
 ---
 

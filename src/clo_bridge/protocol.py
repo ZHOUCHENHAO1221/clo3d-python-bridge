@@ -28,6 +28,7 @@ MARKER = "# clo_bridge loader - safe to overwrite"
 REQUEST = "request.json"
 HEARTBEAT = "heartbeat.json"
 RESULT = "result.json"
+CLAIM = "claimed"      # created once by the first run of a job; see worker.run
 
 
 def write_json(path, payload):

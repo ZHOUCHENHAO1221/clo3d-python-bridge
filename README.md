@@ -461,18 +461,23 @@ python tests/test_offline.py
 ```
 
 ```
+  ok  test_a_failing_play_does_not_end_a_job_that_succeeded
+  ok  test_a_stale_editor_is_found_again_and_the_job_runs_once
   ok  test_atomic_write_leaves_no_partial_file
   ok  test_heartbeat_survives_into_the_timeout
   ok  test_loader_embeds_windows_paths_without_escape_damage
   ok  test_no_clo_gives_an_actionable_message
   ok  test_overwrites_its_own_leftover_loader
+  ok  test_play_delivered_twice_runs_the_job_once
+  ok  test_pruning_can_be_turned_off
+  ok  test_pruning_takes_old_jobs_and_leaves_everything_else
   ok  test_refuses_to_overwrite_someone_elses_script
   ok  test_round_trip
   ok  test_silent_worker_times_out_and_says_where_it_stopped
   ok  test_two_jobs_in_one_session_do_not_share_a_job_dir
   ok  test_worker_exception_reaches_the_host
 
-10 passed
+15 passed
 ```
 
 The fake editor **executes** the loader it is given, because the loader is ordinary Python. So

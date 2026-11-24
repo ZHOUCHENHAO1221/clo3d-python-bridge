@@ -15,6 +15,7 @@ click, the control state, or any exception from pywinauto as the job's outcome. 
 """
 import os
 import shutil
+import time
 
 from . import protocol
 from .editor import blocking_dialog, find_editor
@@ -88,15 +89,35 @@ class CloSession(object):
             return self._run_locked(editor, script, payload, timeout)
 
     def _run_locked(self, editor, script, payload, timeout):
-        existing = editor.read().strip()
-        if existing and not protocol.is_our_loader(existing):
-            raise CloEditorBusy(
-                "CLO's Python editor contains a script this bridge did not write. Save it and "
-                "clear the editor before running a job - the bridge will not overwrite it.")
-
-        job_dir = protocol.new_job_dir(self._jobs_root)
-        protocol.write_json(os.path.join(job_dir, protocol.REQUEST), payload or {})
-        editor.write(protocol.build_loader(script, job_dir, SRC_ROOT))
+        job_dir = None
+        # CLO rebuilds its editor window (ImportZprj does it), so the handle found for the last
+        # job can be dead by this one: "Handle N is not a valid window handle". Nothing has been
+        # pressed yet at this point, so finding the editor again and repeating is safe. Play is
+        # never repeated: a failed Play may still have started the job.
+        for attempt in range(3):
+            try:
+                existing = editor.read().strip()
+                if existing and not protocol.is_our_loader(existing):
+                    raise CloEditorBusy(
+                        "CLO's Python editor contains a script this bridge did not write. Save "
+                        "it and clear the editor before running a job - the bridge will not "
+                        "overwrite it.")
+                if job_dir is None:
+                    job_dir = protocol.new_job_dir(self._jobs_root)
+                    protocol.write_json(os.path.join(job_dir, protocol.REQUEST), payload or {})
+                editor.write(protocol.build_loader(script, job_dir, SRC_ROOT))
+                break
+            except CloEditorBusy:
+                raise
+            except Exception as exc:
+                if attempt == 2:
+                    raise CloNotFound(
+                        "CLO's Python editor stopped answering three times before the job was "
+                        "sent (%s: %s). Nothing was run. Check that CLO is not showing a "
+                        "dialog, then retry." % (type(exc).__name__, exc))
+                time.sleep(0.5)
+                self._editor = None
+                editor = self.connect()
         # play() never raises. A failure here says the UI stopped answering, which is what a
         # long job looks like from the outside - it says nothing about the job. Carry the note
         # into the timeout message and otherwise ignore it.
