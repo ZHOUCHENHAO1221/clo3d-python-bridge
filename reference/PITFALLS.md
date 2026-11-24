@@ -80,6 +80,17 @@ fails on CLO 2025.2*.
 Keep a surface check in front of the measurement anyway — `clo_bridge.mesh.largest_surface`
 refuses when the largest connected piece is under 90% of the area, which is what caught this.
 
+For reference, a freshly constructed `ImportExportOption()` read back in November 2026 (CLO
+2026.1, build not recorded) with `bExportAvatar = True`, `bSingleObject = False`,
+`weldType = FULLY_UNWELDED` and `bIncludeHiddenObject = False`. None of those is what a
+measurement export wants.
+
+The opposite case catches people too. When you do want the avatar, a hidden one is not exported,
+even with `bExportAvatar = True`. A project saved with the avatar hidden exported without it on
+CLO 2026.1.310 (October 2026) until the worker called `utility_api.SetShowHideAvatar(True)` first.
+In another run on the same build `bExportAvatar = True` also brought no avatar, and whether it
+was hidden there was not recorded. Show it, export, and check the file for it.
+
 ---
 
 ## Assigning a fabric to a piece is in the wrong module
@@ -106,6 +117,11 @@ And read it back. The sweep in the README does
 `if any(GetPatternPieceFabricIndex(i) != fi for i in range(count)): raise` before it simulates
 anything, because a sweep where the fabric silently failed to apply produces twenty-one
 identical garments and a table of numbers that all look plausible.
+
+Read it back with `GetPatternPieceFabricIndex`, not `fabric_api.GetFabricIndexForPattern`. In
+one test (9 September 2026, build not recorded) every value `GetFabricIndexForPattern` returned
+changed after an `AddFabric`, while a separate `ExportPatternJSON` showed the pieces still on
+their old fabric.
 
 One more: `GetFabricCount()` defaults to `_bCurrentColorway=True` and will not count a fabric
 you have just added. Pass `False`.
@@ -173,6 +189,14 @@ file is accepted, and the fabric is unchanged. Edit the `_v2` fields.
 **Reading the exported file.** A `.jfab` that `ExportFabric` writes can contain `nan.0` in a
 field nothing uses (seen in a texture `graph` block), and `json.loads` rejects it. Replace it
 before parsing: `json.loads(re.sub(r'(?<![\w.])-?nan\.0', 'null', text))`.
+
+**Which fabrics it exports.** CLO's library presets are `.zfab` files under CLO's `Assets/Fabric`
+folder, and `AddFabric(path)` loads one like any other fabric, with no menu involved. But
+`ExportFabricW(path, index)` to a `.jfab` path wrote no file in any of 14 runs, covering six
+presets loaded that way (CLO 2026.1.310, October 2026). The call did not raise, so check that the
+file exists before reading it. The three-argument overload, `ExportFabricW(path, colorway,
+fabric)` with a `.zfab` path, writes a `.zfab` that carries the fabric's texture maps (October
+2026, build not recorded).
 
 **What this does not show.** The values were read back from the fabric record. No simulation
 was run on them. They are solver units — `fDensity` in g/mm², bending and shear as engine
@@ -242,7 +266,9 @@ modal — an Export options panel, or an informational notice — waiting for a 
   ```
 
   The options object is not boilerplate — it is how you answer the dialog in advance. Given
-  one, CLO has nothing left to ask.
+  one, CLO has nothing left to ask. `ExportDXF` is the same: `ExportDXF(path)` opened the export
+  dialog, and `ExportDXF(path, ApiTypes.ExportDxfOption())` did not (September 2026, build not
+  recorded).
 
 **Rule.** Prefer the overload that takes an options object from `ApiTypes`, even when a shorter
 one exists and looks tempting. Construct it, leave the defaults, and set only what you need.
@@ -502,8 +528,24 @@ Two reports from CLO 2026.1.310, from two different jobs:
   view as an argument instead; the path must include the extension. Indices observed: 0 bottom,
   1 and 3 three-quarter, 2 front close, 4 and 6 side, 5 top, 7 full front, 8 back, 9 front.
 
-**Rule.** Whichever you use, look at the first two images before running the batch. View numbers
-do not match their names, and an export that ignores the view still succeeds.
+Later runs added four things:
+
+- `SetCamViewPoint(n)` has its own presets, separate from the view index of `ExportStdViewImage`
+  above. In one job in September 2026 they were 0 bottom, 1 back, 2 front, 3 front
+  three-quarter, 4 side and 5 top.
+- `SetZoomView()` re-frames the camera automatically and replaces a framing you set by hand.
+  `ExportSnapshot3D` keeps whatever zoom the 3D window has, so set the framing once in CLO, save
+  the project, and leave `SetZoomView` out.
+- `ExportStdViewImage`'s arguments are unnamed (`int, str, int, int, int`) and width and height
+  are the last two. Put them one place early and the call still answers: a height of 0 returned
+  the string `Failed to Save Image`, not an error, and heights of 1 to 3 wrote images 2000 pixels
+  wide and 1 to 3 pixels high, with a success message.
+- On CLO 2026.1.310 (27 October 2026) every overload of `export_api.ExportRenderingImage`
+  returned `[]` and wrote nothing, while `ExportSnapshot3D(path)` wrote the current viewport.
+
+**Rule.** Whichever you use, look at the first two images before running the batch, and check
+their pixel size. View numbers do not match their names, and an export that ignores the view, or
+writes the wrong size, still succeeds.
 
 ---
 
@@ -579,6 +621,18 @@ ceiling (1,200 steps here). Report how many steps each run took. This is one gar
 fabrics, so treat the 1.72 as an example, not a constant; the point is that a fixed step count
 has to be checked against rest before its numbers are compared.
 
+The ceiling matters as much as the threshold. On a 22-piece top (CLO 2026.1.310, October 2026)
+four of six runs in one fabric were still moving about 1 mm per 60 steps when they reached 1,200
+steps. Record a settled flag with every run, so a run that stopped at the ceiling is not read as
+one that stopped moving.
+
+Check pieces, not only the garment. On a 41-piece top (CLO 2026.1.310, October 2026), between
+the last two exports at 4,300 steps, the median strain of every piece changed by less than 0.5%
+except on a few small underarm pieces, where it still moved by up to 2%. A mean over the whole
+garment can hide that, because small pieces carry few vertices.
+`examples/06_simulate_until_still.py` records the steps, the settled flag and the movement of
+each OBJ group.
+
 ---
 
 ## `reload()` brought back the wrong file
@@ -621,12 +675,168 @@ output and check the bounding box is in metres.
 
 ---
 
-## Texture maps are set per colorway
+## Texture maps and colours are set per colorway, and need reading back
 
 `fabric_api.SetBaseTextureMapImageGivenFilePathW(path, colorway, fabric)` and
 `SetNormalMapImageGivenFilePathW(path, colorway, fabric)` take a colorway index. Replacing a
 fabric's texture in a file with several colorways means looping over
 `range(utility_api.GetColorwayCount())`, then exporting a view in each colorway to check.
+
+Colour works the same way, with its own traps. Observed in November 2026 (CLO 2026.1, build not
+recorded):
+
+- Write a colorway's colour with `SetFabricPBRMaterialBaseColor(colorway, fabric, face, r, g, b,
+  a)` and read it back from `GetColorwayFabricInfoW(colorway, fabric)`. The overload of
+  `GetFabricPBRMaterialBaseColor` that takes a colorway raised a type-conversion error. A first
+  run that failed halfway had already written wrong colours, which only a read-back showed.
+- `DeleteFabricOpacityMap` straight after `AddFabricW` did not always take effect. Read back
+  `GetOpacityMapImageFilePath`, and delete again until it returns `"NONE"`.
+- A base texture with an alpha channel makes the whole fabric render as translucent in texture
+  mode. Replace it with an RGB copy of the same size. CLO's interpreter has no PIL, so make the
+  copy on the host.
+- Two getters can report one property on different scales. `GetReflectionIntensity` returned
+  `15.0` where `GetFabricInfoW` reported `reflectionIntensity` as `0.15`. Convert before you
+  compare.
+- The map paths a fabric reports can point into a working folder under CLO's local application
+  data, not next to the fabric file. Copy the maps somewhere you control before relying on them.
+
+---
+
+## An OBJ export is hundreds of megabytes, nearly all of it topstitching
+
+**Symptom.** A measurement export of an ordinary garment is far larger than the project. Parsing
+it is slow, or CLO stops responding while you do.
+
+**Cause.** 3D topstitches are exported as geometry. A 41-piece top saved as a 39 MB project
+exported a 481.9 MB OBJ with 3,736,596 faces. Of those, 47,596 were cloth and 3,689,000 used
+topstitch materials. A larger export of 861 MB, parsed by a script inside CLO's interpreter,
+pushed CLO's private memory to about 8.8 GB and CLO had to be killed. Both were seen on
+9 September 2026, build not recorded.
+
+**Rule.** For a measurement export, switch each topstitch style to texture for the export only,
+and restore it in `finally`:
+
+```python
+styles = [int(s["TopstitchStyleIndex"]) for s in pattern_api.GetTopstitchStyleList()]
+before = {i: pattern_api.GetTopstitchStyleModelType(i) for i in styles}
+try:
+    for i, kind in before.items():
+        if kind == 0:                                   # 0 drawn in 3D, 1 drawn as texture
+            pattern_api.SetTopstitchStyleModelType(i, 1)
+    export_api.ExportOBJW(path, opt)
+finally:
+    for i, kind in before.items():
+        pattern_api.SetTopstitchStyleModelType(i, kind)
+```
+
+Read each type back on the way out, and refuse to start if any style reports a type other than
+0 or 1. On the 41-piece top the export fell to 12.2 MB. It still held 7,550 tiny islands, which
+`clo_bridge.mesh.largest_surface` drops. Check the file size before parsing anything:
+`clo_bridge.mesh.read_obj` refuses a file over 64 MB before reading a line, and
+`examples/06_simulate_until_still.py` does the same.
+
+With `bSingleObject = False` the OBJ arrives in groups. On a 41-piece top (CLO 2025.2.368,
+September 2026) the first 41 groups were the 41 pieces in order, and the 86 after them were
+topstitches and trims.
+
+---
+
+## The maps went onto a different fabric
+
+**Symptom.** `utility_api.SetMaterialProperties` returns `"success"` and the maps appear on the
+wrong fabric. A script that looks a fabric up, fails to find it and adds it ends up with two
+copies.
+
+**Cause.** Its `objectIndex` counts items in the Object Browser, not `fabric_api` indices. By
+default the browser hides fabrics that no piece uses (`ObjectBrowserContextOptions()` comes with
+`bIncludeUnusedObjects = False`), so the two numberings differ as soon as one fabric is unused.
+Seen in October 2026, build not recorded.
+
+**Rule.** Show unused objects, look the index up by name, and put the browser back:
+
+```python
+ctx = utility_api.GetObjectBrowserContext()
+was = ctx.bIncludeUnusedObjects
+ctx.bIncludeUnusedObjects = True
+utility_api.SetObjectBrowserContext(ctx)
+try:
+    names = json.loads(utility_api.GetObjectBrowserItems(ctx))["ObjectNameList"]
+    index = names.index(fabric_name)
+    utility_api.SetMaterialProperties(colorway, index, ctx, selection, new_values)
+finally:
+    ctx.bIncludeUnusedObjects = was
+    utility_api.SetObjectBrowserContext(ctx)
+```
+
+Then read the maps back from the fabric you meant (`GetMaterialPropertiesAsJson`), and check
+its thickness (see *Putting texture maps on a fabric set its thickness to zero*).
+
+---
+
+## Grain angles and bounding boxes come back raw
+
+`pattern_api.GetPatternPieceGrainDirection(i)` is not normalised. On one 13-piece project
+(October 2026, build not recorded) it returned 180.74, -180.74, 359.74 and -359.74 degrees, and
+some mirrored pairs read back with opposite signs. Reduce angles with `% 360` before comparing
+them. `GetBoundingBoxOfPattern(i)` returns a dict of strings (`{"Height": "225.871948",
+"Width": "96.856201"}`), so convert with `float` before doing arithmetic.
+
+---
+
+## Each shape you draw appears twice
+
+**Symptom.** `pattern_api.CreateInternalShapeWithPoints` draws a 16-point circle and it reads back
+as 32 lines. Draw on both halves of a piece and you get a double layer, and turning it into a
+hole fails with `Holes cannot overlap`.
+
+**Cause.** The piece has symmetric editing switched on, so CLO mirrors every shape you add. The
+same setting limits moving points: on a mirrored piece only half the points can be moved, and the
+other half follow. Seen in September and November 2026, build not recorded.
+
+**Rule.** Switch symmetric editing off in CLO before drawing, and read back the number of lines
+of each shape after drawing it. When moving points on a mirrored piece, read back every corner
+afterwards, not only the one you moved. `MovePatternPoint` takes absolute coordinates, not an
+offset; that was confirmed by moving one point and reading it back.
+
+---
+
+## Resetting the cloth is not a quick way to start a run again
+
+`utility_api.ResetClothArrangement()` is fast and does not restore the saved starting state. On a
+102-piece project (13 September 2026, build not recorded) it took 0.19 s, and afterwards the
+measured lowest point was 35.8 mm from its value at the start of the job. One coordinate had
+moved by 422 mm. Re-import the project for each run, as `examples/04_sweep.py` does. On that
+project the import took 12.3 s.
+
+---
+
+## CLO's interpreter is not your interpreter
+
+**Symptom.** `ONLY=11 python my_job.py` limits the host as intended, and the worker still changes
+every piece.
+
+**Cause.** `main` runs inside CLO's process. Its environment was fixed when CLO started, so
+variables set in the shell that runs the host never reach it. The same separation means CLO's
+interpreter has none of your packages. It had no PIL in November 2026, and on 2025.2.368 no
+PySide or PyQt either.
+
+**Rule.** Pass every setting the worker needs in the payload: `clo.run(script, {"only": 11})`.
+Do image processing and anything else that needs a package on the host, and hand CLO the result.
+
+---
+
+## A read-only probe changed the project
+
+**Symptom.** A probe written to change nothing leaves the project's settings different.
+
+**Cause.** The probe chose functions by name. It collected every `pattern_api` function whose name
+contained `article` and called each with a piece index, which caught
+`SetParticleDistanceOfPatterns`. By CLO's published signature that sets the particle distance of
+every piece to the length given, and the probe called it with 0 and then 1. It returned `None`
+both times, and nothing in the output looked wrong (2 October 2026, build not recorded).
+
+**Rule.** A probe calls an explicit list of getters, written out by name. Never select calls by
+substring or by `dir()`. Run probes on a copy, or re-import the project before any real run.
 
 ---
 
