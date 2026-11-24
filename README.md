@@ -69,8 +69,8 @@ patterns: 5
 ```
 
 Verified against CLO **2026.1.310** on Windows 11. The pitfall entries that name 2026.1.382 and
-the four `examples/probe_*_1119.py` checks were measured later, on that build; the numbered
-examples have not been re-run on that build.
+the four `examples/probe_*_1119.py` checks were measured later, on 2026.1.382; the numbered
+examples have not been re-run there.
 
 If you get `No CLO window with a Python editor was found`, open `Edit > Python Script` in CLO
 and run it again. If you get `CLO's Python editor contains a script this bridge did not write`,
@@ -320,13 +320,28 @@ steps, and the 60-step difference between two fabrics was 1.72 times the differe
 Before you compare fabrics on a new garment, check one run against rest: see *Sixty steps is not
 "simulated"* in `reference/PITFALLS.md`.
 
+**[`05_braid_texture.py`](examples/05_braid_texture.py)** draws a seamless 45° braid (two sets
+of strands at ±45°, 2/2 over-under) as a height field in numpy, makes a grey base map and an
+OpenGL normal map from it, and puts both on every fabric whose name matches, in every colorway:
+
+```bash
+python examples/05_braid_texture.py "Mesh" -o braid_texture/
+```
+
+The two things worth taking from it are general to drawn textures. Take the normal map's
+gradient on a wrap-padded height map, or every tile seam shows as a line. Keep the base map
+grey, because CLO multiplies it by the fabric colour and one map then serves all colorways. It
+prints each fabric's thickness before and after, since `SetMaterialProperties` is known to zero
+it (see the pitfalls).
+
 **The `probe_*_1119.py` files** are not examples to copy. They are the checks behind three of the
 pitfall entries on CLO 2026.1.382: which `AssignFabricToPattern` options take effect, why outlines come
 back empty, and whether `GetClothPositions` returns vertices. Each one reads, or puts back what
 it changed. They are kept so a finding can be re-checked on your own build.
 
-> All four examples have been **run end to end against CLO 2026.1.310**. That verifies the
-> calls, not your results: a signature gives the argument count and types, and does not say
+> Examples 01–04 have been **run end to end against CLO 2026.1.310**; 05's texture calls were
+> used on 2026.1.382, applying this texture to two garments. That verifies the calls, not your
+> results: a signature gives the argument count and types, and does not say
 > what an argument means.
 
 ## What it is for
