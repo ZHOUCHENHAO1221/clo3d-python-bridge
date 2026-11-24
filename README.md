@@ -342,15 +342,33 @@ grey, because CLO multiplies it by the fabric colour and one map then serves all
 prints each fabric's thickness before and after, since `SetMaterialProperties` is known to zero
 it (see the pitfalls).
 
+**[`06_simulate_until_still.py`](examples/06_simulate_until_still.py)** simulates in blocks and
+exports after each one, until the mean vertex movement between blocks is under a threshold or a
+step cap is reached:
+
+```bash
+python examples/06_simulate_until_still.py garment.zprj -o out/ --threshold 0.5 --cap 1200
+```
+
+It reports the steps, a `settled` flag that is false when the cap came first, and for each block
+the OBJ group that moved most. It switches 3D topstitches to texture for each export and back
+afterwards, which keeps the file small enough to parse, and records the solver quality without
+changing it.
+
+**[`07_garment_scope.py`](examples/07_garment_scope.py)** groups the open project's pieces by
+shared seams, so a top and a bottom in one file come out as two groups. It reads each piece's
+outline through the fallback order in the pitfalls and records which call answered. Read-only.
+
 **The `probe_*_1119.py` files** are not examples to copy. They are the checks behind three of the
 pitfall entries on CLO 2026.1.382: which `AssignFabricToPattern` options take effect, why outlines come
 back empty, and whether `GetClothPositions` returns vertices. Each one reads, or puts back what
 it changed. They are kept so a finding can be re-checked on your own build.
 
 > Examples 01–04 have been **run end to end against CLO 2026.1.310**; 05's texture calls were
-> used on 2026.1.382, applying this texture to two garments. That verifies the calls, not your
-> results: a signature gives the argument count and types, and does not say
-> what an argument means.
+> used on 2026.1.382, applying this texture to two garments. 06 and 07 are adapted from code that
+> ran on 2026.1.382 (and, for 07, on 2025.2.368) and have not been run as packaged. That
+> verifies the calls, not your results: a signature gives the argument count and types, and does
+> not say what an argument means.
 
 ## What it is for
 
