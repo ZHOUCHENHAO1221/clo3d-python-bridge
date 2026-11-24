@@ -561,7 +561,7 @@ that may contain non-ASCII characters.
 - `SetPatternPointsGradingPositionOffsets(_patternIndex : int, _pointIndices : list[int], _offsets : list[list[float]]) -> bool`  <sub>pattern_api</sub>
 - `SetPatternSnapShotSizeOption(_op : PatternSnapShotSizeOption, _mode : int) -> None`  <sub>utility_api</sub>
 
-## Fabric and material properties  <sub>173</sub>
+## Fabric and material properties  <sub>176</sub>
 
 - `AddColorSwatch(plmIDtoNameList : map[str, str], plmIDtoColorList : map[str, CloApiRgb], plmIDtoApiMetaDataList : map[str, str], swatchName : str) -> str`  <sub>utility_api</sub>
 - `AddColorSwatchW(plmIDtoNameList : map[str, str], plmIDtoColorList : map[str, CloApiRgb], plmIDtoApiMetaDataList : map[str, str], swatchName : str) -> str`  <sub>utility_api</sub>
@@ -747,6 +747,8 @@ that may contain non-ASCII characters.
   - `GetMaterialType(_colorwayIndex : int, _fabricIndex : int, _materialFace : int) -> int`
 - `GetNestingFabricBufferSpacing() -> std::array[float, 4]`  <sub>utility_api</sub>
 - `GetNestingTargetColorway() -> list[int]`  <sub>utility_api</sub>
+- `GetObjectBrowserContext() -> ObjectBrowserContextOptions`  <sub>utility_api</sub>
+- `GetObjectBrowserItems(objectBrowserContextOptions : ObjectBrowserContextOptions) -> str`  <sub>utility_api</sub>
 - `GetPBRMaterialDisplacementMapValue`  <sub>fabric_api &middot; 2 overloads</sub>
   - `GetPBRMaterialDisplacementMapValue(_fabricIndex : int) -> tuple[float, float, float, float, bool]`
   - `GetPBRMaterialDisplacementMapValue(_colorwayIndex : int, _fabricIndex : int) -> tuple[float, float, float, float, bool]`
@@ -877,6 +879,7 @@ that may contain non-ASCII characters.
   - `SetMaterialType(_colorwayIndex : int, _fabricIndex : int, _materialFace : int, _materialType : int) -> None`
 - `SetNestingFabricBufferSpacing(_mmLeft : float, _mmRight : float, _mmTop : float, _mmBottom : float) -> None`  <sub>utility_api</sub>
 - `SetNestingTargetColorway(_colorwayList : list[int]) -> None`  <sub>utility_api</sub>
+- `SetObjectBrowserContext(options : ObjectBrowserContextOptions) -> None`  <sub>utility_api</sub>
 - `SetPBRMaterialDisplacementMap`  <sub>fabric_api &middot; 2 overloads</sub>
   - `SetPBRMaterialDisplacementMap(_fabricIndex : int, _path : str) -> bool`
   - `SetPBRMaterialDisplacementMap(_colorwayIndex : int, _fabricIndex : int, _path : str) -> bool`

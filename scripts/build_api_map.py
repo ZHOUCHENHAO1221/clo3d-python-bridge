@@ -33,7 +33,7 @@ GROUPS = [
     ("Grading and sizing",
      r"Grading|Size|Measure|Measurement"),
     ("Fabric and material properties",
-     r"Fabric|Texture|Material|Xtex|Color|Colour|Swatch|Physical|Preset|Zfab"),
+     r"Fabric|Texture|Material|Xtex|Color|Colour|Swatch|Physical|Preset|Zfab|ObjectBrowser"),
     ("Surface shading (PBR maps)",
      r"Metalness|Roughness|NormalMap|NormalBlending|Opacity|Reflection|Displacement|SBSAR"),
     ("Simulation and solver",
