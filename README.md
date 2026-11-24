@@ -68,7 +68,9 @@ project: my_garment
 patterns: 5
 ```
 
-Verified against CLO **2026.1.310** on Windows 11.
+Verified against CLO **2026.1.310** on Windows 11. The pitfall entries that name 2026.1.382 and
+the four `examples/probe_*_1119.py` checks were measured later, on that build; the numbered
+examples have not been re-run on that build.
 
 If you get `No CLO window with a Python editor was found`, open `Edit > Python Script` in CLO
 and run it again. If you get `CLO's Python editor contains a script this bridge did not write`,
@@ -312,6 +314,17 @@ because the lowest vertex is normally a fold.
 Progress is written after every run, so stopping loses nothing and starting again skips what is
 done.
 
+It simulates a **fixed number of steps** (`--steps`, default 60). That makes runs comparable with
+each other; it does not make them finished. On one top the garment was still falling at 60
+steps, and the 60-step difference between two fabrics was 1.72 times the difference at rest.
+Before you compare fabrics on a new garment, check one run against rest: see *Sixty steps is not
+"simulated"* in `reference/PITFALLS.md`.
+
+**The `probe_*_1119.py` files** are not examples to copy. They are the checks behind three of the
+pitfall entries on CLO 2026.1.382: which `AssignFabricToPattern` options take effect, why outlines come
+back empty, and whether `GetClothPositions` returns vertices. Each one reads, or puts back what
+it changed. They are kept so a finding can be re-checked on your own build.
+
 > All four examples have been **run end to end against CLO 2026.1.310**. That verifies the
 > calls, not your results: a signature gives the argument count and types, and does not say
 > what an argument means.
@@ -332,9 +345,10 @@ simulator. The hem of the widest pattern moves from 432 mm to 502 mm depending o
 measured cloth it is cut in — which is the kind of thing worth having twenty-one of, and the
 kind of thing nobody produces by hand.
 
-One trap this sweep walks past: the function that assigns a fabric to a piece is
-`pattern_api.SetPatternPieceFabricIndex`, not `fabric_api.AssignFabricToPattern`. See
-`reference/PITFALLS.md`.
+One trap this sweep walks past: it assigns fabrics with `pattern_api.SetPatternPieceFabricIndex`,
+which has a getter to read the result back. `fabric_api.AssignFabricToPattern` has a form that
+returns `True` and changes nothing; on 2026.1.382 two of its options do work, at the same half a
+second per piece. See `reference/PITFALLS.md`.
 
 ### Where that data went
 
@@ -413,6 +427,11 @@ network service**: anything that can choose the script path can run code on that
   held by a live process never is, however old, because a long simulation and a hung one look
   identical from outside.
 - **Windows only**, because the UI automation is `pywinauto`.
+- **A CLO update can change what a call returns.** On 2026.1.382, `GetPatternOutlinePoints` and
+  `ExportPatternJSON` returned nothing for every piece of a 41-piece garment, where code relying on them had worked
+  on earlier builds; and two options of `AssignFabricToPattern` worked where the first test had
+  found none. Read back what you set, and after an update run `examples/01_hello_clo.py` and the
+  probes before trusting a batch.
 - **The map gives you the interface, not the semantics.** Parameter names and types are
   CLO's own, so `Simulate(_steps: int)` does tell you what the integer is — but nothing
   in it says that importing a DXF replaces the pattern set, or that `ExportOBJ(path)` opens
