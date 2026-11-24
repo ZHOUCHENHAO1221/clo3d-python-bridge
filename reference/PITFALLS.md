@@ -87,8 +87,9 @@ pattern_api.SetPatternPieceFabricIndex(piece_index, fabric_index)   # -> None
 pattern_api.GetPatternPieceFabricIndex(piece_index)                 # -> int
 ```
 
-Two named integers, and a getter to read it back with. Whatever
-`fabric_api.AssignFabricToPattern` is for, this is not it.
+Two named integers, and a getter to read it back with. When this was first found, neither
+form of `fabric_api.AssignFabricToPattern` changed the piece; on 2026.1.382 two of its options
+do (table below).
 
 **Rule.** When a function whose name fits returns `True` and changes nothing, stop tuning the
 arguments and search the other modules for the same idea. `reference/API_MAP.md` groups by task
@@ -101,6 +102,25 @@ identical garments and a table of numbers that all look plausible.
 
 One more: `GetFabricCount()` defaults to `_bCurrentColorway=True` and will not count a fabric
 you have just added. Pass `False`.
+
+**Measured on CLO 2026.1.382 (19 November 2026)**, with each call read back
+(`examples/probe_assign_options_1119.py`):
+
+| Call | Returns | Time | Fabric changed |
+|---|---|---|---|
+| `AssignFabricToPattern(fabric, piece, 0)` | `False` | 0.1 ms | no |
+| `AssignFabricToPattern(fabric, piece, 1)` | `True` | 0.43 s | yes |
+| `AssignFabricToPattern(fabric, piece, 2)` | `True` | 0.46 s | yes |
+| `AssignFabricToPattern(0, fabric, piece, 0)` | `False` | 0.2 ms | no |
+| `AssignFabricToPattern(0, fabric, piece, 1)` | `True` | 0.37 s | **no** |
+| `SetPatternPieceFabricIndex(piece, fabric)` | `None` | 0.50–0.56 s | yes |
+
+So on this build the three-argument call with option 1 or 2 does work, and the four-argument
+call is the one that returns `True` and changes nothing. None of them is faster in a way that
+matters: every call that takes effect costs about half a second per piece, freezing or hiding
+the piece does not change that, and repeating the call on the same piece does not get cheaper.
+A 41-piece garment takes about 23 s to re-fabric. Budget for it; there is no bulk path. The rule
+above stands either way: read the assignment back.
 
 ---
 
@@ -434,6 +454,85 @@ Two reports from CLO 2026.1.310, from two different jobs:
 
 **Rule.** Whichever you use, look at the first two images before running the batch. View numbers
 do not match their names, and an export that ignores the view still succeeds.
+
+---
+
+## After a CLO update, every piece has an empty outline
+
+**Symptom.** `pattern_api.GetPatternOutlinePoints(i)` returns `[]` for every piece, and
+`pattern_api.ExportPatternJSON(path)` returns `False` for any path you give it, writing nothing.
+Code that worked on the previous build now finds no garment.
+
+**Cause.** Measured on CLO 2026.1.382 with a 41-piece garment
+(`examples/probe_outlines_1119.py`, `examples/probe_pattern_json_1119.py`). Both calls exist and
+neither raises; they simply return nothing. `GetPatternLineInfo(i)` still answers.
+
+**Rule.** Rebuild the outline from the line segments of `GetPatternLineInfo`, and keep the two
+older calls only as fallbacks. If none of the three answers, stop with a message rather than
+carrying on with an empty outline: an empty outline makes every piece look like it has no seams,
+and a garment scope built from that is wrong without being visibly wrong.
+
+---
+
+## You need the cloth vertices without exporting a file
+
+**Symptom.** `utility_api.GetClothPositions` is listed in the module, so you try to read vertex
+positions directly instead of exporting an OBJ after every block of simulation.
+
+**Cause.** On CLO 2026.1.382 it returns `None` from Python, and the list passed in as an output
+argument comes back unfilled (`examples/probe_speed_levers_1119.py`). There is no vertex data to
+be had this way.
+
+**Rule.** Export an OBJ and read that. On a 41-piece top each `ExportOBJ` took 5–6 s, so a
+convergence check that exports after every block spends more time exporting than simulating.
+Check less often if you must, but do not skip the check (next entry).
+
+---
+
+## Sixty steps is not "simulated"
+
+**Symptom.** You simulate a fixed number of steps, compare two fabrics, and get a clean,
+repeatable difference.
+
+**Cause.** The garment may still be falling. On one top (41 pieces, CLO 2026.1.382), comparing two
+fabrics by the hem's lowest point:
+
+| | 60 steps | Simulated until still |
+|---|---|---|
+| Fabric A | 997.4 mm | 1001.7 mm (420 steps) |
+| Fabric B | 989.7 mm | 997.2 mm (360 steps) |
+| B − A | −7.7 mm | −4.5 mm |
+
+Both hems were 4–7 mm lower at 60 steps than at rest, and the fixed-step difference was 1.72
+times the difference at rest. Four earlier runs of the same comparison at 60 steps gave −7.2 to −8.0 mm,
+so repeatability did not reveal the problem.
+
+**Rule.** Simulate in blocks (60 steps each here), export after each block, and stop when the
+mean vertex movement between blocks falls below a threshold you state (0.5 mm here), with a
+ceiling (1,200 steps here). Report how many steps each run took. This is one garment and two
+fabrics, so treat the 1.72 as an example, not a constant; the point is that a fixed step count
+has to be checked against rest before its numbers are compared.
+
+---
+
+## `reload()` brought back the wrong file
+
+**Symptom.** You edit a helper module, the job imports it with `import x; importlib.reload(x)`,
+and the traceback still points at the old code, sometimes in a different folder entirely.
+
+**Cause.** CLO's Python interpreter stays alive between jobs. The first `import x` decides which
+file `x` is, and `reload` re-reads *that* file. If an earlier job imported a copy of the module
+from another folder (an installed version, an older checkout), every later job keeps reloading
+that copy, whatever `sys.path` says now.
+
+**Rule.** Load the modules your job depends on by path, so each job gets the file next to it:
+
+```python
+import importlib.util, os
+spec = importlib.util.spec_from_file_location('helper', os.path.join(HERE, 'helper.py'))
+helper = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(helper)
+```
 
 ---
 
