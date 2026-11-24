@@ -536,6 +536,34 @@ spec.loader.exec_module(helper)
 
 ---
 
+## Exporting part of a garment to GLB loses its trims, and the model is 1000× too big
+
+**Symptom.** You want the top and the bottom of an outfit as two `.glb` files, so you set
+`ImportExportOption.patternList` to the top's patterns and call `export_api.ExportGLBW`. The
+file has the panels and nothing else: topstitching, piping and labels are gone. Loaded into a
+web viewer, either file is a kilometre-scale object off the edge of the camera.
+
+**Cause.** `patternList` filters by pattern; trims are not patterns, so none of them pass the
+filter. Separately, CLO writes vertex positions in millimetres and glTF reads them as metres.
+
+**Rule.** Export the whole garment once (`bExportAvatar = False`), then split the file yourself.
+Under the root `Cloth` node every pattern and every trim is its own child node, named
+`Pattern_<n>` for panels. Group panels by name; give each trim node to the group whose panels lie
+closest (median distance from a sample of its vertices, with a KD-tree over each group's
+vertices). Set the `Cloth` node's scale to `0.001`, then run `gltf-transform validate` on each
+output and check the bounding box is in metres.
+
+---
+
+## Texture maps are set per colorway
+
+`fabric_api.SetBaseTextureMapImageGivenFilePathW(path, colorway, fabric)` and
+`SetNormalMapImageGivenFilePathW(path, colorway, fabric)` take a colorway index. Replacing a
+fabric's texture in a file with several colorways means looping over
+`range(utility_api.GetColorwayCount())`, then exporting a view in each colorway to check.
+
+---
+
 ## There is no headless mode
 
 Worth stating plainly, because it is the question everyone arrives with. CLO Standalone exposes
