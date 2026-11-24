@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Drive CLO Standalone's Python API from an ordinary Python process.
 
-CLO exposes a large Python API (800+ functions across five modules) but no headless mode and no
-command-line entry point for it. The only supported way to run a script is to paste it into
+CLO exposes a large Python API (800+ functions across five modules) but no documented headless
+mode and no documented command-line entry point for it. The only supported way to run a script is to paste it into
 Edit > Python Script and press Play. This package automates that window, and - more
 importantly - gives the two halves a contract that survives the ways CLO's UI lies to you.
 

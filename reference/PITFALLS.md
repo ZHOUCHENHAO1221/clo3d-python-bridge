@@ -68,13 +68,14 @@ boundary loop" then finds an ankle. It is a perfect loop. Nothing about it looks
 opt = ApiTypes.ImportExportOption()
 opt.bExportAvatar = False                        # default True - the mannequin comes too
 opt.bSingleObject = True
-opt.weldType = ApiTypes.WELD_TYPE.FULLY_WELDED   # panels as one surface, not loose pieces
+opt.weldType = ApiTypes.WELD_TYPE.FULLY_WELDED   # panels as one surface; absent on 2025.2.368
 export_api.ExportOBJW(path, opt)
 ```
 
 `WELD_TYPE` offers `DEFAULT_WELDED`, `FULLY_WELDED`, `FULLY_UNWELDED` and `SELECTED_WELDED`.
 Unwelded panels arrive as separate surfaces, and a measurement that does not notice measures
-one panel.
+one panel. On CLO 2025.2.368 the enum does not exist at runtime; see *Code written on 2026.1
+fails on CLO 2025.2*.
 
 Keep a surface check in front of the measurement anyway — `clo_bridge.mesh.largest_surface`
 refuses when the largest connected piece is under 90% of the area, which is what caught this.
@@ -123,10 +124,15 @@ you have just added. Pass `False`.
 
 So on this build the three-argument call with option 1 or 2 does work, and the four-argument
 call is the one that returns `True` and changes nothing. None of them is faster in a way that
-matters: every call that takes effect costs about half a second per piece, freezing or hiding
-the piece does not change that, and repeating the call on the same piece does not get cheaper.
-A 41-piece garment takes about 23 s to re-fabric. Budget for it; there is no bulk path. The rule
-above stands either way: read the assignment back.
+matters: on this garment every call that takes effect costs about half a second per piece,
+freezing or hiding the piece does not change that, and repeating the call on the same piece does
+not get cheaper. A 41-piece garment takes about 23 s to re-fabric.
+
+The cost per piece also grows with the project. On a 102-piece project of about 80 MB, 61 calls
+to `SetPatternPieceFabricIndex` took 144.4 s, about 2.4 s each, with the other 41 pieces hidden
+and frozen (13 September 2026, build not recorded). Opening that project took 12.3 s, so the
+assignment was most of the job. Budget for it; there is no bulk path. The rule above stands
+either way: read the assignment back.
 
 ---
 
@@ -305,6 +311,39 @@ window title by prefix (`CLO`), because the title varies by edition and sign-in 
 
 ---
 
+## Code written on 2026.1 fails on CLO 2025.2
+
+**Symptom.** On CLO 2025.2 a worker stops with `module 'ApiTypes' has no attribute 'WELD_TYPE'`.
+Or the bridge says no editor was found while the Python Script window is plainly open.
+
+**Cause.** Measured on CLO 2025.2.368 in September 2026, on one machine:
+
+- `ApiTypes.WELD_TYPE` is not registered at runtime, although the installed stub file declares
+  `ImportExportOption.weldType` with that type. Reading `option.weldType` raises
+  `TypeError: Unable to convert function return value to a Python type`, and assigning `2`, the
+  documented value of `FULLY_WELDED`, is rejected. So that build cannot be asked for a welded
+  export from Python. On 2026.1.224 (28 September 2026) the same option was assigned and read
+  back.
+- Both `QCodeEditor` controls in the Python Script window have an empty `automation_id`. Only
+  their parent frames, `textEditorFrame` and `resultFrame`, tell them apart. The Play button still
+  carries `CodeEditor.menubarFrame.playButton`.
+- The same editor is reached twice: once through its own top-level window and once through the
+  main window, with the same UIA `RuntimeId`. Both windows are titled `CLO Standalone OnlineAuth`.
+  Count editors by `RuntimeId`, not by how many times you found one.
+- The `Edit > Python Script` menu item has the automation id `CLO.action_Python_Script_CLO`.
+
+**Rule.** If a worker has to run on more than one build, look the enum up with
+`getattr(ApiTypes, "WELD_TYPE", None)` and treat a missing one as "this build cannot weld on
+export". Do not pass an integer instead. An unwelded export reaches
+`clo_bridge.mesh.largest_surface` as separate panels and is refused there, which is the right
+outcome.
+
+This package matches the editor by the suffix `textEditorFrame.QCodeEditor`, so on 2025.2.368 it
+will not find it. The bridge has been run on 2026.1.310 and 2026.1.382 only. Matching by parent
+frame instead would need testing against a real 2025.2 install, and that has not been done.
+
+---
+
 ## The second job writes its result where the first job's directory used to be
 
 **Symptom.** Job one succeeds. Job two times out, and nothing is in its directory — but a
@@ -468,20 +507,36 @@ do not match their names, and an export that ignores the view still succeeds.
 
 ---
 
-## After a CLO update, every piece has an empty outline
+## A piece's outline comes back empty, and which call answers depends on the build
 
-**Symptom.** `pattern_api.GetPatternOutlinePoints(i)` returns `[]` for every piece, and
-`pattern_api.ExportPatternJSON(path)` returns `False` for any path you give it, writing nothing.
-Code that worked on the previous build now finds no garment.
+**Symptom.** `pattern_api.GetPatternOutlinePoints(i)` returns `[]` for every piece, or is not
+there at all. Code that draws or compares outlines finds no garment.
 
-**Cause.** Measured on CLO 2026.1.382 with a 41-piece garment
-(`examples/probe_outlines_1119.py`, `examples/probe_pattern_json_1119.py`). Both calls exist and
-neither raises; they simply return nothing. `GetPatternLineInfo(i)` still answers.
+**Cause.** No one call for reading an outline has worked on every build tried. Neither failing
+call raises; each simply returns nothing.
 
-**Rule.** Rebuild the outline from the line segments of `GetPatternLineInfo`, and keep the two
-older calls only as fallbacks. If none of the three answers, stop with a message rather than
-carrying on with an empty outline: an empty outline makes every piece look like it has no seams,
-and a garment scope built from that is wrong without being visibly wrong.
+| CLO build | `GetPatternOutlinePoints(i)` | `ExportPatternJSON(path)` | `GetPatternLineInfo(i)` |
+|---|---|---|---|
+| 2025.2.368 (September 2026) | not present | worked | not recorded |
+| 2026.1, build not recorded (9 September 2026) | `[]` | worked | not recorded |
+| 2026.1.382 (19 November 2026), 41-piece top | `[]` for every piece | `False` for any path, nothing written | answered |
+
+The 2026.1.382 row comes from `examples/probe_outlines_1119.py` and
+`examples/probe_pattern_json_1119.py`. So this is not one update breaking one call. Outline
+reading has moved between calls from build to build.
+
+**Rule.** Try the three in turn and record which one answered for each piece:
+
+1. `GetPatternOutlinePoints(i)`, if the module has it and it returns points.
+2. `ExportPatternJSON(path)`. The points are under
+   `PatternList[i].ShapeInfo.LineList[].PointList[].Position`. Use the file only if it lists the
+   same number of pieces as `GetPatternCount()`, with the same names in the same order.
+3. `GetPatternLineInfo(i)`, which returns the piece's lines with their start and end points;
+   join them in line order.
+
+If none answers, stop, or carry on only with steps that do not need the outline and record that
+it is missing. An empty list looks like a piece with no shape, not like a failed call.
+`examples/07_garment_scope.py` does this.
 
 ---
 
@@ -575,11 +630,17 @@ fabric's texture in a file with several colorways means looping over
 
 ---
 
-## There is no headless mode
+## There is no supported headless mode
 
-Worth stating plainly, because it is the question everyone arrives with. CLO Standalone exposes
-no headless flag and no command-line entry point for its Python API. Running on a server means
-running a full desktop session with CLO signed in, and the licence terms for that are between
-you and CLO. This package does not handle credentials, does not automate sign-in, and does not
-attempt to bypass anything — it drives the editor of an instance a human has already signed in
-to.
+Worth stating plainly, because it is the question everyone arrives with. CLO publishes no
+instructions for running its Python API without the desktop application. Its API changelog does
+mention a headless mode, and strings in the CLO 2026.1.224 binary suggest a command-line entry
+point that needs an access key issued by CLO. How to obtain a key, and what a licence allows, are
+not publicly documented. One launch tried without a key in September 2026 opened the interactive
+sign-in window and ran nothing.
+
+This package does not use that entry point. Running on a server here means running a full
+desktop session with CLO signed in, and the licence terms for that, or for any headless use, are
+between you and CLO. This package does not handle credentials, does not automate sign-in, and
+does not attempt to bypass anything. It drives the editor of an instance a human has already
+signed in to.

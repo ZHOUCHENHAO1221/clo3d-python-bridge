@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Finding and driving CLO's built-in Python editor through Windows accessibility.
 
-This is the part with no alternative. CLO Standalone ships a Python API but exposes no headless
+This is the part with no alternative. CLO Standalone ships a Python API but documents no headless
 mode and no command-line entry point for it: the only supported way to execute a script is
 Edit > Python Script, paste, press Play. So "automating CLO" means automating that window.
 

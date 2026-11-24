@@ -28,9 +28,10 @@ by code, and [`film/`](film/) renders it again.
 ## Why this exists
 
 CLO exposes **846 Python functions** across six modules (measured on CLO 2026.1.310),
-and gives you **no way to call them except by hand**: open `Edit > Python Script`, paste, press Play. There is no headless
-flag, no `clo --script`, no socket and no RPC. If you have searched for how to automate CLO,
-you have already found that there is no answer.
+and gives you **no documented way to call them except by hand**: open `Edit > Python Script`, paste, press Play. There is no
+documented command-line option, no socket and no RPC. CLO's API changelog mentions a headless
+mode, but how to get access to it is not public (see the last entry in the pitfalls). If you have
+searched for how to automate CLO, you have probably found no public answer.
 
 So this package automates that window. Doing so is a few hundred lines. The part that took the
 time is everything in [`reference/PITFALLS.md`](reference/PITFALLS.md) — the ways CLO's UI
@@ -70,7 +71,9 @@ patterns: 5
 
 Verified against CLO **2026.1.310** on Windows 11. The pitfall entries that name 2026.1.382 and
 the four `examples/probe_*_1119.py` checks were measured later, on 2026.1.382; the numbered
-examples have not been re-run there.
+examples have not been re-run there. On CLO 2025.2.368 the bridge will not find the editor,
+because its controls carry no automation id there; see *Code written on 2026.1 fails on CLO
+2025.2* in the pitfalls.
 
 If you get `No CLO window with a Python editor was found`, open `Edit > Python Script` in CLO
 and run it again. If you get `CLO's Python editor contains a script this bridge did not write`,
@@ -304,8 +307,13 @@ It **reads the fabric assignment back** before simulating. `SetPatternPieceFabri
 `None`, so a sweep where the fabric silently failed to apply gives you N identical garments and
 a table of plausible numbers — and nobody re-checks a plausible table.
 
-It **fixes the solver quality and time step**. Those are session state, not project state. Left
-alone, your runs are not comparable to each other.
+It **sets the solver quality and time step, and records the quality it read back**. A project
+file carries its own quality setting: after `ImportZprj` CLO reports the one saved in the file. So
+setting a quality here overrides the project's own, which keeps the runs comparable with each
+other but not with someone who used the project as saved. It can also change the run time. On one
+41-piece top, 60 steps took 12.7–17.4 s with quality `(2, 0)` and a 1/30 s time step, and
+8.7 and 9.4 s with quality `(2, 1)` and the time step left as it was (CLO 2026.1.382). The ledger keeps both the
+quality the project carried and the one the run used.
 
 It **measures off the exported mesh** with `clo_bridge.mesh`, which finds the lowest closed
 boundary loop rather than the lowest vertex. On a garment those are usually different numbers,
@@ -362,8 +370,9 @@ kind of thing nobody produces by hand.
 
 One trap this sweep walks past: it assigns fabrics with `pattern_api.SetPatternPieceFabricIndex`,
 which has a getter to read the result back. `fabric_api.AssignFabricToPattern` has a form that
-returns `True` and changes nothing; on 2026.1.382 two of its options do work, at the same half a
-second per piece. See `reference/PITFALLS.md`.
+returns `True` and changes nothing; on 2026.1.382 two of its options do work, at about the same
+cost per piece as `SetPatternPieceFabricIndex`. That call took half a second per piece on a
+41-piece top and about 2.4 s per piece on a 102-piece project. See `reference/PITFALLS.md`.
 
 ### Where that data went
 
@@ -432,8 +441,10 @@ network service**: anything that can choose the script path can run code on that
 
 ## Honest limits
 
-- **There is no headless mode.** Running this on a server means a real desktop session with CLO
-  signed in. Whether your licence allows that is between you and CLO.
+- **No supported headless mode.** CLO documents none for this, though strings in its binary
+  suggest an entry point that needs a key from CLO. This package does not use it. Running this on
+  a server means a real desktop session with CLO signed in, and whether your licence allows that
+  is between you and CLO.
 - **One job at a time, now enforced.** CLO's editor is a single slot. Two bridge processes
   used to collide silently: the second would recognise the first's loader as this package's
   own, treat it as a leftover and overwrite a job mid-flight, leaving the first to time out
@@ -442,11 +453,16 @@ network service**: anything that can choose the script path can run code on that
   held by a live process never is, however old, because a long simulation and a hung one look
   identical from outside.
 - **Windows only**, because the UI automation is `pywinauto`.
-- **A CLO update can change what a call returns.** On 2026.1.382, `GetPatternOutlinePoints` and
-  `ExportPatternJSON` returned nothing for every piece of a 41-piece garment, where code relying on them had worked
-  on earlier builds; and two options of `AssignFabricToPattern` worked where the first test had
-  found none. Read back what you set, and after an update run `examples/01_hello_clo.py` and the
-  probes before trusting a batch.
+- **Builds differ in what a call returns.** Reading a piece's outline has needed a different call
+  on each of three builds tried: `ExportPatternJSON` on 2025.2.368 and on an unrecorded 2026.1
+  build, `GetPatternLineInfo` on 2026.1.382. On 2026.1.382 two options of `AssignFabricToPattern`
+  worked where the first test had found none. Read back what you set, and after an update run
+  `examples/01_hello_clo.py` and the probes before trusting a batch.
+- **Builds tried: 2026.1.310 and 2026.1.382.** On 2025.2.368 the editor is not found (its controls
+  have no automation id) and `ApiTypes.WELD_TYPE` does not exist. Both are described in the
+  pitfalls; neither is handled in code.
+- **The editor is reopened through English menu titles** (`Edit`, `Python Script`). In another
+  interface language, open the editor by hand once and the bridge will find it.
 - **The map gives you the interface, not the semantics.** Parameter names and types are
   CLO's own, so `Simulate(_steps: int)` does tell you what the integer is — but nothing
   in it says that importing a DXF replaces the pattern set, or that `ExportOBJ(path)` opens

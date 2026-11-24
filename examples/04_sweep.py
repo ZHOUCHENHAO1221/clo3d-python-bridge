@@ -4,14 +4,15 @@
     python examples/04_sweep.py garment.zprj fabrics/*.zfab -o out/ [--repeats 2] [--steps 60]
 
 This is the script behind the contact sheet in the README: twenty-seven runs, 5.3 minutes, no
-one at the keyboard. Verified against CLO 2026.1.310.
+one at the keyboard. Verified against CLO 2026.1.310. The quality read-back was added later,
+from code run on CLO 2026.1.382; this file has not been re-run with it.
 
 Each run starts from a fresh import, so nothing carries over from the last one. Then:
 
     load the .zfab                 AddFabricW -> an index
     assign it to every piece       pattern_api.SetPatternPieceFabricIndex
     READ THE ASSIGNMENT BACK       GetPatternPieceFabricIndex, and stop if it did not stick
-    fix the solver                 quality and time step, so runs are comparable
+    set the solver, read it back   quality and time step; the quality is recorded
     simulate, export, measure      clo_bridge.mesh, off the exported geometry
 
 Three things in that list are the whole point of the example.
@@ -20,9 +21,10 @@ Three things in that list are the whole point of the example.
 fabric silently failed to apply produces N identical garments and a table of numbers that all
 look plausible. Nobody re-checks a table that looks plausible.
 
-**Fixing the solver.** Quality and time step are session state, not project state. Leave them
-to whatever the last person set and your runs are not comparable to each other, let alone to
-anyone else's.
+**Setting the solver.** A project file carries its own quality setting, and ImportZprj restores
+it. Setting a quality here overrides the project's, which keeps the runs comparable with each
+other. The quality the project carried and the one read back after setting it both go into the
+ledger, and a mismatch is printed: a setter that returns None proves nothing by returning.
 
 **Measuring off the mesh.** Not asking the simulator. And not the bounding box - see
 `clo_bridge.mesh`, which finds the lowest closed boundary loop instead, because the lowest
@@ -51,7 +53,7 @@ def main(payload):
                       "GetPatternPieceFabricIndex")
     fabric = require("fabric_api", "AddFabricW", "GetFabricNameW")
     utility = require("utility_api", "Simulate", "SetSimulationQuality",
-                      "SetSimulationTimeStep")
+                      "GetSimulationQuality", "SetSimulationTimeStep")
     exporter = require("export_api", "ExportOBJW")
     types = require("ApiTypes", "ImportZPRJOption", "ImportExportOption")
 
@@ -76,7 +78,9 @@ def main(payload):
             "the fabric did not stick on piece(s) %s. The setter returns None, so this check "
             "is the only thing between you and a sweep of identical garments." % wrong)
 
+    in_project = list(utility.GetSimulationQuality())
     utility.SetSimulationQuality(payload["quality"], 0)
+    used = list(utility.GetSimulationQuality())
     utility.SetSimulationTimeStep(1.0 / payload["fps"])
     beat("simulating")
     started = time.perf_counter()
@@ -103,7 +107,8 @@ def main(payload):
     if not os.path.isfile(out):
         raise RuntimeError("no mesh was written at %s" % out)
     return {"fabric": fabric.GetFabricNameW(index), "fabricIndex": index,
-            "pieces": pieces, "seconds": seconds, "obj": out}
+            "pieces": pieces, "seconds": seconds, "obj": out,
+            "qualityInProject": in_project, "qualityUsed": used}
 
 
 if "CLO_JOB_DIR" in globals():
@@ -163,6 +168,9 @@ elif __name__ == "__main__":
                 rec.update(clo.run(__file__, {
                     "zprj": os.path.abspath(a.zprj), "zfab": os.path.abspath(zfab),
                     "obj": raw, "steps": a.steps, "quality": a.quality, "fps": a.fps}))
+                if rec["qualityUsed"] != [a.quality, 0]:
+                    print("  %-22s quality read back as %s, not [%d, 0]"
+                          % (slot, rec["qualityUsed"], a.quality))
                 surface = os.path.join(a.out, slot + ".obj")
                 rec["surface"] = largest_surface(raw, surface)
                 m = measure(surface)
